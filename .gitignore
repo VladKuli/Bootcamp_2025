@@ -1,0 +1,26 @@
+
+AppData/
+Contacts/
+Desktop/
+Documents/
+Downloads/
+Favorites/
+Links/
+Music/
+NTUSER.DAT*
+OneDrive/
+Pictures/
+Saved Games/
+Searches/
+Videos/
+ntuser.*
+.bash_history
+.gitconfig
+
+
+*.tmp
+*.log
+
+
+.*/
+!.git
