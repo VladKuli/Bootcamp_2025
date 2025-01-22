@@ -25,8 +25,8 @@ public class WebSecurityConfig {
                 .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin() // Используется дефолтная страница логина Spring Security
-                .successHandler(successHandler) // Перенаправление в зависимости от роли
+                .formLogin()
+                .successHandler(successHandler)
                 .permitAll()
                 .and()
                 .logout()
