@@ -1,9 +1,11 @@
 package org.banking.core.services;
 
 import org.banking.core.domain.BankAccount;
+import org.springframework.stereotype.Component;
+
 
 public class TransactionService {
-
+/*
 
     public void transferMoney(BankAccount source,
                               BankAccount target,
@@ -19,4 +21,6 @@ public class TransactionService {
             System.out.println("Transfer amount must be positive.");
         }
     }
+
+ */
 }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Banking project">
+    <meta name="author" content="Admin">
+    <title>Bank Admin Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px 40px;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h3 {
+            color: #007BFF;
+            margin-bottom: 20px;
+        }
+
+        .menu a {
+            display: block;
+            text-decoration: none;
+            color: #007BFF;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border: 1px solid #007BFF;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .menu a:hover {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        .menu a:last-child {
+            margin-top: 20px;
+            background-color: #FF4D4D;
+            color: #fff;
+            border: 1px solid #FF4D4D;
+        }
+
+        .menu a:last-child:hover {
+            background-color: #D93636;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h3>Admin Menu</h3>
+    <div class="menu">
+        <a href="/getAllBankAccounts">Get All Bank Accounts</a>
+        <a href="/getAllUsers">Get All Users</a>
+        <a href="/addBankAccount">Add Bank Account</a>
+        <a href="/addUser">Add User</a>
+        <a href="/deleteBankAccount">Remove Bank Account</a>
+        <a href="/deleteUser">Remove User</a>
+        <a href="/searchBankAccount">Search Bank Account</a>
+        <a href="/logout">Log Out</a>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Banking project">
+    <meta name="author" content="User">
+    <title>Bank User Menu</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #f0f8ff, #e6e6fa);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            padding: 30px 50px;
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h3 {
+            color: #0056b3;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .menu a {
+            display: block;
+            text-decoration: none;
+            color: #0056b3;
+            font-size: 1.1em;
+            padding: 12px 20px;
+            margin: 8px 0;
+            border: 2px solid #0056b3;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .menu a:hover {
+            background-color: #0056b3;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu a:last-child {
+            margin-top: 25px;
+            background-color: #e63946;
+            color: #ffffff;
+            border: 2px solid #e63946;
+        }
+
+        .menu a:last-child:hover {
+            background-color: #c53030;
+            border-color: #c53030;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h3>User Options</h3>
+    <div class="menu">
+        <a href="/moneyTransfer">Money Transfer</a>
+        <a href="/takeALoan">Take a Loan</a>
+        <a href="/openAccount">Open Account</a>
+        <a href="/closeAccount">Close Account</a>
+        <a href="/seeYourAccount">View Your Account</a>
+        <a href="/logout">Log Out</a>
+    </div>
+</div>
+</body>
+
+</html>
