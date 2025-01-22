@@ -17,16 +17,6 @@ Welcome to the **Banking** project! This repository contains a banking system de
 -  **Library**: Lombok
 ---
 
-## Getting Started
-
-### Prerequisites:
-1. Install [Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).
-2. Install [IntelliJ IDEA](https://www.jetbrains.com/idea/).
-
-
-
----
-
 ## About the Author
 
 **Project "Banking" written by Vladislav Kulikov**
