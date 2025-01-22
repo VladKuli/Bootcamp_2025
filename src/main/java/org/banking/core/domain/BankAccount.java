@@ -1,4 +1,4 @@
-package org.example.core.domain;
+package org.banking.core.domain;
 
 import lombok.*;
 

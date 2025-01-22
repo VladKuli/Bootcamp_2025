@@ -1,7 +1,7 @@
-package org.example.core.UI;
+package org.banking.core.UI;
 
-import org.example.core.domain.BankAccount;
-import org.example.core.services.TransactionService;
+import org.banking.core.domain.BankAccount;
+import org.banking.core.services.TransactionService;
 
 import java.util.Scanner;
 

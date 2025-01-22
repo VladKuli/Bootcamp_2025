@@ -1,6 +1,6 @@
-package org.example.core.services;
+package org.banking.core.services;
 
-import org.example.core.domain.BankAccount;
+import org.banking.core.domain.BankAccount;
 
 public class TransactionService {
 

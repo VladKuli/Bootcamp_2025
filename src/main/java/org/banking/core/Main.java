@@ -1,11 +1,12 @@
-package org.example.core;
+package org.banking.core;
 
-import org.example.core.UI.UserInterface;
-import org.example.core.domain.BankAccount;
+import org.banking.core.UI.UserInterface;
+import org.banking.core.domain.BankAccount;
 
 public class Main {
 
     public static void main(String[] args) {
+
         BankAccount source = new BankAccount(10000);
         BankAccount target = new BankAccount(100);
 
