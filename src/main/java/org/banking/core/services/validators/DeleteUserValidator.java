@@ -3,11 +3,13 @@ package org.banking.core.services.validators;
 
 import org.banking.core.request.DeleteUserRequest;
 import org.banking.core.response.CoreError;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class DeleteUserValidator {
 
 

@@ -6,9 +6,9 @@ import lombok.Getter;
 public class DepositRequest {
 
     private String personalCode;
-    private double amount;
+    private Integer amount;
 
-    public DepositRequest(String personalCode, double amount) {
+    public DepositRequest(String personalCode, Integer amount) {
         this.personalCode = personalCode;
         this.amount = amount;
     }

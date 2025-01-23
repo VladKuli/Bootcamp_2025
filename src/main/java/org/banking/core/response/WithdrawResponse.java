@@ -9,9 +9,8 @@ public class WithdrawResponse extends CoreResponse {
 
     private boolean isCompleted;
 
-    public WithdrawResponse(List<CoreError> errorList, boolean isCompleted) {
+    public WithdrawResponse(List<CoreError> errorList) {
         super(errorList);
-        this.isCompleted = isCompleted;
     }
 
     public WithdrawResponse(boolean isCompleted) {

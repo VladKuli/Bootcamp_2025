@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -24,7 +25,7 @@ public interface JpaBankAccountRepository extends JpaRepository<BankAccount, Lon
     void deleteByPersonalCode(String personalCode);
 
     @Query("SELECT b FROM BankAccount b WHERE b.personalCode=?1")
-    Optional<BankAccount> seeYourAccount(String personalCode);
+    Optional<BankAccount> seeYourBalance(String personalCode);
 
     @Modifying
     @Query("Update BankAccount b set b.balance = null where b.personalCode = ?1")
@@ -36,6 +37,12 @@ public interface JpaBankAccountRepository extends JpaRepository<BankAccount, Lon
 
     @Modifying
     @Query(value = "Update bank_accounts set balance = balance + ?2 where personal_code = ?1", nativeQuery = true)
-    void takeALoan(String personalCode, int value);
+    void deposit(String personalCode, int value);
+
+    @Modifying
+    @Query(value = "Update bank_accounts set balance = balance - ?2 where personal_code = ?1", nativeQuery = true)
+    void withdraw(String personalCode, int value);
+
+    List<BankAccount> findByPersonalCode(String personalCode);
 
 }

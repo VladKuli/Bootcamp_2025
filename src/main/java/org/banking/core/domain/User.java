@@ -10,7 +10,6 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name="users")
 public class User implements UserDetails {
@@ -26,10 +25,15 @@ public class User implements UserDetails {
     @Column(name="role", nullable = false)
     private String role;
 
+    public User(String personalCode, String password, String role) {
+        this.personalCode = personalCode;
+        this.password = password;
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(() -> role); // Простой способ добавить роль
+        return List.of(() -> role);
     }
 
     @Override
@@ -61,4 +65,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

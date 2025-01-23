@@ -6,9 +6,9 @@ import lombok.Getter;
 public class WithdrawRequest {
 
     private String personalCode;
-    private double amount;
+    private Integer amount;
 
-    public WithdrawRequest(String personalCode, double amount) {
+    public WithdrawRequest(String personalCode, Integer amount) {
         this.personalCode = personalCode;
         this.amount = amount;
     }

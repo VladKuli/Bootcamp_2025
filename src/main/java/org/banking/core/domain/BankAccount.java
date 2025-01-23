@@ -25,16 +25,10 @@ public class BankAccount {
     private Integer balance;
 
 
-    public BankAccount(String name, String surname, String personalCode, Integer balance) {
-        this.name = name;
-        this.surname = surname;
-        this.personalCode = personalCode;
-        this.balance = balance;
-    }
-
     public BankAccount(String name, String surname, String personalCode) {
         this.name = name;
         this.surname = surname;
         this.personalCode = personalCode;
+        this.balance = 0;
     }
 }

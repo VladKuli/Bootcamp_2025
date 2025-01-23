@@ -9,9 +9,8 @@ public class DepositResponse extends CoreResponse {
 
     private boolean isCompleted;
 
-    public DepositResponse(List<CoreError> errorList, boolean isCompleted) {
+    public DepositResponse(List<CoreError> errorList) {
         super(errorList);
-        this.isCompleted = isCompleted;
     }
 
     public DepositResponse(boolean isCompleted) {
