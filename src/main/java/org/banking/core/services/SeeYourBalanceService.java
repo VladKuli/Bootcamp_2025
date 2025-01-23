@@ -19,23 +19,14 @@ public class SeeYourBalanceService {
 
     @Autowired
     private JpaBankAccountRepository bankAccountRepository;
-
+    @Autowired
+    private GetCurrentUserPersonalCodeService personalCodeService;
     public SeeYourBalanceResponse execute(SeeYourBalanceRequest request) {
-        String personalCode = getCurrentUserPersonalCode();
+        String personalCode = personalCodeService.getCurrentUserPersonalCode();
 
         Optional<BankAccount> bankAccount = bankAccountRepository.seeYourBalance(personalCode);
 
         return new SeeYourBalanceResponse(bankAccount);
     }
 
-
-    private String getCurrentUserPersonalCode() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            return ((UserDetails) principal).getUsername();
-        } else {
-            return principal.toString();
-        }
-    }
 }
