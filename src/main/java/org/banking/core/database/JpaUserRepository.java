@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface JpaUserRepository extends JpaRepository<User, Long> {
 
     void deleteByPersonalCode(String personalCode);
+
     Optional<User> findByPersonalCode(String personalCode);
 }
