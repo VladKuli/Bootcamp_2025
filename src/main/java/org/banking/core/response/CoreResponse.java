@@ -8,11 +8,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class CoreResponse extends CoreError{
+public abstract class CoreResponse extends CoreError{
 
     private List<CoreError> errorList = new ArrayList<>();
 
     public boolean hasErrors() {
         return this.errorList != null;
     }
+
+    public List<CoreError> getErrors() {
+        return errorList;
+    }
+
 }

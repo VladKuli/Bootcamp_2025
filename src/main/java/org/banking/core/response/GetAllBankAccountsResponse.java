@@ -1,14 +1,16 @@
 package org.banking.core.response;
 
+import lombok.Getter;
 import org.banking.core.domain.BankAccount;
 
 import java.util.List;
 
-public class GetAllBankAccountResponse {
+@Getter
+public class GetAllBankAccountsResponse {
 
     private List<BankAccount> bankAccountList;
 
-    public GetAllBankAccountResponse(List<BankAccount> bankAccountList) {
+    public GetAllBankAccountsResponse(List<BankAccount> bankAccountList) {
         this.bankAccountList = bankAccountList;
     }
 }

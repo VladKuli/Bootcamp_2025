@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllBankAccountRequest {
+public class GetAllBankAccountsRequest {
 
     private String personalCode;
 

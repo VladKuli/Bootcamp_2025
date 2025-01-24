@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Banking project">
+  <meta name="author" content="Admin">
+  <title>Bank</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px 30px;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h3 {
+      text-align: center;
+      color: #343a40;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      margin-bottom: 20px;
+      border-spacing: 10px;
+    }
+
+    table td {
+      vertical-align: top;
+    }
+
+    input[type="text"],
+    input[type="submit"],
+    input[type="reset"] {
+      padding: 8px 12px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"],
+    input[type="reset"] {
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover,
+    input[type="reset"]:hover {
+      background-color: #0056b3;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .error-message {
+      margin-top: 20px;
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      border-radius: 4px;
+      padding: 10px;
+    }
+
+    .btn-secondary {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <h3>Add Bank Account</h3>
+
+  <form action="/addBankAccount" th:object="${request}" method="post">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" th:field="${request.name}" />
+    </div>
+
+    <div class="form-group">
+      <label for="surname">Surname:</label>
+      <input type="text" id="surname" th:field="${request.surname}" />
+    </div>
+
+    <div class="form-group">
+      <label for="personalCode">Personal Code:</label>
+      <input type="text" id="personalCode" th:field="${request.personalCode}" />
+    </div>
+
+    <div class="form-group">
+      <input type="submit" value="Add Bank Account" />
+      <input type="reset" value="Clear" />
+    </div>
+  </form>
+
+  <a href="/admin" class="btn-secondary">Go to Main Page</a>
+
+  <div th:if="${errors != null}" class="error-message">
+    <ul>
+      <li th:each="error : ${errors}">
+        <strong th:text="${error.field}"></strong>: <span th:text="${error.message}"></span>
+      </li>
+    </ul>
+  </div>
+</div>
+</body>
+
+</html>

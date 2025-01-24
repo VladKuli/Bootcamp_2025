@@ -9,9 +9,10 @@ import java.util.Optional;
 @Getter
 public class SeeYourBalanceRequest {
 
-    private Optional<BankAccount> bankAccount;
+    private String personalCode;
 
-    public SeeYourBalanceRequest(Optional<BankAccount> bankAccount) {
-        this.bankAccount = bankAccount;
+    public SeeYourBalanceRequest(String personalCode) {
+        this.personalCode = personalCode;
     }
+
 }
