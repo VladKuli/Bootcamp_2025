@@ -1,7 +1,7 @@
 package org.banking.core.services.validators;
 
 
-import org.banking.core.request.DeleteUserRequest;
+import org.banking.core.request.user.DeleteUserRequest;
 import org.banking.core.response.CoreError;
 import org.springframework.stereotype.Component;
 

@@ -1,9 +1,9 @@
 package org.banking.web_ui.controllers.adminControllers;
 
 
-import org.banking.core.request.AddBankAccountRequest;
-import org.banking.core.response.AddBankAccountResponse;
-import org.banking.core.services.AddBankAccountService;
+import org.banking.core.request.bankAccount.AddBankAccountRequest;
+import org.banking.core.response.bankAccount.AddBankAccountResponse;
+import org.banking.core.services.bankAccount.AddBankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

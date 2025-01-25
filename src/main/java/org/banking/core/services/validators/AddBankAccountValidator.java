@@ -1,11 +1,7 @@
 package org.banking.core.services.validators;
 
-import org.banking.core.database.JpaBankAccountRepository;
-import org.banking.core.domain.BankAccount;
-import org.banking.core.request.AddBankAccountRequest;
-import org.banking.core.response.AddBankAccountResponse;
+import org.banking.core.request.bankAccount.AddBankAccountRequest;
 import org.banking.core.response.CoreError;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

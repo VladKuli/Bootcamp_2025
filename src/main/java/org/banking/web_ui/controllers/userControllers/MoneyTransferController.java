@@ -1,11 +1,8 @@
 package org.banking.web_ui.controllers.userControllers;
 
-import org.banking.core.request.DeleteUserRequest;
-import org.banking.core.request.MoneyTransferRequest;
-import org.banking.core.response.DeleteUserResponse;
-import org.banking.core.response.MoneyTransferResponse;
-import org.banking.core.services.DeleteUserService;
-import org.banking.core.services.MoneyTransferService;
+import org.banking.core.request.operations.MoneyTransferRequest;
+import org.banking.core.response.operations.MoneyTransferResponse;
+import org.banking.core.services.operations.MoneyTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

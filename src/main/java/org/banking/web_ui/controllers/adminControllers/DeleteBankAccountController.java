@@ -1,9 +1,9 @@
 package org.banking.web_ui.controllers.adminControllers;
 
-import org.banking.core.request.DeleteBankAccountRequest;
-import org.banking.core.request.DeleteUserRequest;
-import org.banking.core.response.DeleteBankAccountResponse;
-import org.banking.core.services.DeleteBankAccountService;
+import org.banking.core.request.bankAccount.DeleteBankAccountRequest;
+import org.banking.core.request.user.DeleteUserRequest;
+import org.banking.core.response.bankAccount.DeleteBankAccountResponse;
+import org.banking.core.services.bankAccount.DeleteBankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

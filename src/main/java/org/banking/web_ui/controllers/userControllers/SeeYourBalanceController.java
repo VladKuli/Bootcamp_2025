@@ -1,8 +1,8 @@
 package org.banking.web_ui.controllers.userControllers;
 
-import org.banking.core.request.SeeYourBalanceRequest;
-import org.banking.core.response.SeeYourBalanceResponse;
-import org.banking.core.services.SeeYourBalanceService;
+import org.banking.core.request.operations.SeeYourBalanceRequest;
+import org.banking.core.response.operations.SeeYourBalanceResponse;
+import org.banking.core.services.operations.SeeYourBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

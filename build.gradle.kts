@@ -5,14 +5,19 @@ plugins {
 }
 
 dependencies {
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-core:4.8.0")
 
     compileOnly("org.projectlombok:lombok:1.18.24")
     annotationProcessor("org.projectlombok:lombok:1.18.24")
 
     testCompileOnly("org.projectlombok:lombok:1.18.24")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.24")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+
+
+    testImplementation("org.mockito:mockito-core:4.11.0")
+    testImplementation("org.mockito:mockito-junit-jupiter:4.11.0")
+
+    testImplementation("org.assertj:assertj-core:3.24.2")
 
     implementation("org.reflections:reflections:0.9.12")
     implementation("mysql:mysql-connector-java:8.0.22")
@@ -29,8 +34,8 @@ dependencies {
         exclude(group = "ch.qos.logback", module = "logback-classic")
     }
 
-    testImplementation("junit:junit:4.13.1")
-    testImplementation("org.mockito:mockito-core:3.6.0")
+
+
     testImplementation("org.springframework:spring-test:5.3.23")
     testImplementation("com.h2database:h2:1.4.200")
 
@@ -45,4 +50,7 @@ dependencies {
 
 repositories {
     mavenCentral()
+}
+tasks.test {
+    useJUnitPlatform()
 }

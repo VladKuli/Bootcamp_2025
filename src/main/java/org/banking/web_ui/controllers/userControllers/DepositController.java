@@ -1,11 +1,8 @@
 package org.banking.web_ui.controllers.userControllers;
 
-import org.banking.core.request.DepositRequest;
-import org.banking.core.request.WithdrawRequest;
-import org.banking.core.response.DepositResponse;
-import org.banking.core.response.WithdrawResponse;
-import org.banking.core.services.DepositService;
-import org.banking.core.services.WithdrawService;
+import org.banking.core.request.operations.DepositRequest;
+import org.banking.core.response.operations.DepositResponse;
+import org.banking.core.services.operations.DepositService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
