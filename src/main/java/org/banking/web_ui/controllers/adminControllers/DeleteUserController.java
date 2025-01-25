@@ -26,11 +26,11 @@ public class DeleteUserController {
     public String processDeleteUserRequest(@ModelAttribute(value = "request")DeleteUserRequest request,
                                            ModelMap modelMap) {
         DeleteUserResponse responses = service.execute(request);
-        if (responses.hasErrors()) {
+        if (responses.getErrors().isEmpty()) {
+            return "deleteUserSuccess";
+        } else {
             modelMap.addAttribute("errors", responses.getErrors());
             return "deleteUser";
-        } else {
-            return "deleteUserSuccess";
         }
     }
 }

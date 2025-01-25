@@ -17,17 +17,10 @@ public class WithdrawValidator {
     public List<CoreError> validate(WithdrawRequest request) {
         List<CoreError> errorList = new ArrayList<>();
 
-        validatePersonalCode(request).ifPresent(errorList::add);
         validateAmountOfWithdraw(request).ifPresent(errorList::add);
 
         return errorList;
 
-    }
-
-    private Optional<CoreError> validatePersonalCode(WithdrawRequest request) {
-        return request.getPersonalCode() != null && !request.getPersonalCode().isBlank()
-                ?Optional.empty()
-                :Optional.of(new CoreError("Personal code field must be filled."));
     }
 
     private Optional<CoreError> validateAmountOfWithdraw(WithdrawRequest request) {

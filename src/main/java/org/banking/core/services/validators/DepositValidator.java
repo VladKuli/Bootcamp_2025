@@ -14,18 +14,10 @@ public class DepositValidator {
 
     public List<CoreError> validate(DepositRequest request) {
         List<CoreError> errorList = new ArrayList<>();
-
-        validatePersonalCode(request).ifPresent(errorList::add);
         validateAmountOfWithdraw(request).ifPresent(errorList::add);
 
         return errorList;
 
-    }
-
-    private Optional<CoreError> validatePersonalCode(DepositRequest request) {
-        return request.getPersonalCode() != null && !request.getPersonalCode().isBlank()
-                ?Optional.empty()
-                :Optional.of(new CoreError("Personal code field must be filled."));
     }
 
     private Optional<CoreError> validateAmountOfWithdraw(DepositRequest request) {

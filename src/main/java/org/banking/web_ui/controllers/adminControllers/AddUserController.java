@@ -26,11 +26,11 @@ public class AddUserController {
     public String processAddUserRequest(@ModelAttribute(value = "request") AddUserRequest request,
                                         ModelMap modelMap) {
         AddUserResponse response = addUserService.execute(request);
-        if (response.hasErrors()) {
+        if (response.getErrorList().isEmpty()) {
+            return "addUserSuccess";
+        } else {
             modelMap.addAttribute("errors", response.getErrors());
             return "addUser";
-        } else {
-            return "addUserSuccess";
         }
     }
 }

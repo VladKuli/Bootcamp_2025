@@ -19,6 +19,7 @@ public class SeeYourBalanceService {
 
     @Autowired
     private JpaBankAccountRepository bankAccountRepository;
+
     @Autowired
     private GetCurrentUserPersonalCodeService personalCodeService;
     public SeeYourBalanceResponse execute(SeeYourBalanceRequest request) {

@@ -18,12 +18,16 @@ public class DepositService {
 
     @Autowired
     private DepositValidator validator;
+    @Autowired
+    private GetCurrentUserPersonalCodeService personalCodeService;
 
     public DepositResponse execute(DepositRequest request) {
         List<CoreError> errorList = validator.validate(request);
 
+        String personalCode = personalCodeService.getCurrentUserPersonalCode();
+
         if (errorList.isEmpty()) {
-            bankAccountRepository.deposit(request.getPersonalCode(),request.getAmount());
+            bankAccountRepository.deposit(personalCode,request.getAmount());
 
             return new DepositResponse(true);
         } else {

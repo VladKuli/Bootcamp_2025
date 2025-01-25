@@ -10,6 +10,7 @@ import org.banking.core.services.validators.DeleteBankAccountValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
@@ -18,8 +19,6 @@ public class DeleteBankAccountService {
     @Autowired
     private JpaBankAccountRepository bankAccountRepository;
     @Autowired
-    private JpaUserRepository userRepository;
-    @Autowired
     private DeleteBankAccountValidator validator;
 
     public DeleteBankAccountResponse execute(DeleteBankAccountRequest request) {
@@ -27,7 +26,6 @@ public class DeleteBankAccountService {
 
         if (errorList.isEmpty()) {
             bankAccountRepository.deleteByPersonalCode(request.getPersonalCode());
-            userRepository.deleteByPersonalCode(request.getPersonalCode());
             return new DeleteBankAccountResponse(true);
         } else {
             return new DeleteBankAccountResponse(errorList);

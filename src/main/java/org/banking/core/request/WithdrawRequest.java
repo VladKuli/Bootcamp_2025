@@ -1,15 +1,13 @@
 package org.banking.core.request;
 
-import lombok.Getter;
+import lombok.*;
 
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class WithdrawRequest {
 
     private String personalCode;
-    private Integer amount;
+    private int amount;
 
-    public WithdrawRequest(String personalCode, Integer amount) {
-        this.personalCode = personalCode;
-        this.amount = amount;
-    }
 }

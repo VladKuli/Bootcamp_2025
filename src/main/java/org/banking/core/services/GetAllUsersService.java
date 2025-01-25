@@ -8,16 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class GetAllUsersService {
-
 
     @Autowired
     private JpaUserRepository userRepository;
 
     public GetAllUsersResponse execute(GetAllUsersRequest request) {
         List<User> users = userRepository.findAll();
-        return new GetAllUsersResponse(users);
+
+        List<User> safeUsers = users.stream()
+                .map(user -> new User(user.getPersonalCode(), "[ENCRYPTED]", user.getRole()))
+                .collect(Collectors.toList());
+
+        return new GetAllUsersResponse(safeUsers);
     }
 }

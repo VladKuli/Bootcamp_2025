@@ -26,11 +26,11 @@ public class DeleteBankAccountController {
     public String processDeleteBankAccountRequest(@ModelAttribute(value = "request") DeleteBankAccountRequest request,
                                                   ModelMap modelMap) {
         DeleteBankAccountResponse response = service.execute(request);
-        if (response.hasErrors()) {
+        if (response.getErrorList().isEmpty()) {
+            return "deleteBankAccountSuccess";
+        } else {
             modelMap.addAttribute("errors", response.getErrors());
             return "deleteBankAccount";
-        } else {
-            return "deleteBankAccountSuccess";
         }
     }
 
