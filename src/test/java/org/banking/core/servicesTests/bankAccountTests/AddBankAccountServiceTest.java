@@ -1,4 +1,4 @@
-package org.banking.core.servicesTests;
+package org.banking.core.servicesTests.bankAccountTests;
 
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.domain.BankAccount;
@@ -45,7 +45,11 @@ class AddBankAccountServiceTest {
 
         when(validator.validate(request)).thenReturn(noErrors);
 
-        BankAccount savedBankAccount = new BankAccount("John", "Doe", "1234567890");
+        BankAccount savedBankAccount = BankAccount.builder()
+                .name("John")
+                .surname("Doe")
+                .personalCode("1234567890")
+                .build();
         when(bankAccountRepository.save(any(BankAccount.class))).thenReturn(savedBankAccount);
 
         AddBankAccountResponse response = service.execute(request);

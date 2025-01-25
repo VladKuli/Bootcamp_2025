@@ -1,4 +1,4 @@
-package org.banking.core.servicesTests;
+package org.banking.core.servicesTests.userTests;
 
 import org.banking.core.database.JpaUserRepository;
 import org.banking.core.domain.User;
@@ -51,7 +51,10 @@ import static org.mockito.Mockito.*;
             when(validator.validate(request)).thenReturn(noErrors);
             when(passwordEncoder.encode(request.getPassword())).thenReturn("encryptedPassword");
 
-            User savedUser = new User("1234567890", "encryptedPassword", "ADMIN");
+            User savedUser = User.builder()
+                    .personalCode("1234567890")
+                    .password("encryptedPassword")
+                    .role("ADMIN").build();
             when(userRepository.save(any(User.class))).thenReturn(savedUser);
 
             AddUserResponse response = service.execute(request);

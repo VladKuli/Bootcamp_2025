@@ -1,4 +1,4 @@
-package org.banking.core.servicesTests;
+package org.banking.core.servicesTests.operationsTests;
 
 
 import org.banking.core.database.JpaBankAccountRepository;
@@ -40,7 +40,11 @@ class SeeYourBalanceServiceTest {
     @Test
     void shouldReturnBalanceSuccessfully() {
         String personalCode = "1234567890";
-        BankAccount bankAccount = new BankAccount("John", "Doe", personalCode);
+        BankAccount bankAccount = BankAccount.builder()
+                .name("John")
+                .surname("Doe")
+                .personalCode(personalCode)
+                .build();
 
         when(personalCodeService.getCurrentUserPersonalCode()).thenReturn(personalCode);
         when(bankAccountRepository.seeYourBalance(personalCode)).thenReturn(Optional.of(bankAccount));

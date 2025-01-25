@@ -20,7 +20,13 @@ public class GetAllUsersService {
         List<User> users = userRepository.findAll();
 
         List<User> safeUsers = users.stream()
-                .map(user -> new User(user.getPersonalCode(), "[ENCRYPTED]", user.getRole()))
+                .map(user -> User.builder()
+                        .id(user.getId())
+                        .personalCode(user.getPersonalCode())
+                        .password("[ENCRYPTED]")
+                        .role(user.getRole())
+                        .build()
+                )
                 .collect(Collectors.toList());
 
         return new GetAllUsersResponse(safeUsers);

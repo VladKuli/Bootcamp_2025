@@ -32,7 +32,12 @@ public class AddUserService {
 
             String encryptedPassword = passwordEncoder.encode(request.getPassword());
 
-            User user = new User(request.getPersonalCode(), encryptedPassword, request.getRole());
+            User user = User.builder()
+                    .personalCode(request.getPersonalCode())
+                    .password(encryptedPassword)
+                    .role(request.getRole())
+                    .build();
+
             userRepository.save(user);
 
             return new AddUserResponse(user);

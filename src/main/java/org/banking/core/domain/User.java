@@ -12,6 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name="users")
+@Builder
+@AllArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -25,11 +27,6 @@ public class User implements UserDetails {
     @Column(name="role", nullable = false)
     private String role;
 
-    public User(String personalCode, String password, String role) {
-        this.personalCode = personalCode;
-        this.password = password;
-        this.role = role;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

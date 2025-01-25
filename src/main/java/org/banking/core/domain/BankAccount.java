@@ -9,6 +9,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name="bank_accounts")
+@Builder
+@AllArgsConstructor
 public class BankAccount {
 
     @Id
@@ -21,14 +23,8 @@ public class BankAccount {
     private String surname;
     @Column(name="personal_code", nullable = false)
     private String personalCode;
+    @Builder.Default
     @Column(name="balance")
-    private Integer balance;
+    private Integer balance = 0;
 
-
-    public BankAccount(String name, String surname, String personalCode) {
-        this.name = name;
-        this.surname = surname;
-        this.personalCode = personalCode;
-        this.balance = 0;
-    }
 }

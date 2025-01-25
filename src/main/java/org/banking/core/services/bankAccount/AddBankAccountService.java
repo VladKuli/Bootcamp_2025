@@ -7,6 +7,7 @@ import org.banking.core.response.bankAccount.AddBankAccountResponse;
 import org.banking.core.response.CoreError;
 import org.banking.core.services.validators.AddBankAccountValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +26,11 @@ public class AddBankAccountService {
         List<CoreError> errorList = validator.validate(request);
 
         if (errorList.isEmpty()) {
-            BankAccount bankAccount = new BankAccount(request.getName(), request.getSurname(),
-                    request.getPersonalCode());
+            BankAccount bankAccount = BankAccount.builder()
+                    .name(request.getName())
+                    .surname(request.getSurname())
+                    .personalCode(request.getPersonalCode())
+                    .build();
 
             bankAccountRepository.save(bankAccount);
 

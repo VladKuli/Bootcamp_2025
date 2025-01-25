@@ -1,12 +1,13 @@
-package org.banking.core.servicesTests;
+package org.banking.core.servicesTests.operationsTests;
+
 
 import org.banking.core.database.JpaBankAccountRepository;
-import org.banking.core.database.JpaUserRepository;
-import org.banking.core.request.user.DeleteUserRequest;
+import org.banking.core.request.operations.WithdrawRequest;
 import org.banking.core.response.CoreError;
-import org.banking.core.response.user.DeleteUserResponse;
-import org.banking.core.services.user.DeleteUserService;
-import org.banking.core.services.validators.DeleteUserValidator;
+import org.banking.core.response.operations.WithdrawResponse;
+import org.banking.core.services.operations.WithdrawService;
+import org.banking.core.services.user.GetCurrentUserPersonalCodeService;
+import org.banking.core.services.validators.WithdrawValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,19 +24,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class DeleteUserServiceTest {
+class WithdrawServiceTest {
 
     @Mock
     private JpaBankAccountRepository bankAccountRepository;
 
     @Mock
-    private JpaUserRepository userRepository;
+    private GetCurrentUserPersonalCodeService personalCodeService;
 
     @Mock
-    private DeleteUserValidator validator;
+    private WithdrawValidator validator;
 
     @InjectMocks
-    private DeleteUserService service;
+    private WithdrawService service;
 
     @BeforeEach
     void setUp() {
@@ -43,40 +44,42 @@ class DeleteUserServiceTest {
     }
 
     @Test
-    void shouldDeleteUserWhenRequestIsValid() {
-        DeleteUserRequest request = new DeleteUserRequest("1234567890");
+    void shouldWithdrawWhenRequestIsValid() {
+        WithdrawRequest request = new WithdrawRequest(100);
         List<CoreError> noErrors = Collections.emptyList();
 
         when(validator.validate(request)).thenReturn(noErrors);
+        when(personalCodeService.getCurrentUserPersonalCode()).thenReturn("1234567890");
 
-        DeleteUserResponse response = service.execute(request);
+        WithdrawResponse response = service.execute(request);
 
         assertNotNull(response);
-        assertTrue(response.isDeleted());
+        assertTrue(response.isCompleted());
 
         verify(validator, times(1)).validate(request);
-        verify(userRepository, times(1)).deleteByPersonalCode("1234567890");
-        verify(bankAccountRepository, times(1)).deleteByPersonalCode("1234567890");
+        verify(personalCodeService, times(1)).getCurrentUserPersonalCode();
+        verify(bankAccountRepository, times(1)).withdraw("1234567890", 100);
     }
 
     @Test
     void shouldReturnErrorsWhenRequestIsInvalid() {
-        DeleteUserRequest request = new DeleteUserRequest("");
+        WithdrawRequest request = new WithdrawRequest(-100);
         List<CoreError> errors = new ArrayList<>();
-        errors.add(new CoreError("Personal code must not be empty"));
+        errors.add(new CoreError("Amount must be positive."));
 
         when(validator.validate(request)).thenReturn(errors);
 
-        DeleteUserResponse response = service.execute(request);
+        WithdrawResponse response = service.execute(request);
 
         assertNotNull(response);
-        assertFalse(response.isDeleted());
+        assertFalse(response.isCompleted());
         assertNotNull(response.getErrors());
         assertEquals(1, response.getErrors().size());
-        assertEquals("Personal code must not be empty", response.getErrors().get(0).getMessage());
+        assertEquals("Amount must be positive.", response.getErrors().get(0).getMessage());
 
         verify(validator, times(1)).validate(request);
-        verifyNoInteractions(userRepository);
+        verifyNoInteractions(personalCodeService);
         verifyNoInteractions(bankAccountRepository);
     }
 }
+

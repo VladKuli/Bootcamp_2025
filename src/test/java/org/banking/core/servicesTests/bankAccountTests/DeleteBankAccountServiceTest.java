@@ -1,4 +1,4 @@
-package org.banking.core.servicesTests;
+package org.banking.core.servicesTests.bankAccountTests;
 
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.request.bankAccount.DeleteBankAccountRequest;

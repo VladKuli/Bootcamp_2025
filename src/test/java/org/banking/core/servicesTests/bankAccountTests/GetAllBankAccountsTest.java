@@ -1,4 +1,4 @@
-package org.banking.core.servicesTests;
+package org.banking.core.servicesTests.bankAccountTests;
 
 
 import org.banking.core.database.JpaBankAccountRepository;
@@ -38,9 +38,18 @@ class GetAllBankAccountsServiceTest {
     @Test
     void shouldReturnAllBankAccountsWhenTheyExist() {
         List<BankAccount> bankAccounts = Arrays.asList(
-                new BankAccount("John", "Doe", "1234567890"),
-                new BankAccount("Jane", "Smith", "0987654321")
+                BankAccount.builder()
+                        .name("John")
+                        .surname("Doe")
+                        .personalCode("1234567890")
+                        .build(),
+                BankAccount.builder()
+                        .name("Jane")
+                        .surname("Smith")
+                        .personalCode("0987654321")
+                        .build()
         );
+
 
         when(bankAccountRepository.findAll()).thenReturn(bankAccounts);
 

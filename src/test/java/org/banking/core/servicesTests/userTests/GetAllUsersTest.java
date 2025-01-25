@@ -1,4 +1,4 @@
-package org.banking.core.servicesTests;
+package org.banking.core.servicesTests.userTests;
 
 import org.banking.core.database.JpaUserRepository;
 import org.banking.core.domain.User;
@@ -36,9 +36,18 @@ class GetAllUsersServiceTest {
 
     @Test
     void shouldReturnAllUsersWithEncryptedPasswords() {
+
         List<User> users = Arrays.asList(
-                new User("1234567890", "password123", "ADMIN"),
-                new User("0987654321", "securepass", "USER")
+                User.builder()
+                        .personalCode("1234567890")
+                        .password("password123")
+                        .role("ADMIN")
+                        .build(),
+                User.builder()
+                        .personalCode("0987654321")
+                        .password("securepass")
+                        .role("USER")
+                        .build()
         );
 
         when(userRepository.findAll()).thenReturn(users);
