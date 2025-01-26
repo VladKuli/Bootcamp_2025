@@ -5,9 +5,8 @@ import org.banking.core.domain.BankAccount;
 import org.banking.core.request.bankAccount.AddBankAccountRequest;
 import org.banking.core.response.bankAccount.AddBankAccountResponse;
 import org.banking.core.response.CoreError;
-import org.banking.core.services.validators.AddBankAccountValidator;
+import org.banking.core.services.validators.bankAccountValidators.AddBankAccountValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -7,7 +7,7 @@ import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.DepositResponse;
 import org.banking.core.services.operations.DepositService;
 import org.banking.core.services.user.GetCurrentUserPersonalCodeService;
-import org.banking.core.services.validators.DepositValidator;
+import org.banking.core.services.validators.operationsValidators.DepositValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

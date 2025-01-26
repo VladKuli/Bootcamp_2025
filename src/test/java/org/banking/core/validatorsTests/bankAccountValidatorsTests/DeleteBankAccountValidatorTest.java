@@ -1,8 +1,8 @@
-package org.banking.core.validatorsTests;
+package org.banking.core.validatorsTests.bankAccountValidatorsTests;
 
 import org.banking.core.request.bankAccount.DeleteBankAccountRequest;
 import org.banking.core.response.CoreError;
-import org.banking.core.services.validators.DeleteBankAccountValidator;
+import org.banking.core.services.validators.bankAccountValidators.DeleteBankAccountValidator;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

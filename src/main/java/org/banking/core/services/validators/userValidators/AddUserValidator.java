@@ -1,4 +1,4 @@
-package org.banking.core.services.validators;
+package org.banking.core.services.validators.userValidators;
 
 import org.banking.core.request.user.AddUserRequest;
 import org.banking.core.response.CoreError;

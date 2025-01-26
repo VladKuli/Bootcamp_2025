@@ -5,7 +5,7 @@ import org.banking.core.domain.User;
 import org.banking.core.request.user.AddUserRequest;
 import org.banking.core.response.user.AddUserResponse;
 import org.banking.core.response.CoreError;
-import org.banking.core.services.validators.AddUserValidator;
+import org.banking.core.services.validators.userValidators.AddUserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

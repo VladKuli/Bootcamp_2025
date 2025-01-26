@@ -1,8 +1,8 @@
-package org.banking.core.validatorsTests;
+package org.banking.core.validatorsTests.bankAccountValidatorsTests;
 
 import org.banking.core.request.bankAccount.AddBankAccountRequest;
 import org.banking.core.response.CoreError;
-import org.banking.core.services.validators.AddBankAccountValidator;
+import org.banking.core.services.validators.bankAccountValidators.AddBankAccountValidator;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

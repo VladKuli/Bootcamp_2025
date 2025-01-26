@@ -1,9 +1,9 @@
-package org.banking.core.validatorsTests;
+package org.banking.core.validatorsTests.operationsValidatorsTests;
 
 
 import org.banking.core.request.operations.WithdrawRequest;
 import org.banking.core.response.CoreError;
-import org.banking.core.services.validators.WithdrawValidator;
+import org.banking.core.services.validators.operationsValidators.WithdrawValidator;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

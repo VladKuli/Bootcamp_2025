@@ -6,7 +6,7 @@ import org.banking.core.request.user.AddUserRequest;
 import org.banking.core.response.user.AddUserResponse;
 import org.banking.core.response.CoreError;
 import org.banking.core.services.user.AddUserService;
-import org.banking.core.services.validators.AddUserValidator;
+import org.banking.core.services.validators.userValidators.AddUserValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

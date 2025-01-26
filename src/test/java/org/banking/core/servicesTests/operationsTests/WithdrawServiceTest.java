@@ -7,7 +7,7 @@ import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.WithdrawResponse;
 import org.banking.core.services.operations.WithdrawService;
 import org.banking.core.services.user.GetCurrentUserPersonalCodeService;
-import org.banking.core.services.validators.WithdrawValidator;
+import org.banking.core.services.validators.operationsValidators.WithdrawValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

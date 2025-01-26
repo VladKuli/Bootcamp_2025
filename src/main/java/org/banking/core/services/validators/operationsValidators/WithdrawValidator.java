@@ -1,4 +1,4 @@
-package org.banking.core.services.validators;
+package org.banking.core.services.validators.operationsValidators;
 
 import org.banking.core.request.operations.WithdrawRequest;
 import org.banking.core.response.CoreError;

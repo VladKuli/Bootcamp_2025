@@ -6,7 +6,7 @@ import org.banking.core.request.user.DeleteUserRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.user.DeleteUserResponse;
 import org.banking.core.services.user.DeleteUserService;
-import org.banking.core.services.validators.DeleteUserValidator;
+import org.banking.core.services.validators.userValidators.DeleteUserValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

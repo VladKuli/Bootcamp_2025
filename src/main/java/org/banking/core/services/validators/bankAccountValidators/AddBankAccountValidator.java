@@ -1,4 +1,4 @@
-package org.banking.core.services.validators;
+package org.banking.core.services.validators.bankAccountValidators;
 
 import org.banking.core.request.bankAccount.AddBankAccountRequest;
 import org.banking.core.response.CoreError;

@@ -1,8 +1,8 @@
-package org.banking.core.validatorsTests;
+package org.banking.core.validatorsTests.operationsValidatorsTests;
 
 import org.banking.core.request.operations.DepositRequest;
 import org.banking.core.response.CoreError;
-import org.banking.core.services.validators.DepositValidator;
+import org.banking.core.services.validators.operationsValidators.DepositValidator;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

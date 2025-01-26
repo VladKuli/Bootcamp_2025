@@ -5,7 +5,7 @@ import org.banking.core.request.operations.DepositRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.DepositResponse;
 import org.banking.core.services.user.GetCurrentUserPersonalCodeService;
-import org.banking.core.services.validators.DepositValidator;
+import org.banking.core.services.validators.operationsValidators.DepositValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +26,7 @@ public class DepositService {
         List<CoreError> errorList = validator.validate(request);
 
         if (errorList.isEmpty()) {
+
             String personalCode = personalCodeService.getCurrentUserPersonalCode();
             bankAccountRepository.deposit(personalCode,request.getAmount());
 

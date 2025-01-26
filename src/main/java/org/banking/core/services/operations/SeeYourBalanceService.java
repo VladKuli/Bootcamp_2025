@@ -18,6 +18,7 @@ public class SeeYourBalanceService {
 
     @Autowired
     private GetCurrentUserPersonalCodeService personalCodeService;
+
     public SeeYourBalanceResponse execute(SeeYourBalanceRequest request) {
         String personalCode = personalCodeService.getCurrentUserPersonalCode();
 
