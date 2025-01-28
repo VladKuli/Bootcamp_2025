@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-//TODO REWRITE LOGIC OF RETURNING WEB PAGE
 @Controller
 public class AddBankAccountController {
 
@@ -28,11 +27,11 @@ public class AddBankAccountController {
     public String processAddBankAccountRequest(@ModelAttribute(value = "request") AddBankAccountRequest request,
                                                ModelMap modelMap) {
         AddBankAccountResponse response = addBankAccountService.execute(request);
-        if (!response.hasErrors()) {
+        if (response.getErrors().isEmpty()) {
+            return "addBankAccountSuccess";
+        } else {
             modelMap.addAttribute("errors", response.getErrors());
             return "addBankAccount";
-        } else {
-            return "addBankAccountSuccess";
         }
     }
 }

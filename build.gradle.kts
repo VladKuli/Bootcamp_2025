@@ -24,6 +24,8 @@ dependencies {
     implementation("org.apache.commons:commons-dbcp2:2.8.0")
     implementation("org.hibernate:hibernate-core:5.6.8.Final")
 
+    implementation("org.springframework.boot:spring-boot-starter-logging")
+
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.6.4") {
         exclude(group = "ch.qos.logback", module = "logback-classic")
     }

@@ -133,7 +133,7 @@
     <div th:if="${errors != null}" class="error-message">
         <ul>
             <li th:each="error : ${errors}">
-                <strong th:text="${error.field}"></strong>: <span th:text="${error.message}"></span>
+                <span th:text="${error.message}"></span>
             </li>
         </ul>
     </div>

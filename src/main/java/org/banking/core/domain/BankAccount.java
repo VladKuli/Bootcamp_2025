@@ -1,10 +1,8 @@
 package org.banking.core.domain;
 
 import lombok.*;
-
-
 import javax.persistence.*;
-//TODO ADD @Builder
+
 @Data
 @NoArgsConstructor
 @Entity
