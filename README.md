@@ -14,30 +14,38 @@ Welcome to the **Banking** project! This repository contains a robust banking sy
 - **Secure Login**: User authentication using advanced encryption techniques.
 
 ### Technologies Used:
-- **Language**: Java
-- **Frameworks**: Spring Boot, Hibernate
-- **Database**: PostgreSQL
-- **Tools**: Gradle, IntelliJ IDEA, AWS(RDS and Hosting)
+- **Language**: Java  
+- **Frameworks**: Spring Boot, Hibernate  
+- **Database**: MySql (Hosted on AWS RDS)  
+- **Cloud & Hosting**: AWS (RDS for database, EC2 for application hosting)  
+- **Tools**: Gradle, IntelliJ IDEA  
 
 ---
 
 ## Build Configuration
 
 This project uses the following plugins and dependencies:
-- **Plugins**: Spring Boot, Spring Dependency Management, Java.
-- **Dependencies**: JUnit, Mockito, Lombok, Hibernate, MySQL Connector, Liquibase, Spring Boot Starters (Data JPA, Web, Thymeleaf, Security), Reflection library, and others.
-- **Repositories**: Maven Central.
+- **Plugins**: Spring Boot, Spring Dependency Management, Java.  
+- **Dependencies**: JUnit, Mockito, Lombok, Hibernate, MySQL Connector, Liquibase, Spring Boot Starters (Data JPA, Web, Thymeleaf, Security), Reflection library, and others.  
+- **Repositories**: Maven Central.  
 
 ---
 
+## Deployment
+
+The application is fully deployed and hosted on **AWS**, ensuring high availability, scalability, and security.  
+- **AWS RDS** is used for efficient and scalable database management.  
+- **AWS EC2** hosts the application, ensuring seamless performance and accessibility.  
+- Docker is used to containerize the application for smooth deployment.  
+
+---
 
 ## About the Author
 
-**Project "Banking" written by Vladislav Kulikov**
+**Project "Banking" written by Vladislav Kulikov**  
 
-Feel free to reach out to me on [GitHub](https://github.com/VladKuli) or via email at [vladislav.kulikov.official@gmail.com](vladislav.kulikov.official@gmail.com).
+Feel free to reach out to me on [GitHub](https://github.com/VladKuli) or via email at [vladislav.kulikov.official@gmail.com](mailto:vladislav.kulikov.official@gmail.com).  
 
 ---
 
-Thank you for exploring the Banking project! 🚀
-
+Thank you for exploring the Banking project! 🚀  
