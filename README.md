@@ -17,7 +17,7 @@ Welcome to the **Banking** project! This repository contains a robust banking sy
 - **Language**: Java
 - **Frameworks**: Spring Boot, Hibernate
 - **Database**: PostgreSQL
-- **Tools**: Gradle, IntelliJ IDEA
+- **Tools**: Gradle, IntelliJ IDEA, AWS(RDS and Hosting)
 
 ---
 
