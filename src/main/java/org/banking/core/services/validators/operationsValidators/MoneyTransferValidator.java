@@ -12,16 +12,16 @@ import java.util.Optional;
 @Component
 public class MoneyTransferValidator {
 
-    public List<CoreError> execute(MoneyTransferRequest request, String currentPersonalCode) {
+    public List<CoreError> execute(MoneyTransferRequest request) {
         List<CoreError> errorList = new ArrayList<>();
-        validateTargetPersonalCode(request,currentPersonalCode).ifPresent(errorList::add);
+        validateTargetPersonalCode(request).ifPresent(errorList::add);
         validateAmount(request).ifPresent(errorList::add);
 
         return errorList;
     }
 
-    private Optional<CoreError> validateTargetPersonalCode(MoneyTransferRequest request, String currentPersonalCode) {
-        return !request.getTargetPersonalCode().isBlank() && request.getTargetPersonalCode() != null && !currentPersonalCode.equals(request.getTargetPersonalCode())
+    private Optional<CoreError> validateTargetPersonalCode(MoneyTransferRequest request) {
+        return !request.getTargetPersonalCode().isBlank() && request.getTargetPersonalCode() != null
                 ? Optional.empty()
                 :Optional.of(new CoreError("Personal code field must be filled."));
     }

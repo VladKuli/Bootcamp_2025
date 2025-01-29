@@ -34,7 +34,7 @@ public class MoneyTransferService {
         String senderPersonalCode = personalCodeService.getCurrentUserPersonalCode();
 
         logger.debug("Validating money transfer request: {}", request);
-        List<CoreError> errorList = validator.execute(request,senderPersonalCode);
+        List<CoreError> errorList = validator.execute(request);
 
         if (errorList.isEmpty()) {
             logger.info("Validation successful for money transfer request: {}", request);
