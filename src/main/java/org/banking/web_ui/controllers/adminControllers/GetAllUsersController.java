@@ -21,6 +21,6 @@ public class GetAllUsersController {
 
         modelMap.addAttribute("users", response.getUsers());
 
-        return "/getAllUsers";
+        return "getAllUsers";
     }
 }

@@ -20,7 +20,7 @@ public class GetAllBankAccountsController {
                 new GetAllBankAccountsRequest()
         );
         modelMap.addAttribute("bank_accounts", response.getBankAccountList());
-        return "/getAllBankAccounts";
+        return "getAllBankAccounts";
     }
 
 }

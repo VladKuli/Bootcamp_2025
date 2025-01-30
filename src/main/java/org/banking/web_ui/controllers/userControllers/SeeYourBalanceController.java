@@ -18,6 +18,6 @@ public class SeeYourBalanceController {
     public String showOpenAccountPage(ModelMap modelMap) {
         SeeYourBalanceResponse response = service.execute(new SeeYourBalanceRequest());
         modelMap.addAttribute("bankAccount", response.getBankAccount().get());
-        return "/seeYourBalance";
+        return "seeYourBalance";
     }
 }
