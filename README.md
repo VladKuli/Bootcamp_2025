@@ -1,4 +1,4 @@
-# Banking Project
+# Banking Project🚀
 
 ![IntelliJ IDEA](https://img.shields.io/badge/IDE-IntelliJ%20IDEA-blue?style=flat&logo=intellij-idea&logoColor=white)
 
@@ -35,7 +35,8 @@ This project uses the following plugins and dependencies:
 
 The application is fully deployed and hosted on **AWS**, ensuring high availability, scalability, and security.  
 - **AWS RDS** is used for efficient and scalable database management.  
-- **AWS EC2** hosts the application, ensuring seamless performance and accessibility.  
+- **AWS EC2** hosts the application, ensuring seamless performance and accessibility.
+- **Render** hosts the application, ensuring seamless performance and accessibility.
 - Docker is used to containerize the application for smooth deployment.  
 
 ---
