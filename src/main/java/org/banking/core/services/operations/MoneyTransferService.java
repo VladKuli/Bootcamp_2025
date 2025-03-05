@@ -6,8 +6,9 @@ import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Transaction;
 import org.banking.core.request.operations.MoneyTransferRequest;
 import org.banking.core.response.CoreError;
+import org.banking.core.response.bankAccount.GetCurrentBankAccountResponse;
 import org.banking.core.response.operations.MoneyTransferResponse;
-import org.banking.core.services.user.GetCurrentUserPersonalCodeService;
+import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
 import org.banking.core.services.validators.operationsValidators.MoneyTransferValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +25,12 @@ public class MoneyTransferService {
     private JpaBankAccountRepository bankAccountRepository;
 
     @Autowired
-    private GetCurrentUserPersonalCodeService personalCodeService;
-
-    @Autowired
     private MoneyTransferValidator validator;
     @Autowired
     private JpaTransactionRepository transactionRepository;
 
+    @Autowired
+    private GetCurrentBankAccountService getCurrentBankAccount;
 
     private static final Logger logger = LoggerFactory.getLogger(MoneyTransferService.class);
 
@@ -38,13 +38,11 @@ public class MoneyTransferService {
         logger.info("Received money transfer request from current user to target personal code: {} with amount: {}",
                 request.getTargetIBAN(), request.getAmount());
 
-
-
         logger.debug("Validating money transfer request: {}", request);
         List<CoreError> errorList = validator.execute(request);
 
         if (errorList.isEmpty()) {
-            Optional<BankAccount> userBankAccount = findUserBankAccount();
+            Optional<BankAccount> userBankAccount = getCurrentBankAccount.get();
             logger.info("Validation successful for money transfer request: {}", request);
 
             logger.debug("Retrieved sender personal code: {}", userBankAccount.get().getIBAN());
@@ -73,12 +71,6 @@ public class MoneyTransferService {
             logger.warn("Validation failed for money transfer request: {}. Errors: {}", request, errorList);
             return new MoneyTransferResponse(errorList);
         }
-    }
-
-    private Optional<BankAccount> findUserBankAccount() {
-        String personalCode = personalCodeService.getCurrentUserPersonalCode();
-
-        return bankAccountRepository.findByPersonalCode(personalCode).stream().findFirst();
     }
 
     private Optional<BankAccount> findPayeeBankAccount(MoneyTransferRequest request) {
