@@ -81,6 +81,8 @@ public class MoneyTransferService {
         transactionRepository.save(Transaction.builder()
                 .toAccount(findPayeeBankAccount(request).get())
                 .fromAccount(userBankAccount)
+                .type(request.getType())
+                .description(request.getDescription())
                 .amount(request.getAmount()).build());
     }
 }

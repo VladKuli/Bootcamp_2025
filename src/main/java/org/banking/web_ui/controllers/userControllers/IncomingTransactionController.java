@@ -1,4 +1,4 @@
-package org.banking.web_ui.controllers;
+package org.banking.web_ui.controllers.userControllers;
 
 import org.banking.core.domain.BankAccount;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
@@ -10,23 +10,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.Optional;
 
 @Controller
-public class IndexController {
-
+public class IncomingTransactionController {
 
     @Autowired
     private GetCurrentBankAccountService getCurrentBankAccountService;
 
-    @GetMapping(value = "/admin")
-    public String index() {
-        return "indexAdmin";
-    }
+    @GetMapping("/seeIncomingTransactions")
+    public String seeIncomingTransactions(ModelMap modelMap) {
 
-    @GetMapping(value = "/user")
-    public String user(ModelMap modelMap) {
         Optional<BankAccount> bankAccount = getCurrentBankAccountService.get();
 
-        bankAccount.ifPresent(account -> modelMap.addAttribute("bankAccount", account));
-        return "indexUser";
+        if (bankAccount.isPresent()) {
+            modelMap.addAttribute("bankAccount", bankAccount.get());
+            modelMap.addAttribute("incomingTransactions",bankAccount.get().getIncomingTransactions());
+
+        }
+        return "seeIncomingTransactions";
     }
 }
-

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Banking project">
+  <meta name="author" content="User">
+  <title>Incoming Transactions</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #f0f8ff, #e6e6fa);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+      padding: 30px 50px;
+      width: 100%;
+      max-width: 800px; /* Increased max width for better layout */
+      text-align: center;
+    }
+
+    h3 {
+      color: #28a745;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px; /* Increased padding for a bit more space */
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #28a745;
+      color: white;
+    }
+
+    td {
+      word-wrap: break-word; /* Ensures long text wraps nicely */
+    }
+
+    th:nth-child(6), td:nth-child(6) {
+      width: 20%; /* Adjusted the width for the date column */
+    }
+
+    .btn-secondary {
+      padding: 12px 20px;
+      border: 2px solid #007bff;
+      border-radius: 6px;
+      font-size: 1em;
+      color: white;
+      background-color: #007bff;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <h3>Incoming Transactions for <span th:text="${bankAccount.name} + ' ' + ${bankAccount.surname}">Account Holder</span></h3>
+  <h4>IBAN: <span th:text="${bankAccount.IBAN}"></span></h4>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Amount</th>
+      <th>From Account Name</th>
+      <th>To Account Name</th>
+      <th>Transaction Type</th>
+      <th>Description</th>
+      <th>Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="transaction : ${incomingTransactions}">
+      <td th:text="${transaction.amount}"></td>
+      <td th:text="${transaction.fromAccount.name} + ' ' + ${transaction.fromAccount.surname}"></td>
+      <td th:text="${transaction.toAccount.name} + ' ' + ${transaction.toAccount.surname}"></td>
+      <td th:text="${transaction.type}"></td>
+      <td th:text="${transaction.description}"></td>
+      <td th:text="${#temporals.format(transaction.timeStamp, 'dd-MM-yyyy HH:mm')}"></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <form action="/user" method="get">
+    <input type="submit" value="Go to main page" class="btn-secondary" />
+  </form>
+</div>
+</body>
+
+</html>

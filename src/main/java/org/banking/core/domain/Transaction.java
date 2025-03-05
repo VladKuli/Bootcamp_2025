@@ -33,6 +33,12 @@ public class Transaction {
     @Column(name = "amount", nullable = false)
     private Integer amount;
 
+    @Column(name = "type", nullable = false)
+    private TransactionType type;
+
+    @Column(name = "description", nullable = false)
+    private String description;
+
     @Column(name = "timestamp", nullable = false)
     private LocalDateTime timeStamp;
 

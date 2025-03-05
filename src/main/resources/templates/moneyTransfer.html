@@ -44,13 +44,24 @@
       text-align: left;
     }
 
-    input[type="text"] {
+    input[type="text"],
+    select {
       width: 100%;
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
       margin-bottom: 10px;
       font-size: 1em;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      font-size: 1em;
+      height: 80px;
     }
 
     input[type="submit"],
@@ -117,12 +128,33 @@
   <form action="/moneyTransfer" th:object="${request}" method="post">
     <table>
       <tr>
-        <td>Personal code:</td>
-        <td><input type="text" th:field="${request.targetIBAN}" /></td>
+        <td>IBAN:</td>
+        <td><input type="text" th:field="${request.targetIBAN}" placeholder="Enter the recipient's IBAN" /></td>
       </tr>
       <tr>
         <td>Amount:</td>
-        <td><input type="text" th:field="${request.amount}" /></td>
+        <td><input type="text" th:field="${request.amount}" placeholder="Enter the amount" /></td>
+      </tr>
+      <tr>
+        <td>Expense Type:</td>
+        <td>
+          <select th:field="${request.type}">
+            <option value="Food">Food</option>
+            <option value="Home">Home</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Health">Health</option>
+            <option value="Education">Education</option>
+            <option value="Cloth">Cloth</option>
+            <option value="Financial_Services">Financial Services</option>
+            <option value="Travel">Travel</option>
+            <option value="Other">Other</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Description:</td>
+        <td><textarea th:field="${request.description}" placeholder="Enter a description for the transaction"></textarea></td>
       </tr>
     </table>
     <input type="submit" value="Make Transaction" />

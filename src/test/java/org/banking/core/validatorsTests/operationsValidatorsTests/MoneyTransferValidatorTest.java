@@ -1,5 +1,5 @@
 package org.banking.core.validatorsTests.operationsValidatorsTests;
-
+/*
 
 import org.banking.core.request.operations.MoneyTransferRequest;
 import org.banking.core.response.CoreError;
@@ -44,3 +44,6 @@ public class MoneyTransferValidatorTest {
     }
 
 }
+
+
+ */

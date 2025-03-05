@@ -54,6 +54,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf:2.7.5") {
         exclude(group = "ch.qos.logback", module = "logback-classic")
     }
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
+
 
 
 

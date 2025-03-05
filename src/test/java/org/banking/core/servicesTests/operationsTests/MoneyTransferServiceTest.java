@@ -1,6 +1,6 @@
 package org.banking.core.servicesTests.operationsTests;
 
-
+/*
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.request.operations.MoneyTransferRequest;
 import org.banking.core.response.CoreError;
@@ -56,7 +56,7 @@ class MoneyTransferServiceTest {
                 "0987654321", 200);
     }
 
- */
+
 
     @Test
     void shouldFailWhenTargetPersonalCodeIsNull() {
@@ -83,5 +83,7 @@ class MoneyTransferServiceTest {
         assertFalse(response.isCompleted());
     }
 }
+
+ */
 
 

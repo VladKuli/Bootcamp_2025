@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -18,6 +18,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            flex-direction: column;
         }
 
         .container {
@@ -28,6 +29,12 @@
             text-align: center;
             width: 100%;
             max-width: 450px;
+        }
+
+        h2 {
+            color: #0056b3;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
 
         h3 {
@@ -67,10 +74,17 @@
             background-color: #c53030;
             border-color: #c53030;
         }
+
+        .bank-logo {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 
 <body>
+<img src="bank-logo.png" alt="Bank Logo" class="bank-logo">
+<h2>Welcome, <span th:text="${bankAccount.name} + ' ' + ${bankAccount.surname}"></span></h2>
 <div class="container">
     <h3>User Options</h3>
     <div class="menu">
@@ -78,6 +92,8 @@
         <a href="/withdraw">Withdraw Money</a>
         <a href="/deposit">Deposit Money</a>
         <a href="/seeYourBalance">View Your Account</a>
+        <a href="/seeIncomingTransactions">See Incoming Transactions</a>
+        <a href="/seeOutgoingTransactions">See Outgoing Transactions</a>
         <a href="/logout">Log Out</a>
     </div>
 </div>

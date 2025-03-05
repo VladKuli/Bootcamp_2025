@@ -2,34 +2,110 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Outgoing Transactions">
     <title>Outgoing Transactions</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px 50px;
+            text-align: center;
+            width: 100%;
+            max-width: 800px; /* Increased max width for better layout */
+        }
+        h2, h4 {
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px; /* Increased padding for better readability */
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #dc3545;
+            color: white;
+        }
+        td {
+            word-wrap: break-word; /* Ensures long text wraps nicely */
+        }
+        th:nth-child(3), td:nth-child(3) {
+            width: 20%; /* Adjusted the width for the date column */
+        }
+        th:nth-child(4), td:nth-child(4), th:nth-child(5), td:nth-child(5) {
+            width: 20%; /* Adjusted width for the new columns (type and description) */
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .btn-home {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: 2px solid #dc3545;
+            border-radius: 6px;
+            font-size: 1em;
+            color: white;
+            background-color: #dc3545;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-home:hover {
+            background-color: #b02a37;
+            border-color: #b02a37;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-4">
+<div class="container">
     <h2>Outgoing Transactions for <span th:text="${bankAccount.name} + ' ' + ${bankAccount.surname}">Account Holder</span></h2>
     <h4>IBAN: <span th:text="${bankAccount.IBAN}"></span></h4>
 
-    <table class="table table-striped mt-4">
+    <table>
         <thead>
         <tr>
             <th>Amount</th>
             <th>To Account Name</th>
             <th>Date</th>
+            <th>Type</th> <!-- Added column for type -->
+            <th>Description</th> <!-- Added column for description -->
         </tr>
         </thead>
         <tbody>
         <tr th:each="transaction : ${outgoingTransactions}">
             <td th:text="${transaction.amount}"></td>
             <td th:text="${transaction.toAccount.name} + ' ' + ${transaction.toAccount.surname}"></td>
-            <td th:text="${transaction.timeStamp}"></td>
+            <!-- Format the timestamp as 'dd-MM-yyyy HH:mm' -->
+            <td th:text="${#temporals.format(transaction.timeStamp, 'dd-MM-yyyy HH:mm')}"></td>
+            <!-- Display transaction type -->
+            <td th:text="${transaction.type}"></td> <!-- Display the type of transaction -->
+            <!-- Display transaction description -->
+            <td th:text="${transaction.description}"></td> <!-- Display the description of the transaction -->
         </tr>
         </tbody>
     </table>
-</div>
 
-<!-- Include Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <a href="/user" class="btn-home">Back to Dashboard</a>
+</div>
 </body>
 </html>
