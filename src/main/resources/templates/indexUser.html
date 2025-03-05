@@ -8,6 +8,7 @@
     <meta name="author" content="User">
     <title>Bank User Menu</title>
     <style>
+        /* Same styles as before */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(to bottom, #f0f8ff, #e6e6fa);
@@ -79,6 +80,66 @@
             max-width: 150px;
             margin-bottom: 20px;
         }
+
+        .card-info {
+            text-align: left;
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .card-info h4 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .card-info p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        .card-order-form {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .card-order-form select, .card-order-form button {
+            font-size: 1.1em;
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .card-order-form button {
+            background-color: #0056b3;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .card-order-form button:hover {
+            background-color: #00408c;
+        }
+
+        .delete-button {
+            background-color: #e63946;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #c53030;
+        }
     </style>
 </head>
 
@@ -95,6 +156,44 @@
         <a href="/seeIncomingTransactions">See Incoming Transactions</a>
         <a href="/seeOutgoingTransactions">See Outgoing Transactions</a>
         <a href="/logout">Log Out</a>
+    </div>
+
+    <!-- Display Card Information -->
+    <div class="card-info">
+        <h4>Your Cards</h4>
+        <div th:if="${bankAccount.cards != null}">
+            <div th:each="card : ${bankAccount.cards}">
+                <p><strong>Card Type:</strong> <span th:text="${card.type}"></span></p>
+                <p><strong>Card Number:</strong> <span th:text="${card.cardNumber}"></span></p>
+                <p><strong>Balance:</strong> $<span th:text="${card.balance}"></span></p>
+
+                <!-- Delete Card Button -->
+                <form th:action="@{/card-deleting}" method="post">
+                    <input type="hidden" th:value="${card.id}" name="cardId"/>
+                    <button class="delete-button" type="submit">Delete Card</button>
+                </form>
+                <hr/>
+            </div>
+        </div>
+        <div th:if="${bankAccount.cards == null or #lists.isEmpty(bankAccount.cards)}">
+            <p>No cards associated with this account.</p>
+        </div>
+    </div>
+
+    <!-- Card Order Form -->
+    <div class="card-order-form">
+        <h4>Order a New Card</h4>
+        <form th:action="@{/card-order}" method="post">
+            <label for="cardType">Choose Card Type:</label>
+            <select id="cardType" name="type" required>
+                <option value="STANDARD">Standard</option>
+                <option value="PREMIUM">Premium</option>
+                <option value="JUNIOR">Junior</option>
+                <option value="VIRTUAL">Virtual</option>
+                <option value="BUSINESS">Business</option>
+            </select>
+            <button type="submit">Order Card</button>
+        </form>
     </div>
 </div>
 </body>

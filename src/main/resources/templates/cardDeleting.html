@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Delete Card">
+  <title>Delete Card</title>
+  <style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to bottom, #f0f8ff, #e6e6fa);
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        padding: 30px 50px;
+        width: 100%;
+        max-width: 450px;
+        text-align: center;
+    }
+
+    h3 {
+        color: #e63946;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    p {
+        font-size: 1.2em;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .confirm-btn {
+        background-color: #e63946;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        font-size: 1.1em;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .confirm-btn:hover {
+        background-color: #c53030;
+    }
+
+    .cancel-btn {
+        background-color: #cccccc;
+        color: #333;
+        padding: 12px 20px;
+        border: none;
+        font-size: 1.1em;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .cancel-btn:hover {
+        background-color: #999999;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h3>Delete Card</h3>
+  <p>Are you sure you want to delete this card? This action cannot be undone.</p>
+
+  <!-- Delete card confirmation -->
+  <form action="/card-deleting" method="post" th:object="${request}">
+    <!-- Hidden field to pass card id -->
+    <input type="hidden" name="cardNumber" th:value="${request.cardNumber}" />
+    <button type="submit" class="confirm-btn">Yes, Delete Card</button>
+  </form>
+
+  <!-- Cancel Button -->
+  <form action="/user" method="get" style="margin-top: 20px;">
+    <button type="submit" class="cancel-btn">Cancel</button>
+  </form>
+</div>
+
+</body>
+</html>

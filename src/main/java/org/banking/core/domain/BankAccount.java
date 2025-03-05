@@ -32,6 +32,9 @@ public class BankAccount {
     @Column(name = "iban", unique = true, nullable = false)
     private String IBAN;
 
+    @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Card> cards;
+
     @OneToMany(mappedBy = "fromAccount", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> outgoingTransactions;
 

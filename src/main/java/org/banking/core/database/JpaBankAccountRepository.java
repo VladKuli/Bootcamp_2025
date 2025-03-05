@@ -6,13 +6,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Transactional
-@Component
+@Repository
 public interface JpaBankAccountRepository extends JpaRepository<BankAccount, Long> {
 
     @Transactional
@@ -51,6 +52,11 @@ public interface JpaBankAccountRepository extends JpaRepository<BankAccount, Lon
     @Modifying
     @Query(value = "Update bank_accounts set balance = balance - ?2 where personal_code = ?1", nativeQuery = true)
     void withdraw(String personalCode, int value);
+
+
+    @Modifying
+    @Query(value = "UPDATE bank_accounts SET balance = ?2 WHERE id = ?1", nativeQuery = true)
+    void updateBalance(Long id, int amount);
 
     List<BankAccount> findByName(String name);
 
