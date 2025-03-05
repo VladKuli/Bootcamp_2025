@@ -27,31 +27,30 @@ public class SeeYourBalanceService {
 
     public SeeYourBalanceResponse execute(SeeYourBalanceRequest request) {
         logger.info("Received request to see balance for the current user");
-        countBalance();
-        Optional<BankAccount> bankAccount = getCurrentBankAccount.get();
 
-
-        if (bankAccount.isPresent()) {
-            logger.info("Successfully retrieved balance for personal code: {}. Balance: {}",
-                    bankAccount.get().getPersonalCode(), bankAccount.get().getBalance());
-        } else {
-            logger.warn("No bank account found for personal code: {}",  bankAccount.get().getPersonalCode());
-        }
+        Optional<BankAccount> bankAccount = countBalance();
 
         return new SeeYourBalanceResponse(bankAccount);
     }
 
-    private void countBalance() {
+    private Optional<BankAccount> countBalance() {
 
         Optional<BankAccount> bankAccount = getCurrentBankAccount.get();
-
-        if (bankAccount.isPresent()) {
             int balance = 0 ;
             List<Card> cardList =  bankAccount.get().getCards();
             for (Card card : cardList) {
                 balance += card.getBalance();
-            }
-            jpaBankAccountRepository.updateBalance(bankAccount.get().getId(),balance);
         }
+        jpaBankAccountRepository.updateBalance(bankAccount.get().getId(),balance);
+        return Optional.of(BankAccount.builder()
+                 .name(bankAccount.get().getName())
+                 .surname(bankAccount.get().getSurname())
+                 .personalCode(bankAccount.get().getPersonalCode())
+                 .balance(balance)
+                 .IBAN(bankAccount.get().getIBAN())
+                 .cards(bankAccount.get().getCards())
+                 .outgoingTransactions(bankAccount.get().getOutgoingTransactions())
+                 .incomingTransactions(bankAccount.get().getIncomingTransactions())
+                 .build());
     }
 }

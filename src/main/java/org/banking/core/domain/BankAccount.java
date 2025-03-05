@@ -33,13 +33,18 @@ public class BankAccount {
     private String IBAN;
 
     @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Card> cards;
 
     @OneToMany(mappedBy = "fromAccount", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Transaction> outgoingTransactions;
 
     @OneToMany(mappedBy = "toAccount", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Transaction> incomingTransactions;
+
+
 }
 
 
