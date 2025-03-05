@@ -37,7 +37,7 @@ The application is fully deployed and hosted on **AWS**, ensuring high availabil
 - **AWS RDS** is used for efficient and scalable database management.  
 - **AWS EC2** hosts the application, ensuring seamless performance and accessibility.
 - **Render** hosts the application, ensuring seamless performance and accessibility.
-- Docker is used to containerize the application for smooth deployment.  
+- **Docker**  is used to containerize the application for smooth deployment.  
 
 ---
 
