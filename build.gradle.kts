@@ -14,6 +14,25 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
 
 
+
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+        implementation("org.springframework.boot:spring-boot-starter-web")
+
+
+        runtimeOnly("com.h2database:h2")
+
+
+
+
+        implementation("org.springframework.boot:spring-boot-starter-logging")
+
+
+        implementation("org.jetbrains.kotlin:kotlin-reflect")
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+
     testImplementation("org.mockito:mockito-core:4.11.0")
     testImplementation("org.mockito:mockito-junit-jupiter:4.11.0")
 
@@ -41,7 +60,6 @@ dependencies {
     testImplementation("org.springframework:spring-test:5.3.23")
     testImplementation("com.h2database:h2:1.4.200")
 
-    implementation("org.liquibase:liquibase-core:4.2.2")
 
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")

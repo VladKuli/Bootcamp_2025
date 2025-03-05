@@ -19,12 +19,12 @@ public interface JpaBankAccountRepository extends JpaRepository<BankAccount, Lon
     @Modifying
     @Query(value = "update bank_accounts\n" +
             "set balance = CASE \n" +
-            "  WHEN personal_code = ?1\n" +
+            "  WHEN iban = ?1\n" +
             "    THEN balance - ?3\n" +
-            "  WHEN personal_code = ?2\n" +
+            "  WHEN iban = ?2\n" +
             "    THEN balance + ?3\n" +
             "    End;", nativeQuery = true)
-    void bankTransfer(String personalCode, String anotherPersonalCode
+    void bankTransfer(String IBAN, String payeeIBAN
             , int value);
 
     void deleteByPersonalCode(String personalCode);
