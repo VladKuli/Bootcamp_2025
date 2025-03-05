@@ -45,7 +45,9 @@ class DepositServiceTest {
 
     @Test
     void shouldDepositWhenRequestIsValid() {
-        DepositRequest request = new DepositRequest(100);
+        DepositRequest request = DepositRequest.builder()
+                .personalCode("1234567890")
+                .amount(100).build();
         List<CoreError> noErrors = Collections.emptyList();
 
         when(validator.validate(request)).thenReturn(noErrors);
@@ -63,7 +65,9 @@ class DepositServiceTest {
 
     @Test
     void shouldReturnErrorsWhenRequestIsInvalid() {
-        DepositRequest request = new DepositRequest(-100);
+        DepositRequest request =  DepositRequest.builder()
+                .personalCode("1234567890")
+                .amount(-100).build();
         List<CoreError> errors = new ArrayList<>();
         errors.add(new CoreError("Amount must be greater than 0"));
 

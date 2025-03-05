@@ -15,7 +15,7 @@ public class SeeYourBalanceController {
     private SeeYourBalanceService service;
 
     @GetMapping(value = "/seeYourBalance")
-    public String showOpenAccountPage(ModelMap modelMap) {
+    public String showSeeYourBalancePage(ModelMap modelMap) {
         SeeYourBalanceResponse response = service.execute(new SeeYourBalanceRequest());
         modelMap.addAttribute("bankAccount", response.getBankAccount().get());
         return "seeYourBalance";

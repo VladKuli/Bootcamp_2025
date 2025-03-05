@@ -16,7 +16,6 @@ public class DepositValidator {
         validateAmountOfWithdraw(request).ifPresent(errorList::add);
 
         return errorList;
-
     }
 
     private Optional<CoreError> validateAmountOfWithdraw(DepositRequest request) {

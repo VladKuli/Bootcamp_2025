@@ -3,7 +3,6 @@ package org.banking.web_ui.security;
 import org.banking.core.database.JpaUserRepository;
 import org.banking.core.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

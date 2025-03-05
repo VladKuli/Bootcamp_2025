@@ -14,11 +14,9 @@ public class WithdrawValidator {
 
     public List<CoreError> validate(WithdrawRequest request) {
         List<CoreError> errorList = new ArrayList<>();
-
         validateAmountOfWithdraw(request).ifPresent(errorList::add);
 
         return errorList;
-
     }
 
     private Optional<CoreError> validateAmountOfWithdraw(WithdrawRequest request) {

@@ -1,23 +1,15 @@
 package org.banking.core.request.operations;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class DepositRequest {
 
     private String personalCode;
     private int amount;
 
-    public DepositRequest(String personalCode, Integer amount) {
-        this.personalCode = personalCode;
-        this.amount = amount;
-    }
-
-    public DepositRequest(Integer amount) {
-        this.amount = amount;
-    }
 }

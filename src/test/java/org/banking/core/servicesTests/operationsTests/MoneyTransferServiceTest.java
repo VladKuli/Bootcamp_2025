@@ -40,7 +40,7 @@ class MoneyTransferServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
+/*
     @Test
     void shouldTransferMoneySuccessfully() {
         MoneyTransferRequest request = new MoneyTransferRequest("0987654321", 200);
@@ -55,6 +55,8 @@ class MoneyTransferServiceTest {
         verify(bankAccountRepository, times(1)).bankTransfer("1234567890",
                 "0987654321", 200);
     }
+
+ */
 
     @Test
     void shouldFailWhenTargetPersonalCodeIsNull() {

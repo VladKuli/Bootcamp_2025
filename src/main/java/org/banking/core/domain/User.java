@@ -20,12 +20,13 @@ public class User implements UserDetails {
     @Column(name="id")
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @Column(name="personal_code", nullable = false)
+    @Column(name="personal_code", nullable = false, unique = true)
     private String personalCode;
     @Column(name="password", nullable = false)
     private String password;
     @Column(name="role", nullable = false)
     private String role;
+
 
 
     @Override

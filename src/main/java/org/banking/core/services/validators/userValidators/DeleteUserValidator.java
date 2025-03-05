@@ -20,7 +20,6 @@ public class DeleteUserValidator {
         validatePersonalCode(request).ifPresent(errorList::add);
 
         return errorList;
-
     }
 
     private Optional<CoreError> validatePersonalCode(DeleteUserRequest request) {

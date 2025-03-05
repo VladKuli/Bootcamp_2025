@@ -21,13 +21,13 @@ public class MoneyTransferValidator {
     }
 
     private Optional<CoreError> validateTargetPersonalCode(MoneyTransferRequest request) {
-        return !request.getTargetPersonalCode().isBlank() && request.getTargetPersonalCode() != null
+        return !request.getTargetIBAN().isBlank()
                 ? Optional.empty()
                 :Optional.of(new CoreError("Personal code field must be filled."));
     }
 
     private Optional<CoreError> validateAmount(MoneyTransferRequest request) {
-        return request.getAmount() > 0 && request.getTargetPersonalCode() != null
+        return request.getAmount() > 0 && request.getTargetIBAN() != null
                 ? Optional.empty()
                 :Optional.of(new CoreError("Amount must be positive."));
     }

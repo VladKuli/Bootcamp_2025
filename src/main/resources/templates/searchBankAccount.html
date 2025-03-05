@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Bank demo project">
+  <meta name="author" content="JavaGuru">
+  <title>Bank</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px 30px;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h3 {
+      text-align: center;
+      color: #343a40;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="submit"],
+    input[type="reset"] {
+      padding: 8px 12px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"],
+    input[type="reset"] {
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover,
+    input[type="reset"]:hover {
+      background-color: #0056b3;
+    }
+
+    .error-message {
+      margin-top: 20px;
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      border-radius: 4px;
+      padding: 10px;
+    }
+
+    .result-table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    .result-table th, .result-table td {
+      border: 1px solid #dee2e6;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .result-table th {
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <h3>Search Bank Account</h3>
+
+  <form action="/searchBankAccount" th:object="${request}" method="post">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" th:field="${request.name}" />
+    </div>
+
+    <div class="form-group">
+      <label for="surname">Surname:</label>
+      <input type="text" id="surname" th:field="${request.surname}" />
+    </div>
+
+    <div class="form-group">
+      <label for="personalCode">Personal Code:</label>
+      <input type="text" id="personalCode" th:field="${request.personalCode}" />
+    </div>
+
+    <div class="form-group">
+      <input type="submit" value="Search" />
+      <input type="reset" value="Clear" />
+    </div>
+  </form>
+
+  <table class="result-table" th:if="${bank_accounts != null}">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Surname</th>
+      <th>Personal Code</th>
+      <th>Balance</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="account : ${bank_accounts}">
+      <td th:text="${account.name}"></td>
+      <td th:text="${account.surname}"></td>
+      <td th:text="${account.personalCode}"></td>
+      <td th:text="${account.balance}"></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div th:if="${errors != null}" class="error-message">
+    <ul>
+      <li th:each="error : ${errors}" th:text="${error.message}"></li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>

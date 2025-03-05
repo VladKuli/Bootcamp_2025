@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 public class MoneyTransferRequest {
 
-    private String targetPersonalCode;
+    private String targetIBAN;
     private int amount;
 
 

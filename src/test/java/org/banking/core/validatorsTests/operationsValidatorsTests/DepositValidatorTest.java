@@ -15,7 +15,10 @@ class DepositValidatorTest {
 
     @Test
     void shouldReturnNoErrorsForValidAmount() {
-        DepositRequest request = new DepositRequest(100);
+        DepositRequest request = DepositRequest.builder()
+                .personalCode("12345789")
+                .amount(100)
+                .build();
 
         List<CoreError> errors = validator.validate(request);
 
@@ -24,7 +27,10 @@ class DepositValidatorTest {
 
     @Test
     void shouldReturnErrorForZeroAmount() {
-        DepositRequest request = new DepositRequest(0);
+        DepositRequest request = DepositRequest.builder()
+                .personalCode("123456789")
+                .amount(0)
+                .build();
 
         List<CoreError> errors = validator.validate(request);
 
@@ -34,7 +40,10 @@ class DepositValidatorTest {
 
     @Test
     void shouldReturnErrorForNegativeAmount() {
-        DepositRequest request = new DepositRequest(-50);
+        DepositRequest request = DepositRequest.builder()
+                .personalCode("12345678")
+                .amount(-100)
+                .build();
 
         List<CoreError> errors = validator.validate(request);
 
