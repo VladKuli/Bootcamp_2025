@@ -38,7 +38,7 @@
       margin-bottom: 10px;
     }
 
-    input[type="text"] {
+    input[type="text"], select {
       padding: 10px;
       border: 2px solid #ced4da;
       border-radius: 6px;
@@ -105,6 +105,16 @@
       <input type="text" id="amount" th:field="${request.amount}" />
     </div>
 
+    <!-- New Card Selection Dropdown -->
+    <div class="form-group">
+      <label for="cardNumber">Select Card:</label>
+      <select id="cardNumber" th:field="${request.cardNumber}">
+        <option value="" disabled selected>Select your card</option>
+        <!-- Loop through the list of cards and display their numbers -->
+        <option th:each="card : ${cards}" th:value="${card.cardNumber}" th:text="${card.cardNumber}"></option>
+      </select>
+    </div>
+
     <div class="form-group">
       <input type="submit" value="Make Withdraw" />
       <input type="reset" value="Clear" />
@@ -116,7 +126,7 @@
   <div th:if="${errors != null}" class="error-message">
     <ul>
       <li th:each="error : ${errors}">
-         <span th:text="${error.message}"></span>
+        <span th:text="${error.message}"></span>
       </li>
     </ul>
   </div>

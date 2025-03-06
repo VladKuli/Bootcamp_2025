@@ -1,5 +1,6 @@
 package org.banking.web_ui.controllers.userControllers;
 
+import org.banking.core.domain.Card;
 import org.banking.core.request.operations.WithdrawRequest;
 import org.banking.core.response.operations.WithdrawResponse;
 import org.banking.core.services.operations.WithdrawService;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 public class WithdrawController {
 
@@ -19,6 +22,8 @@ public class WithdrawController {
 
     @GetMapping(value = "/withdraw")
     public String showDepositPage(ModelMap modelMap) {
+        List<Card> cards = service.getUsersCards();
+        modelMap.addAttribute("cards", cards);
         modelMap.addAttribute("request", new WithdrawRequest());
         return "withdraw";
     }

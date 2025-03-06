@@ -1,6 +1,7 @@
 package org.banking.core.database;
 
 import org.banking.core.domain.BankAccount;
+import org.banking.core.domain.Card;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -48,7 +49,12 @@ public interface JpaBankAccountRepository extends JpaRepository<BankAccount, Lon
     @Query(value = "Update bank_accounts set balance = balance - ?2 where personal_code = ?1", nativeQuery = true)
     void withdraw(String personalCode, int value);
 
+    @Transactional
+    @Modifying
+    @Query(value = "Update Card c set c.balance = c.balance - ?2 WHERE c.cardNumber = ?1")
+    void cardWithdraw(String cardNumber, int value);
 
+    @Transactional
     @Modifying
     @Query(value = "UPDATE bank_accounts SET balance = ?2 WHERE id = ?1", nativeQuery = true)
     void updateBalance(Long id, int amount);

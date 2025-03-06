@@ -1,9 +1,13 @@
 package org.banking.core.services.operations;
 
+import io.swagger.v3.oas.models.info.License;
 import org.banking.core.database.JpaBankAccountRepository;
+import org.banking.core.domain.BankAccount;
+import org.banking.core.domain.Card;
 import org.banking.core.request.operations.WithdrawRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.WithdrawResponse;
+import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
 import org.banking.core.services.user.GetCurrentUserPersonalCodeService;
 import org.banking.core.services.validators.operationsValidators.WithdrawValidator;
 import org.slf4j.Logger;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -22,7 +27,7 @@ public class WithdrawService {
     private JpaBankAccountRepository bankAccountRepository;
 
     @Autowired
-    private GetCurrentUserPersonalCodeService personalCodeService;
+    private GetCurrentBankAccountService getCurrentBankAccount;
 
     @Autowired
     private WithdrawValidator validator;
@@ -39,8 +44,13 @@ public class WithdrawService {
             logger.info("Validation successful for withdraw request: {}", request);
 
             logger.debug("Fetching personal code for the current user");
-            String personalCode = personalCodeService.getCurrentUserPersonalCode();
+
+            String personalCode = getCurrentBankAccount.get()
+                    .map(BankAccount::getPersonalCode)
+                    .orElseThrow(() -> new RuntimeException("Personal code not found"));
             logger.info("Personal code retrieved: {}", personalCode);
+
+            bankAccountRepository.cardWithdraw(request.getCardNumber(), request.getAmount());
 
             logger.info("Processing withdrawal of amount {} for personal code {}", request.getAmount(), personalCode);
             bankAccountRepository.withdraw(personalCode, request.getAmount());
@@ -51,5 +61,11 @@ public class WithdrawService {
             logger.warn("Validation failed for withdraw request: {}. Errors: {}", request, errorList);
             return new WithdrawResponse(errorList);
         }
+    }
+    public List<Card> getUsersCards() {
+        return getCurrentBankAccount.get()
+                .stream()
+                .flatMap(bankAccount -> bankAccount.getCards().stream())
+                .collect(Collectors.toList());
     }
 }
