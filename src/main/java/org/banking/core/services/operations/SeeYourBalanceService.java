@@ -33,14 +33,13 @@ public class SeeYourBalanceService {
         return new SeeYourBalanceResponse(bankAccount);
     }
 
+    //TODO write DTO for it to hide information
     private Optional<BankAccount> countBalance() {
-
         Optional<BankAccount> bankAccount = getCurrentBankAccount.get();
-            int balance = 0 ;
-            List<Card> cardList =  bankAccount.get().getCards();
-            for (Card card : cardList) {
-                balance += card.getBalance();
-        }
+             int balance =  bankAccount.get().getCards().stream()
+                    .mapToInt(Card::getBalance)
+                    .sum();
+
         jpaBankAccountRepository.updateBalance(bankAccount.get().getId(),balance);
         return Optional.of(BankAccount.builder()
                  .name(bankAccount.get().getName())

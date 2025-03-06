@@ -46,6 +46,16 @@
       margin-bottom: 15px;
     }
 
+    select {
+      padding: 10px;
+      border: 2px solid #ced4da;
+      border-radius: 6px;
+      font-size: 1em;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+    }
+
     input[type="submit"],
     input[type="reset"] {
       padding: 12px 20px;
@@ -97,10 +107,20 @@
 
 <body>
 <div class="container">
-  <form action="/deposit" th:object="${request}" method="post" >
+  <form action="/deposit" th:object="${request}" method="post">
     <div>
       <label for="amount">Amount:</label>
       <input type="text" id="amount" th:field="${request.amount}" />
+    </div>
+
+    <!-- New Card Selection Dropdown -->
+    <div>
+      <label for="cardNumber">Select Card:</label>
+      <select id="cardNumber" th:field="${request.cardNumber}">
+        <option value="" disabled selected>Select your card</option>
+        <!-- Loop through the list of cards and display their numbers -->
+        <option th:each="card : ${cards}" th:value="${card.cardNumber}" th:text="${card.cardNumber}"></option>
+      </select>
     </div>
 
     <div>

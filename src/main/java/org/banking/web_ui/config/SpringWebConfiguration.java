@@ -1,4 +1,3 @@
-
 package org.banking.web_ui.config;
 
 import org.springframework.context.annotation.Bean;
@@ -14,10 +13,17 @@ import org.thymeleaf.templatemode.TemplateMode;
 @EnableWebMvc
 @ComponentScan(basePackages = {"org.banking"})
 public class SpringWebConfiguration implements WebMvcConfigurer {
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**")
-                .addResourceLocations("/resources/");
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("classpath:/static/images/");
+
+        registry.addResourceHandler("/css/**")
+                .addResourceLocations("classpath:/static/css/");
+
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("classpath:/static/js/");
     }
 
     @Bean
@@ -31,5 +37,3 @@ public class SpringWebConfiguration implements WebMvcConfigurer {
         return resourceViewResolver;
     }
 }
-
-

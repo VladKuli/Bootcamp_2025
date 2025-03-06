@@ -35,18 +35,13 @@ public interface JpaBankAccountRepository extends JpaRepository<BankAccount, Lon
 
     @Transactional
     @Modifying
-    @Query("Update BankAccount b set b.balance = null where b.personalCode = ?1")
-    void closeAccount(String personalCode);
-
-    @Transactional
-    @Modifying
-    @Query("Update BankAccount b set b.balance = 0 where b.personalCode = ?1")
-    void openAccount(String personalCode);
-
-    @Transactional
-    @Modifying
     @Query(value = "Update bank_accounts set balance = balance + ?2 where personal_code = ?1", nativeQuery = true)
     void deposit(String personalCode, int value);
+
+    @Transactional
+    @Modifying
+    @Query(value = "Update Card c set c.balance = c.balance + ?2 WHERE c.cardNumber = ?1")
+    void cardDeposit(String cardNumber, int value);
 
     @Transactional
     @Modifying
