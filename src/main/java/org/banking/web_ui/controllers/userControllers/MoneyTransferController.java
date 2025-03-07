@@ -1,7 +1,10 @@
 package org.banking.web_ui.controllers.userControllers;
 
+import org.banking.core.domain.BankAccount;
+import org.banking.core.domain.IBAN;
 import org.banking.core.request.operations.MoneyTransferRequest;
 import org.banking.core.response.operations.MoneyTransferResponse;
+import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
 import org.banking.core.services.operations.MoneyTransferService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,17 +15,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+import java.util.Optional;
+
 @Controller
 public class MoneyTransferController {
 
     @Autowired
     private MoneyTransferService service;
 
+    @Autowired
+    private GetCurrentBankAccountService getCurrentBankAccountService;
+
     private static final Logger logger = LoggerFactory.getLogger(MoneyTransferController.class);
 
     @GetMapping(value = "/moneyTransfer")
     public String showMoneyTransferPage(ModelMap modelMap) {
         modelMap.addAttribute("request", new MoneyTransferRequest());
+        Optional<BankAccount> bankAccount = getCurrentBankAccountService.get();
+        if(bankAccount.isPresent()) {
+            List<IBAN> iban = bankAccount.get().getIBAN();
+            logger.info("Adding attribute iban {}", iban);
+            modelMap.addAttribute("iban", iban);
+        }
         return "moneyTransfer";
     }
 
@@ -32,13 +47,7 @@ public class MoneyTransferController {
         logger.info("Proceeding request for transaction: {}", request);
         MoneyTransferResponse responses = service.execute(request);
 
-        if (responses.isCompleted()) {
             logger.info("Success of request {}", request);
             return "moneyTransferSuccess";
-        } else {
-            logger.warn("Errors: {}", responses);
-            modelMap.addAttribute("errors", responses.getErrors());
-            return "moneyTransfer";
-        }
     }
 }

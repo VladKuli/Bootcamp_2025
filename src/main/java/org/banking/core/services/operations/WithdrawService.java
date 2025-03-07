@@ -63,7 +63,7 @@ public class WithdrawService {
         }
     }
     public List<Card> getUsersCards() {
-        return getCurrentBankAccount.get()
+        return getCurrentBankAccount.getIBAN()
                 .stream()
                 .flatMap(bankAccount -> bankAccount.getCards().stream())
                 .collect(Collectors.toList());

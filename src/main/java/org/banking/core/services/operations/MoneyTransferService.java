@@ -51,12 +51,12 @@ public class MoneyTransferService {
                     userBankAccount.get().getIBAN(), request.getTargetIBAN(), request.getAmount());
 
             try {
+//                bankAccountRepository.bankTransfer(request.getUsersIban(), request.getTargetIBAN(), request.getAmount()
+//                );
 
-                // Use the TransactionService to perform the actual money transfer
-                bankAccountRepository.bankTransfer(userBankAccount.get().getIBAN(), request.getTargetIBAN(), request.getAmount()
-                );
+
+                bankAccountRepository.bankTransferForIban(request.getUsersIban(), request.getTargetIBAN(), request.getAmount());
                 addTransaction(request, userBankAccount.get());
-
                 logger.info("Money transfer successful from {} to {} with amount: {}",
                         userBankAccount.get().getIBAN(), request.getTargetIBAN(), request.getAmount());
 
@@ -85,4 +85,5 @@ public class MoneyTransferService {
                 .description(request.getDescription())
                 .amount(request.getAmount()).build());
     }
+
 }

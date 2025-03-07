@@ -1,5 +1,5 @@
 package org.banking.core.services.operations;
-
+/*
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Card;
@@ -36,9 +36,7 @@ public class SeeYourBalanceService {
     //TODO write DTO for it to hide information
     private Optional<BankAccount> countBalance() {
         Optional<BankAccount> bankAccount = getCurrentBankAccount.get();
-             int balance =  bankAccount.get().getCards().stream()
-                    .mapToInt(Card::getBalance)
-                    .sum();
+
 
         jpaBankAccountRepository.updateBalance(bankAccount.get().getId(),balance);
         return Optional.of(BankAccount.builder()
@@ -53,3 +51,5 @@ public class SeeYourBalanceService {
                  .build());
     }
 }
+
+ */

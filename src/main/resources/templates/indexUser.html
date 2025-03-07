@@ -87,28 +87,65 @@
         .delete-button:hover {
             background-color: #c53030;
         }
+
+        table {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
 <body>
 <img th:src="@{/images/Logo.webp}" alt="Bank Logo" class="bank-logo">
 <div class="wrapper">
+
     <!-- Card Information Sidebar -->
     <div class="sidebar">
         <h4>Your Cards</h4>
-        <div th:if="${bankAccount.cards != null}">
-            <div th:each="card : ${bankAccount.cards}">
-                <p><strong>Card Type:</strong> <span th:text="${card.type}"></span></p>
-                <p><strong>Card Number:</strong> <span th:text="${card.cardNumber}"></span></p>
-                <p><strong>Balance:</strong> $<span th:text="${card.balance}"></span></p>
-                <form th:action="@{/card-deleting}" method="post">
-                    <input type="hidden" th:value="${card.cardNumber}" name="cardNumber"/>
-                    <button class="delete-button" type="submit">Delete Card</button>
-                </form>
-                <hr/>
+        <div th:each="ibanItem : ${iban}">
+            <div th:if="${ibanItem.cards != null}">
+                <div th:each="card : ${ibanItem.cards}">
+                    <p><strong>Card Type:</strong> <span th:text="${card.type}"></span></p>
+                    <p><strong>Card Number:</strong> <span th:text="${card.cardNumber}"></span></p>
+                    <p><strong>Balance:</strong> $<span th:text="${card.balance}"></span></p>
+                    <form th:action="@{/card-deleting}" method="post">
+                        <input type="hidden" th:value="${card.cardNumber}" name="cardNumber"/>
+                        <button class="delete-button" type="submit">Delete Card</button>
+                    </form>
+                    <hr/>
+                </div>
             </div>
         </div>
-        <div th:if="${bankAccount.cards == null or #lists.isEmpty(bankAccount.cards)}">
+
+        <div th:if="${iban == null or #lists.isEmpty(iban)}">
             <p>No cards associated with this account.</p>
         </div>
     </div>
@@ -132,17 +169,33 @@
     <div class="sidebar">
         <h4>Order a New Card</h4>
         <form th:action="@{/card-order}" method="post">
-            <label for="cardType">Choose Card Type:</label>
-            <select id="cardType" name="type" required>
-                <option value="STANDARD">Standard</option>
-                <option value="PREMIUM">Premium</option>
-                <option value="JUNIOR">Junior</option>
-                <option value="VIRTUAL">Virtual</option>
-                <option value="BUSINESS">Business</option>
-            </select>
+            <table class="order-table">
+                <tr>
+                    <td><label for="ibanNumber">Choose IBAN:</label></td>
+                    <td>
+                        <select id="ibanNumber" name="iban" required>
+                            <option value="" disabled selected>Select IBAN</option>
+                            <option th:each="iban : ${iban}" th:value="${iban.ibanNumber}" th:text="${iban.ibanNumber}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="cardType">Choose Card Type:</label></td>
+                    <td>
+                        <select id="cardType" name="type" required>
+                            <option value="STANDARD">Standard</option>
+                            <option value="PREMIUM">Premium</option>
+                            <option value="JUNIOR">Junior</option>
+                            <option value="VIRTUAL">Virtual</option>
+                            <option value="BUSINESS">Business</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
             <button type="submit">Order Card</button>
         </form>
     </div>
+
 </div>
 </body>
 

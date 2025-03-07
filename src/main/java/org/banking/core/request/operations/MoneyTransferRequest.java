@@ -9,6 +9,8 @@ import org.banking.core.domain.TransactionType;
 @Setter
 public class MoneyTransferRequest {
 
+    private String usersIban;
+    private String cardNumber;
     private String targetIBAN;
     private TransactionType type;
     private int amount;

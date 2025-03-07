@@ -30,6 +30,6 @@ public class Card {
     private TypeOfTheCard type;
 
     @ManyToOne
-    @JoinColumn(name = "bank_account_id", nullable = false)
-    private BankAccount bankAccount;
+    @JoinColumn(name = "iban_id", nullable = false)
+    private IBAN iban;
 }

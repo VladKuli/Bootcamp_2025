@@ -62,7 +62,7 @@ public class DepositService {
     }
 
     public List<Card> getUsersCards() {
-        return getCurrentBankAccountService.get()
+        return getCurrentBankAccountService.getIBAN()
                 .stream()
                 .flatMap(bankAccount -> bankAccount.getCards().stream())
                 .collect(Collectors.toList());

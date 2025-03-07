@@ -1,10 +1,7 @@
 package org.banking.web_ui.controllers.userControllers;
 
 import org.banking.core.domain.BankAccount;
-import org.banking.core.request.operations.SeeYourBalanceRequest;
-import org.banking.core.response.operations.SeeYourBalanceResponse;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
-import org.banking.core.services.operations.SeeYourBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,3 +27,4 @@ public class OutgoingTransactionController {
         return "seeOutgoingTransactions";
     }
 }
+

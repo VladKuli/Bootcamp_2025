@@ -29,12 +29,9 @@ public class BankAccount {
     @Builder.Default
     private Integer balance = 0;
 
-    @Column(name = "iban", unique = true, nullable = false)
-    private String IBAN;
-
     @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<Card> cards;
+    private List<IBAN> IBAN;
 
     @OneToMany(mappedBy = "fromAccount", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude

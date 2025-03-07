@@ -18,9 +18,6 @@ public class DeleteCardService {
     @Autowired
     private JpaCardRepository jpaCardRepository;
 
-    @Autowired
-    private GetCurrentBankAccountService getCurrentBankAccount;
-
     private static final Logger logger = LoggerFactory.getLogger(DeleteCardService.class);
 
     public DeleteCardResponse execute(DeleteCardRequest request) {

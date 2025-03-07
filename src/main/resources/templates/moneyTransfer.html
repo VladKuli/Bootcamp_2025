@@ -127,18 +127,32 @@
 
   <form action="/moneyTransfer" th:object="${request}" method="post">
     <table>
+      <!-- Add Select IBAN Dropdown -->
       <tr>
-        <td>IBAN:</td>
-        <td><input type="text" th:field="${request.targetIBAN}" placeholder="Enter the recipient's IBAN" /></td>
+        <td>Choose Account (IBAN):</td>
+        <td>
+          <select th:field="${request.usersIban}" required>
+            <option value="" disabled selected>Select your account (IBAN)</option>
+            <option th:each="iban : ${iban}" th:value="${iban.ibanNumber}" th:text="${iban.ibanNumber}"></option>
+            </option>
+          </select>
+        </td>
       </tr>
+      <!-- Recipient's IBAN -->
+      <tr>
+        <td>IBAN (Recipient):</td>
+        <td><input type="text" th:field="${request.targetIBAN}" placeholder="Enter the recipient's IBAN" required /></td>
+      </tr>
+      <!-- Amount -->
       <tr>
         <td>Amount:</td>
-        <td><input type="text" th:field="${request.amount}" placeholder="Enter the amount" /></td>
+        <td><input type="text" th:field="${request.amount}" placeholder="Enter the amount" required /></td>
       </tr>
+      <!-- Expense Type -->
       <tr>
         <td>Expense Type:</td>
         <td>
-          <select th:field="${request.type}">
+          <select th:field="${request.type}" required>
             <option value="Food">Food</option>
             <option value="Home">Home</option>
             <option value="Transportation">Transportation</option>
@@ -152,6 +166,7 @@
           </select>
         </td>
       </tr>
+      <!-- Description -->
       <tr>
         <td>Description:</td>
         <td><textarea th:field="${request.description}" placeholder="Enter a description for the transaction"></textarea></td>
