@@ -59,7 +59,7 @@ public class MoneyTransferService {
                 addTransaction(request, userBankAccount.get());
                 logger.info("Money transfer successful from {} to {} with amount: {}",
                         userBankAccount.get().getIBAN(), request.getTargetIBAN(), request.getAmount());
-
+                logger.info("Money transfer response");
                 return new MoneyTransferResponse(true);
 
             } catch (RuntimeException e) {
