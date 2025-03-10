@@ -3,6 +3,7 @@ package org.banking.core.services.operations;
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Card;
+import org.banking.core.domain.IBAN;
 import org.banking.core.request.operations.DepositRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.DepositResponse;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -52,6 +54,20 @@ public class DepositService {
             bankAccountRepository.deposit(personalCode, request.getAmount());
 
             bankAccountRepository.cardDeposit(request.getCardNumber(), request.getAmount());
+
+            Optional<BankAccount> bankAccount = getCurrentBankAccountService.get();
+
+            List<IBAN> ibanList = bankAccount
+                    .map(BankAccount::getIBAN)
+                    .orElse(Collections.emptyList())
+                    .stream()
+                    .filter(iban -> iban.getCards().stream()
+                            .anyMatch(card -> card.getCardNumber().equals(request.getCardNumber())))
+                    .toList();
+
+
+
+            bankAccountRepository.ibanDeposit(ibanList.get(0).getId(), request.getAmount());
             logger.info("Deposit successful for personal code: {}", personalCode);
             return new DepositResponse(true);
         } else {

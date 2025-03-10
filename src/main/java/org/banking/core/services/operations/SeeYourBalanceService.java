@@ -1,16 +1,19 @@
 package org.banking.core.services.operations;
-/*
+
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Card;
+import org.banking.core.domain.IBAN;
 import org.banking.core.request.operations.SeeYourBalanceRequest;
 import org.banking.core.response.operations.SeeYourBalanceResponse;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
+import org.banking.core.services.user.GetCurrentUserPersonalCodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +21,7 @@ import java.util.Optional;
 public class SeeYourBalanceService {
 
     @Autowired
-    private GetCurrentBankAccountService getCurrentBankAccount;
+    private GetCurrentBankAccountService getCurrentBankAccountService;
 
     @Autowired
     private JpaBankAccountRepository jpaBankAccountRepository;
@@ -35,21 +38,24 @@ public class SeeYourBalanceService {
 
     //TODO write DTO for it to hide information
     private Optional<BankAccount> countBalance() {
-        Optional<BankAccount> bankAccount = getCurrentBankAccount.get();
+        int balance = 0;
+        Optional<BankAccount> bankAccount = getCurrentBankAccountService.get();
+
+        List<IBAN> ibanList = bankAccount
+                .map(BankAccount::getIBAN)
+                .orElse(Collections.emptyList());
+        balance = ibanList.stream()
+                .mapToInt(IBAN::getBalance)
+                .sum();
 
 
-        jpaBankAccountRepository.updateBalance(bankAccount.get().getId(),balance);
+        jpaBankAccountRepository.updateBalance(bankAccount.get().getId(), balance);
+
+
         return Optional.of(BankAccount.builder()
-                 .name(bankAccount.get().getName())
-                 .surname(bankAccount.get().getSurname())
-                 .personalCode(bankAccount.get().getPersonalCode())
-                 .balance(balance)
-                 .IBAN(bankAccount.get().getIBAN())
-                 .cards(bankAccount.get().getCards())
-                 .outgoingTransactions(bankAccount.get().getOutgoingTransactions())
-                 .incomingTransactions(bankAccount.get().getIncomingTransactions())
-                 .build());
+                .name(bankAccount.get().getName())
+                .surname(bankAccount.get().getSurname())
+                .personalCode(bankAccount.get().getPersonalCode())
+                .balance(balance).build());
     }
 }
-
- */

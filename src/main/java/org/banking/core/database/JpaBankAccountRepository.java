@@ -61,6 +61,12 @@ public interface JpaBankAccountRepository extends JpaRepository<BankAccount, Lon
 
     @Transactional
     @Modifying
+    @Query("UPDATE IBAN i SET i.balance = i.balance + ?2 WHERE i.id = ?1")
+    void ibanDeposit(Long id, int amount);
+
+
+    @Transactional
+    @Modifying
     @Query(value = "update iban\n" +
             "set balance = CASE \n" +
             "  WHEN iban_number = ?1\n" +

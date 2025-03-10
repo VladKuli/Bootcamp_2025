@@ -50,27 +50,20 @@ public class MoneyTransferService {
             logger.info("Initiating money transfer from {} to {} with amount: {}",
                     userBankAccount.get().getIBAN(), request.getTargetIBAN(), request.getAmount());
 
-            try {
-//                bankAccountRepository.bankTransfer(request.getUsersIban(), request.getTargetIBAN(), request.getAmount()
-//                );
+
+                bankAccountRepository.bankTransfer(request.getUsersIban(), request.getTargetIBAN(), request.getAmount()
+                );
 
 
                 bankAccountRepository.bankTransferForIban(request.getUsersIban(), request.getTargetIBAN(), request.getAmount());
                 addTransaction(request, userBankAccount.get());
                 logger.info("Money transfer successful from {} to {} with amount: {}",
                         userBankAccount.get().getIBAN(), request.getTargetIBAN(), request.getAmount());
-                logger.info("Money transfer response");
                 return new MoneyTransferResponse(true);
 
-            } catch (RuntimeException e) {
-                logger.error("Money transfer failed: {}", e.getMessage());
-                return new MoneyTransferResponse(false);
-            }
-
-        } else {
+        }
             logger.warn("Validation failed for money transfer request: {}. Errors: {}", request, errorList);
             return new MoneyTransferResponse(errorList);
-        }
     }
 
     private Optional<BankAccount> findPayeeBankAccount(MoneyTransferRequest request) {
