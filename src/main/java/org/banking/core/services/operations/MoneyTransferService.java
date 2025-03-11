@@ -6,7 +6,6 @@ import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Transaction;
 import org.banking.core.request.operations.MoneyTransferRequest;
 import org.banking.core.response.CoreError;
-import org.banking.core.response.bankAccount.GetCurrentBankAccountResponse;
 import org.banking.core.response.operations.MoneyTransferResponse;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
 import org.banking.core.services.validators.operationsValidators.MoneyTransferValidator;
@@ -34,6 +33,7 @@ public class MoneyTransferService {
 
     private static final Logger logger = LoggerFactory.getLogger(MoneyTransferService.class);
 
+    //TODO CHECK WHY TRANSFER DOESN'T WORK CORRECTLY TRYING TO ADD 100 BUT IT ADDS 200 
     public MoneyTransferResponse execute(MoneyTransferRequest request) {
         logger.info("Received money transfer request from current user to target personal code: {} with amount: {}",
                 request.getTargetIBAN(), request.getAmount());
@@ -67,7 +67,7 @@ public class MoneyTransferService {
     }
 
     private Optional<BankAccount> findPayeeBankAccount(MoneyTransferRequest request) {
-        return bankAccountRepository.findByIBAN(request.getTargetIBAN()).stream().findFirst();
+        return bankAccountRepository.findByIBANNumber(request.getTargetIBAN()).stream().findFirst();
     }
 
     private void addTransaction(MoneyTransferRequest request, BankAccount userBankAccount ) {
@@ -78,5 +78,6 @@ public class MoneyTransferService {
                 .description(request.getDescription())
                 .amount(request.getAmount()).build());
     }
+
 
 }
