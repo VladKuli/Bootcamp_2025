@@ -25,10 +25,6 @@ public class BankAccount {
     @Column(name="personal_code", nullable = false, unique = true)
     private String personalCode;
 
-    @Column(name="balance")
-    @Builder.Default
-    private Integer balance = 0;
-
     @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<IBAN> IBAN;

@@ -10,7 +10,7 @@ import lombok.*;
 public class DepositRequest {
 
     private String personalCode;
-    private String cardNumber;
+    private String IBAN;
     private int amount;
 
 }

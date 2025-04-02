@@ -13,7 +13,6 @@ import java.util.UUID;
 public class IBANGeneratorService {
 
     private static final Logger logger = LoggerFactory.getLogger(IBANGeneratorService.class);
-    //TODO WRITE LOGIC FOR IT
     public List<IBAN> generateIBAN(BankAccount bankAccount) {
         logger.info("Making IBAN for BankAccount: {}", bankAccount.getPersonalCode());
 

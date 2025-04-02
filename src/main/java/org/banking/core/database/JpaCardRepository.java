@@ -25,4 +25,13 @@ public interface JpaCardRepository extends JpaRepository<Card, Long> {
     @Query("UPDATE Card c SET c.balance = ?2 WHERE c.cardNumber = ?1")
     void updateCard(String cardNumber, int value);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Card c SET c.balance = c.balance -?2 WHERE c.cardNumber = ?1")
+    void withdrawCard(String cardNumber, int value);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Card c SET c.balance = c.balance +?2 WHERE c.cardNumber = ?1")
+    void depositOnCard(String cardNumber, int value);
 }

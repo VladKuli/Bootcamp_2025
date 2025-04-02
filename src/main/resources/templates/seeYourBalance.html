@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta charset="utf-8">
   <meta name="description" content="Banking project">
   <meta name="author" content="User">
-  <title>Bank</title>
+  <title>See Your Balance</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -56,6 +56,10 @@
       background-color: #f2f2f2;
     }
 
+    .iban-section {
+      margin-bottom: 20px;
+    }
+
     input[type="submit"] {
       padding: 10px 20px;
       border: none;
@@ -77,26 +81,44 @@
 
 <body>
 <div class="container">
-  <h3>Information</h3>
+  <h3>Your Account Information</h3>
 
+  <!-- Personal Information Table -->
   <table>
     <thead>
     <tr>
       <th>Name</th>
       <th>Surname</th>
       <th>Personal Code</th>
-      <th>Balance</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
+    <tr th:if="${bankAccount != null}">
       <td th:text="${bankAccount.name}"></td>
       <td th:text="${bankAccount.surname}"></td>
       <td th:text="${bankAccount.personalCode}"></td>
-      <td th:text="${bankAccount.balance}"></td>
     </tr>
     </tbody>
   </table>
+
+  <h3>IBAN & Balance Information</h3>
+
+  <!-- IBAN & Balance Table -->
+  <table>
+    <thead>
+    <tr>
+      <th>IBAN</th>
+      <th>Balance (€)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="iban : ${ibanList}">
+      <td th:text="${iban.ibanNumber}"></td>
+      <td th:text="${iban.balance}"></td>
+    </tr>
+    </tbody>
+  </table>
+
 
   <form action="/user" method="get">
     <input type="submit" value="Go to Main Page" name="Submit" />

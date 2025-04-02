@@ -1,5 +1,6 @@
 package org.banking.web_ui.controllers.userControllers;
 
+import org.banking.core.database.JpaCardRepository;
 import org.banking.core.domain.Card;
 import org.banking.core.domain.IBAN;
 import org.banking.core.request.operations.WithdrawRequest;
@@ -21,9 +22,13 @@ public class WithdrawController {
     @Autowired
     private WithdrawService service;
 
+    @Autowired
+    private JpaCardRepository cardRepository;
+
+
     @GetMapping(value = "/withdraw")
     public String showDepositPage(ModelMap modelMap) {
-        List<IBAN> ibanList = service.getUsersCards();
+        List<IBAN> ibanList = service.getUsersIBANS();
         modelMap.addAttribute("IBAN", ibanList);
         modelMap.addAttribute("request", new WithdrawRequest());
         return "withdraw";
@@ -33,6 +38,12 @@ public class WithdrawController {
     public String processDepositRequest(@ModelAttribute(value = "request")WithdrawRequest request,
                                         ModelMap modelMap) {
         WithdrawResponse responses = service.execute(request);
+        List<Card> cardsList = service.getUsersIBANS().get(0).getCards();
+
+        for (Card card : cardsList) {
+            cardRepository.withdrawCard(card.getCardNumber(), request.getAmount());
+        }
+
         if (responses.isCompleted()) {
             return "withdrawSuccess";
         } else {

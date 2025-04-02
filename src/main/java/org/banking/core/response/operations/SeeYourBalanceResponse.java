@@ -2,6 +2,7 @@ package org.banking.core.response.operations;
 
 import lombok.Getter;
 import org.banking.core.domain.BankAccount;
+import org.banking.core.domain.IBAN;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.CoreResponse;
 

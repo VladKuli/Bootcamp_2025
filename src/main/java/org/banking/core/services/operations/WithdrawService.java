@@ -62,7 +62,7 @@ public class WithdrawService {
         }
     }
 
-    public List<IBAN> getUsersCards() {
+    public List<IBAN> getUsersIBANS() {
         return getCurrentBankAccount.getIBAN();
     }
 }

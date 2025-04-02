@@ -51,21 +51,14 @@ public class DepositService {
 
 
             logger.info("Depositing amount {} for personal code {}", request.getAmount(), personalCode);
-            bankAccountRepository.deposit(personalCode, request.getAmount());
-
-            bankAccountRepository.cardDeposit(request.getCardNumber(), request.getAmount());
 
             Optional<BankAccount> bankAccount = getCurrentBankAccountService.get();
 
             List<IBAN> ibanList = bankAccount
                     .map(BankAccount::getIBAN)
                     .orElse(Collections.emptyList())
-                    .stream()
-                    .filter(iban -> iban.getCards().stream()
-                            .anyMatch(card -> card.getCardNumber().equals(request.getCardNumber())))
+                    .stream().filter(iban -> iban.getIbanNumber().equals(request.getIBAN()))
                     .toList();
-
-
 
             bankAccountRepository.ibanDeposit(ibanList.get(0).getId(), request.getAmount());
             logger.info("Deposit successful for personal code: {}", personalCode);
@@ -77,10 +70,7 @@ public class DepositService {
         }
     }
 
-    public List<Card> getUsersCards() {
-        return getCurrentBankAccountService.getIBAN()
-                .stream()
-                .flatMap(bankAccount -> bankAccount.getCards().stream())
-                .collect(Collectors.toList());
+    public List<IBAN> getUsersIBANS() {
+        return getCurrentBankAccountService.getIBAN();
     }
 }

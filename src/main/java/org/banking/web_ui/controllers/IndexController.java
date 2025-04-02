@@ -18,43 +18,38 @@ import java.util.Optional;
 @Controller
 public class IndexController {
 
-
     @Autowired
     private GetCurrentBankAccountService getCurrentBankAccountService;
 
     @Autowired
     private JpaCardRepository jpaCardRepository;
 
-
-    private static Logger logger = LoggerFactory.getLogger(IndexController.class);
+    private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @GetMapping(value = "/admin")
     public String index() {
         return "indexAdmin";
     }
 
-    //TODO IMPROVE LOGIC OF WORKING, BECAUSE RIGHT NOW IT IS TEMPORARY SOLUTION
     @GetMapping(value = "/user")
     public String user(ModelMap modelMap) {
-        Optional<BankAccount> bankAccount = getCurrentBankAccountService.get();
-        if (bankAccount.isPresent()) {
-            List<IBAN> iban = bankAccount.get().getIBAN();
-            List<Card> cards = iban.stream().findFirst().get().getCards();
+        Optional<BankAccount> bankAccountOpt = getCurrentBankAccountService.get();
 
-            for (int i = 0; i < cards.size(); i++) {
-                jpaCardRepository.updateCard(cards.get(i).getCardNumber()
-                        ,iban.stream().findFirst().get().getBalance());
+        if (bankAccountOpt.isPresent()) {
+            BankAccount bankAccount = bankAccountOpt.get();
+            List<IBAN> ibanList = bankAccount.getIBAN();
+
+            for (IBAN iban : ibanList) {
+                for (Card card : iban.getCards()) {
+                    jpaCardRepository.updateCard(card.getCardNumber(), iban.getBalance());
+                    logger.info("Updated card {} with IBAN {} balance: {}", card.getCardNumber(), iban.getIbanNumber(), iban.getBalance());
+                }
             }
 
-            logger.info("getting IBAN {}", iban);
-            modelMap.addAttribute("bankAccount", bankAccount.get());
-            modelMap.addAttribute("iban", iban);
-        } else {
-            modelMap.addAttribute("iban", List.of());
+            modelMap.addAttribute("bankAccount", bankAccount);
+            modelMap.addAttribute("iban", ibanList);
         }
 
         return "indexUser";
     }
-
 }
-

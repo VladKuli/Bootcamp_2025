@@ -43,7 +43,6 @@ public class AddBankAccountService {
         BankAccount bankAccount = BankAccount.builder()
                 .name(request.getName())
                 .surname(request.getSurname())
-                .balance(0)
                 .personalCode(request.getPersonalCode())
                 .build();
 

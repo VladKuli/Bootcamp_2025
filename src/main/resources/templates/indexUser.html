@@ -10,7 +10,8 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to bottom, #f0f8ff, #e6e6fa);
+            background: url('/images/Logo.webp') no-repeat center center fixed;
+            background-size: cover;
             color: #333;
             margin: 0;
             padding: 0;
@@ -19,6 +20,20 @@
             align-items: center;
             height: 100vh;
             flex-direction: column;
+            position: relative;
+        }
+
+        /* Semi-transparent overlay to improve readability */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.6); /* Light blur effect */
+            backdrop-filter: blur(8px);
+            z-index: -1;
         }
 
         .wrapper {
@@ -30,21 +45,20 @@
             max-width: 1200px;
         }
 
-        .sidebar {
-            width: 25%;
-            background: #ffffff;
+        .sidebar, .container {
+            background: rgba(255, 255, 255, 0.9);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
 
+        .sidebar {
+            width: 25%;
+        }
+
         .container {
             width: 45%;
-            background: #ffffff;
-            padding: 30px;
             text-align: center;
-            border-radius: 10px;
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
 
         .menu a {
@@ -124,9 +138,7 @@
 </head>
 
 <body>
-<img th:src="@{/images/Logo.webp}" alt="Bank Logo" class="bank-logo">
 <div class="wrapper">
-
     <!-- Card Information Sidebar -->
     <div class="sidebar">
         <h4>Your Cards</h4>
@@ -195,7 +207,6 @@
             <button type="submit">Order Card</button>
         </form>
     </div>
-
 </div>
 </body>
 
