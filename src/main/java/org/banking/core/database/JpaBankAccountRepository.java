@@ -27,12 +27,6 @@ public interface JpaBankAccountRepository extends JpaRepository<BankAccount, Lon
             "WHERE iban_number IN (?1, ?2)", nativeQuery = true)
     void bankTransfer(String IBAN, String payeeIBAN, int value);
 
-
-    void deleteByPersonalCode(String personalCode);
-
-    @Query("SELECT b FROM BankAccount b WHERE b.personalCode=?1")
-    Optional<BankAccount> seeYourBalance(String personalCode);
-
     @Transactional
     @Modifying
     @Query(value = "Update bank_accounts set balance = balance + ?2 where personal_code = ?1", nativeQuery = true)
@@ -45,36 +39,28 @@ public interface JpaBankAccountRepository extends JpaRepository<BankAccount, Lon
 
     @Transactional
     @Modifying
-    @Query(value = "Update bank_accounts set balance = balance - ?2 where personal_code = ?1", nativeQuery = true)
-    void withdraw(String personalCode, int value);
-
-    @Transactional
-    @Modifying
-    @Query(value = "Update Card c set c.balance = c.balance - ?2 WHERE c.cardNumber = ?1")
-    void cardWithdraw(String cardNumber, int value);
-
-    @Transactional
-    @Modifying
-    @Query(value = "UPDATE bank_accounts SET balance = ?2 WHERE id = ?1", nativeQuery = true)
-    void updateBalance(Long id, int amount);
-
-    @Transactional
-    @Modifying
     @Query("UPDATE IBAN i SET i.balance = i.balance + ?2 WHERE i.id = ?1")
     void ibanDeposit(Long id, int amount);
 
 
     @Transactional
     @Modifying
-    @Query(value = "update iban\n" +
-            "set balance = CASE \n" +
-            "  WHEN iban_number = ?1\n" +
-            "    THEN balance - ?3\n" +
-            "  WHEN iban_number = ?2\n" +
-            "    THEN balance + ?3\n" +
-            "    End;", nativeQuery = true)
-    void bankTransferForIban(String IBAN, String payeeIBAN
-            , int value);
+    @Query(value = "UPDATE iban SET balance = balance - ?1 WHERE iban_number = ?2", nativeQuery = true)
+    void deductBalanceForIban(int value, String senderIBAN);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE iban SET balance = balance + ?1 WHERE iban_number = ?2", nativeQuery = true)
+    void addBalanceForIban(int value, String receiverIBAN);
+
+    @Query(value = """
+    SELECT ba.* FROM bank_accounts ba
+    JOIN iban i ON i.bank_account_id = ba.id
+    WHERE i.iban_number = :ibanNumber
+    """, nativeQuery = true)
+    Optional<BankAccount> findByIBANNumber(@Param("ibanNumber") String ibanNumber);
+
+    void deleteByPersonalCode(String personalCode);
 
     List<BankAccount> findByName(String name);
 
@@ -84,8 +70,6 @@ public interface JpaBankAccountRepository extends JpaRepository<BankAccount, Lon
 
     List<BankAccount> findByPersonalCode(String personalCode);
 
-    //TODO WRITE QUERY
-    Optional<BankAccount> findByIBANNumber(String IBAN);
 
     List<BankAccount> findByNameAndPersonalCode(String name, String personalCode);
 

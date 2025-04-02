@@ -33,7 +33,6 @@ public class MoneyTransferService {
 
     private static final Logger logger = LoggerFactory.getLogger(MoneyTransferService.class);
 
-    //TODO CHECK WHY TRANSFER DOESN'T WORK CORRECTLY TRYING TO ADD 100 BUT IT ADDS 200 
     public MoneyTransferResponse execute(MoneyTransferRequest request) {
         logger.info("Received money transfer request from current user to target personal code: {} with amount: {}",
                 request.getTargetIBAN(), request.getAmount());
@@ -42,25 +41,18 @@ public class MoneyTransferService {
         List<CoreError> errorList = validator.execute(request);
 
         if (errorList.isEmpty()) {
-            Optional<BankAccount> userBankAccount = getCurrentBankAccount.get();
             logger.info("Validation successful for money transfer request: {}", request);
 
+            Optional<BankAccount> userBankAccount = getCurrentBankAccount.get();
             logger.debug("Retrieved sender personal code: {}", userBankAccount.get().getIBAN());
 
-            logger.info("Initiating money transfer from {} to {} with amount: {}",
-                    userBankAccount.get().getIBAN(), request.getTargetIBAN(), request.getAmount());
+                updateBankAccountBalance(request, userBankAccount);
+                updateIban(request);
 
-
-                bankAccountRepository.bankTransfer(request.getUsersIban(), request.getTargetIBAN(), request.getAmount()
-                );
-
-
-                bankAccountRepository.bankTransferForIban(request.getUsersIban(), request.getTargetIBAN(), request.getAmount());
                 addTransaction(request, userBankAccount.get());
                 logger.info("Money transfer successful from {} to {} with amount: {}",
                         userBankAccount.get().getIBAN(), request.getTargetIBAN(), request.getAmount());
                 return new MoneyTransferResponse(true);
-
         }
             logger.warn("Validation failed for money transfer request: {}. Errors: {}", request, errorList);
             return new MoneyTransferResponse(errorList);
@@ -79,5 +71,22 @@ public class MoneyTransferService {
                 .amount(request.getAmount()).build());
     }
 
+    private void updateIban(MoneyTransferRequest request) {
+        logger.info("Deducting balance for IBAN of this request: {}", request);
+        bankAccountRepository.deductBalanceForIban(request.getAmount(),request.getUsersIban());
+        logger.info("Adding balance for IBAN of this request: {}", request);
+        bankAccountRepository.addBalanceForIban(request.getAmount(),request.getUsersIban());
+    }
 
+    private void updateBankAccountBalance(MoneyTransferRequest request, Optional<BankAccount> userBankAccount) {
+        if (userBankAccount.isPresent()) {
+            logger.info("Initiating money transfer from {} to {} with amount: {}",
+                    userBankAccount.get().getIBAN(), request.getTargetIBAN(), request.getAmount());
+            bankAccountRepository.bankTransfer(request.getUsersIban(), request.getTargetIBAN(), request.getAmount());
+        }
+        else {
+            //TODO WRITE CUSTOM EXCEPTION
+            logger.warn("Error Bank Account is null");
+        }
+    }
 }

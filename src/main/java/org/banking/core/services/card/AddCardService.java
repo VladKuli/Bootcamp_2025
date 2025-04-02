@@ -35,6 +35,7 @@ public class AddCardService {
         Card card = Card.builder()
                 .cardNumber(numberGeneratorService.generateCardNumber())
                 .iban(ibanOptional.get())
+                .balance(ibanOptional.get().getBalance())
                 .type(request.getType())
                 .build();
 

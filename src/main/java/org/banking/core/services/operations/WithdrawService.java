@@ -4,6 +4,7 @@ import io.swagger.v3.oas.models.info.License;
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Card;
+import org.banking.core.domain.IBAN;
 import org.banking.core.request.operations.WithdrawRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.WithdrawResponse;
@@ -50,10 +51,8 @@ public class WithdrawService {
                     .orElseThrow(() -> new RuntimeException("Personal code not found"));
             logger.info("Personal code retrieved: {}", personalCode);
 
-            bankAccountRepository.cardWithdraw(request.getCardNumber(), request.getAmount());
-
+            bankAccountRepository.deductBalanceForIban(request.getAmount(),request.getIBAN());
             logger.info("Processing withdrawal of amount {} for personal code {}", request.getAmount(), personalCode);
-            bankAccountRepository.withdraw(personalCode, request.getAmount());
             logger.info("Withdrawal successful for personal code: {}. Amount: {}", personalCode, request.getAmount());
 
             return new WithdrawResponse(true);
@@ -62,10 +61,8 @@ public class WithdrawService {
             return new WithdrawResponse(errorList);
         }
     }
-    public List<Card> getUsersCards() {
-        return getCurrentBankAccount.getIBAN()
-                .stream()
-                .flatMap(bankAccount -> bankAccount.getCards().stream())
-                .collect(Collectors.toList());
+
+    public List<IBAN> getUsersCards() {
+        return getCurrentBankAccount.getIBAN();
     }
 }

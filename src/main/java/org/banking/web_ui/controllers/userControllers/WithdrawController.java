@@ -1,6 +1,7 @@
 package org.banking.web_ui.controllers.userControllers;
 
 import org.banking.core.domain.Card;
+import org.banking.core.domain.IBAN;
 import org.banking.core.request.operations.WithdrawRequest;
 import org.banking.core.response.operations.WithdrawResponse;
 import org.banking.core.services.operations.WithdrawService;
@@ -22,8 +23,8 @@ public class WithdrawController {
 
     @GetMapping(value = "/withdraw")
     public String showDepositPage(ModelMap modelMap) {
-        List<Card> cards = service.getUsersCards();
-        modelMap.addAttribute("cards", cards);
+        List<IBAN> ibanList = service.getUsersCards();
+        modelMap.addAttribute("IBAN", ibanList);
         modelMap.addAttribute("request", new WithdrawRequest());
         return "withdraw";
     }

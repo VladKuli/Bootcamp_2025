@@ -1,5 +1,6 @@
 package org.banking.web_ui.controllers;
 
+import org.banking.core.database.JpaCardRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Card;
 import org.banking.core.domain.IBAN;
@@ -21,6 +22,10 @@ public class IndexController {
     @Autowired
     private GetCurrentBankAccountService getCurrentBankAccountService;
 
+    @Autowired
+    private JpaCardRepository jpaCardRepository;
+
+
     private static Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @GetMapping(value = "/admin")
@@ -28,11 +33,19 @@ public class IndexController {
         return "indexAdmin";
     }
 
+    //TODO IMPROVE LOGIC OF WORKING, BECAUSE RIGHT NOW IT IS TEMPORARY SOLUTION
     @GetMapping(value = "/user")
     public String user(ModelMap modelMap) {
         Optional<BankAccount> bankAccount = getCurrentBankAccountService.get();
         if (bankAccount.isPresent()) {
             List<IBAN> iban = bankAccount.get().getIBAN();
+            List<Card> cards = iban.stream().findFirst().get().getCards();
+
+            for (int i = 0; i < cards.size(); i++) {
+                jpaCardRepository.updateCard(cards.get(i).getCardNumber()
+                        ,iban.stream().findFirst().get().getBalance());
+            }
+
             logger.info("getting IBAN {}", iban);
             modelMap.addAttribute("bankAccount", bankAccount.get());
             modelMap.addAttribute("iban", iban);

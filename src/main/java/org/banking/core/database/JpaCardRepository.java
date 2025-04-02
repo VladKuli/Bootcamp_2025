@@ -19,4 +19,10 @@ public interface JpaCardRepository extends JpaRepository<Card, Long> {
     @Transactional
     @Query("DELETE FROM Card c WHERE c.cardNumber = ?1")
     void deleteByCardNumber(String cardNumber);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Card c SET c.balance = ?2 WHERE c.cardNumber = ?1")
+    void updateCard(String cardNumber, int value);
+
 }

@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 public class WithdrawRequest {
 
-    private String cardNumber;
+    private String IBAN;
     private int amount;
 
 }

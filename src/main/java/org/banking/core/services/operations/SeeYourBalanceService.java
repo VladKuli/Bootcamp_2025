@@ -47,11 +47,7 @@ public class SeeYourBalanceService {
         balance = ibanList.stream()
                 .mapToInt(IBAN::getBalance)
                 .sum();
-
-
-        jpaBankAccountRepository.updateBalance(bankAccount.get().getId(), balance);
-
-
+        
         return Optional.of(BankAccount.builder()
                 .name(bankAccount.get().getName())
                 .surname(bankAccount.get().getSurname())
