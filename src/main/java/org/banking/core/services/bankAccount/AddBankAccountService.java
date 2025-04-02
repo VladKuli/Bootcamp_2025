@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 
@@ -40,19 +40,23 @@ public class AddBankAccountService {
             return new AddBankAccountResponse(errorList);
         }
 
+        Optional<BankAccount> bankAccount = buildingBankAccount(request);
+
+        bankAccount.ifPresent(account -> bankAccountRepository.save(account));
+
+        logger.info("Successfully added bank account: {}", bankAccount);
+        return new AddBankAccountResponse(bankAccount.get());
+    }
+
+
+    private Optional<BankAccount> buildingBankAccount(AddBankAccountRequest request) {
         BankAccount bankAccount = BankAccount.builder()
                 .name(request.getName())
                 .surname(request.getSurname())
                 .personalCode(request.getPersonalCode())
                 .build();
-
         List<IBAN> iban = ibanGeneratorService.generateIBAN(bankAccount);
         bankAccount.setIBAN(iban);
-
-        bankAccountRepository.save(bankAccount);
-
-        logger.info("Successfully added bank account: {}", bankAccount);
-        return new AddBankAccountResponse(bankAccount);
+        return Optional.of(bankAccount);
     }
 }
-

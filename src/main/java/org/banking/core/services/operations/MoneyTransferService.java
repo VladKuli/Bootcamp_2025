@@ -46,10 +46,10 @@ public class MoneyTransferService {
             Optional<BankAccount> userBankAccount = getCurrentBankAccount.get();
             logger.debug("Retrieved sender personal code: {}", userBankAccount.get().getIBAN());
 
-                updateBankAccountBalance(request, userBankAccount);
-                updateIban(request);
+                updateBalance(request, userBankAccount);
 
                 addTransaction(request, userBankAccount.get());
+
                 logger.info("Money transfer successful from {} to {} with amount: {}",
                         userBankAccount.get().getIBAN(), request.getTargetIBAN(), request.getAmount());
                 return new MoneyTransferResponse(true);
@@ -71,14 +71,7 @@ public class MoneyTransferService {
                 .amount(request.getAmount()).build());
     }
 
-    private void updateIban(MoneyTransferRequest request) {
-        logger.info("Deducting balance for IBAN of this request: {}", request);
-        bankAccountRepository.deductBalanceForIban(request.getAmount(),request.getUsersIban());
-        logger.info("Adding balance for IBAN of this request: {}", request);
-        bankAccountRepository.addBalanceForIban(request.getAmount(),request.getUsersIban());
-    }
-
-    private void updateBankAccountBalance(MoneyTransferRequest request, Optional<BankAccount> userBankAccount) {
+    private void updateBalance(MoneyTransferRequest request, Optional<BankAccount> userBankAccount) {
         if (userBankAccount.isPresent()) {
             logger.info("Initiating money transfer from {} to {} with amount: {}",
                     userBankAccount.get().getIBAN(), request.getTargetIBAN(), request.getAmount());
@@ -89,4 +82,5 @@ public class MoneyTransferService {
             logger.warn("Error Bank Account is null");
         }
     }
+
 }

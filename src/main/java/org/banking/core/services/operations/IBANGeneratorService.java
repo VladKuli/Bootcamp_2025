@@ -20,7 +20,7 @@ public class IBANGeneratorService {
 
         IBAN iban = IBAN.builder()
                 .ibanNumber(ibanNumber)
-                .bankAccount(bankAccount)  // Устанавливаем связь
+                .bankAccount(bankAccount)
                 .build();
 
         return List.of(iban);

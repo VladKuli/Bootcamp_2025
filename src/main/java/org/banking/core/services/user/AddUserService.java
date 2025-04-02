@@ -9,10 +9,12 @@ import org.banking.core.services.validators.userValidators.AddUserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AddUserService {
@@ -37,24 +39,31 @@ public class AddUserService {
         if (errorList.isEmpty()) {
             logger.info("Validation successful for add user request: {}", request);
 
-            logger.debug("Encrypting password for user with personal code: {}", request.getPersonalCode());
-            String encryptedPassword = passwordEncoder.encode(request.getPassword());
+            Optional<User> user = userBuilding(request);
+            if (user.isPresent()) {
+                logger.info("Saving user with personal code: {}", user.get().getPersonalCode());
+                userRepository.save(user.get());
 
-            logger.debug("Building user entity for personal code: {}", request.getPersonalCode());
-            User user = User.builder()
-                    .personalCode(request.getPersonalCode())
-                    .password(encryptedPassword)
-                    .role(request.getRole())
-                    .build();
-
-            logger.info("Saving user with personal code: {}", user.getPersonalCode());
-            userRepository.save(user);
-
-            logger.info("User successfully added with personal code: {}", user.getPersonalCode());
-            return new AddUserResponse(user);
-        } else {
-            logger.warn("Validation failed for add user request: {}. Errors: {}", request, errorList);
-            return new AddUserResponse(errorList);
+                logger.info("User successfully added with personal code: {}", user.get().getPersonalCode());
+                return new AddUserResponse(user.get());
+            }
         }
+        logger.warn("Validation failed for add user request: {}. Errors: {}", request, errorList);
+        return new AddUserResponse(errorList);
+    }
+
+    private Optional<User> userBuilding(AddUserRequest request) {
+
+        logger.debug("Encrypting password for user with personal code: {}", request.getPersonalCode());
+        String encryptedPassword = passwordEncoder.encode(request.getPassword());
+
+        logger.debug("Building user entity for personal code: {}", request.getPersonalCode());
+        User user = User.builder()
+                .personalCode(request.getPersonalCode())
+                .password(encryptedPassword)
+                .role(request.getRole())
+                .build();
+
+        return Optional.of(user);
     }
 }

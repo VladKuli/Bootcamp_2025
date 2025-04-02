@@ -26,21 +26,9 @@ public class AddCardService {
 
     public AddCardResponse execute(AddCardRequest request) {
 
-        List<IBAN> iban = getCurrentBankAccountService.getIBAN();
-
-        Optional<IBAN> ibanOptional = iban.stream()
-                .filter(i -> i.getIbanNumber().equals(request.getIban()))
-                .findFirst();
-
-        Card card = Card.builder()
-                .cardNumber(numberGeneratorService.generateCardNumber())
-                .iban(ibanOptional.get())
-                .balance(ibanOptional.get().getBalance())
-                .type(request.getType())
-                .build();
-
-        jpaCardRepository.save(card);
-        boolean cardExists = jpaCardRepository.existsByCardNumber(card.getCardNumber()).isPresent();
+        Optional<Card> card = cardBuilding(request);
+        card.ifPresent(c -> jpaCardRepository.save(c));
+        boolean cardExists = card.flatMap(c -> jpaCardRepository.existsByCardNumber(c.getCardNumber())).isPresent();
         if (cardExists) {
             return new AddCardResponse(true);
         } else {
@@ -48,4 +36,24 @@ public class AddCardService {
         }
     }
 
+    private Optional<Card> cardBuilding(AddCardRequest request) {
+
+        List<IBAN> iban = getCurrentBankAccountService.getIBAN();
+
+        Optional<IBAN> ibanOptional = iban.stream()
+                .filter(i -> i.getIbanNumber().equals(request.getIban()))
+                .findFirst();
+
+        if (ibanOptional.isPresent()) {
+            Card card = Card.builder()
+                    .cardNumber(numberGeneratorService.generateCardNumber())
+                    .iban(ibanOptional.get())
+                    .balance(ibanOptional.get().getBalance())
+                    .type(request.getType())
+                    .build();
+
+            return Optional.of(card);
+        }
+        return Optional.empty();
+    }
 }

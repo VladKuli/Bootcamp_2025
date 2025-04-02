@@ -29,16 +29,6 @@ public interface JpaBankAccountRepository extends JpaRepository<BankAccount, Lon
 
     @Transactional
     @Modifying
-    @Query(value = "Update bank_accounts set balance = balance + ?2 where personal_code = ?1", nativeQuery = true)
-    void deposit(String personalCode, int value);
-
-    @Transactional
-    @Modifying
-    @Query(value = "Update Card c set c.balance = c.balance + ?2 WHERE c.cardNumber = ?1")
-    void cardDeposit(String cardNumber, int value);
-
-    @Transactional
-    @Modifying
     @Query("UPDATE IBAN i SET i.balance = i.balance + ?2 WHERE i.id = ?1")
     void ibanDeposit(Long id, int amount);
 
@@ -47,11 +37,6 @@ public interface JpaBankAccountRepository extends JpaRepository<BankAccount, Lon
     @Modifying
     @Query(value = "UPDATE iban SET balance = balance - ?1 WHERE iban_number = ?2", nativeQuery = true)
     void deductBalanceForIban(int value, String senderIBAN);
-
-    @Transactional
-    @Modifying
-    @Query(value = "UPDATE iban SET balance = balance + ?1 WHERE iban_number = ?2", nativeQuery = true)
-    void addBalanceForIban(int value, String receiverIBAN);
 
     @Query(value = """
     SELECT ba.* FROM bank_accounts ba
@@ -69,7 +54,6 @@ public interface JpaBankAccountRepository extends JpaRepository<BankAccount, Lon
     List<BankAccount> findByNameAndSurname(String name, String surname);
 
     List<BankAccount> findByPersonalCode(String personalCode);
-
 
     List<BankAccount> findByNameAndPersonalCode(String name, String personalCode);
 

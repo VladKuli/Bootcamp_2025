@@ -45,10 +45,8 @@ public class WithdrawService {
             logger.info("Validation successful for withdraw request: {}", request);
 
             logger.debug("Fetching personal code for the current user");
+            String personalCode = getCurrentPersonalCode();
 
-            String personalCode = getCurrentBankAccount.get()
-                    .map(BankAccount::getPersonalCode)
-                    .orElseThrow(() -> new RuntimeException("Personal code not found"));
             logger.info("Personal code retrieved: {}", personalCode);
 
             bankAccountRepository.deductBalanceForIban(request.getAmount(),request.getIBAN());
@@ -64,5 +62,11 @@ public class WithdrawService {
 
     public List<IBAN> getUsersIBANS() {
         return getCurrentBankAccount.getIBAN();
+    }
+
+    private String getCurrentPersonalCode() {
+        return getCurrentBankAccount.get()
+                .map(BankAccount::getPersonalCode)
+                .orElseThrow(() -> new RuntimeException("Personal code not found"));
     }
 }

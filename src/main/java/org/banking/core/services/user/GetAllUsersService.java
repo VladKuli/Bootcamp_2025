@@ -29,7 +29,14 @@ public class GetAllUsersService {
         logger.info("Successfully retrieved {} users from the database", users.size());
 
         logger.debug("Masking sensitive information for users");
-        List<User> safeUsers = users.stream()
+        List<User> safeUsers = maskingPassword(users);
+
+        logger.info("Returning {} users with masked information", safeUsers.size());
+        return new GetAllUsersResponse(safeUsers);
+    }
+
+    private List<User> maskingPassword(List<User> users) {
+        return users.stream()
                 .map(user -> User.builder()
                         .id(user.getId())
                         .personalCode(user.getPersonalCode())
@@ -38,8 +45,6 @@ public class GetAllUsersService {
                         .build()
                 )
                 .collect(Collectors.toList());
-
-        logger.info("Returning {} users with masked information", safeUsers.size());
-        return new GetAllUsersResponse(safeUsers);
     }
+
 }

@@ -44,23 +44,14 @@ public class DepositService {
             logger.info("Validation successful for deposit request: {}", request);
 
             logger.debug("Fetching personal code for the current user");
-            String personalCode = getCurrentBankAccountService
-                    .get()
-                    .map(BankAccount::getPersonalCode)
-                    .orElseThrow(() -> new RuntimeException("Personal code not exist"));
+            String personalCode = getCurrentPersonalCode();
 
+
+            List<IBAN> ibanList = searchingOfIBAN(request);
 
             logger.info("Depositing amount {} for personal code {}", request.getAmount(), personalCode);
-
-            Optional<BankAccount> bankAccount = getCurrentBankAccountService.get();
-
-            List<IBAN> ibanList = bankAccount
-                    .map(BankAccount::getIBAN)
-                    .orElse(Collections.emptyList())
-                    .stream().filter(iban -> iban.getIbanNumber().equals(request.getIBAN()))
-                    .toList();
-
             bankAccountRepository.ibanDeposit(ibanList.get(0).getId(), request.getAmount());
+
             logger.info("Deposit successful for personal code: {}", personalCode);
             return new DepositResponse(true);
         } else {
@@ -72,5 +63,22 @@ public class DepositService {
 
     public List<IBAN> getUsersIBANS() {
         return getCurrentBankAccountService.getIBAN();
+    }
+
+    private List<IBAN> searchingOfIBAN(DepositRequest request) {
+        Optional<BankAccount> bankAccount = getCurrentBankAccountService.get();
+
+        return bankAccount
+                .map(BankAccount::getIBAN)
+                .orElse(Collections.emptyList())
+                .stream().filter(iban -> iban.getIbanNumber().equals(request.getIBAN()))
+                .toList();
+    }
+
+    private String getCurrentPersonalCode() {
+        return getCurrentBankAccountService
+                .get()
+                .map(BankAccount::getPersonalCode)
+                .orElseThrow(() -> new RuntimeException("Personal code not exist"));
     }
 }
