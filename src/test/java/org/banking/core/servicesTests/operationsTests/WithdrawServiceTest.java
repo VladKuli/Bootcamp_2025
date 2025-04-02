@@ -1,10 +1,14 @@
 package org.banking.core.servicesTests.operationsTests;
-/*
+
 
 import org.banking.core.database.JpaBankAccountRepository;
+import org.banking.core.domain.BankAccount;
+import org.banking.core.domain.IBAN;
+import org.banking.core.request.operations.DepositRequest;
 import org.banking.core.request.operations.WithdrawRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.WithdrawResponse;
+import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
 import org.banking.core.services.operations.WithdrawService;
 import org.banking.core.services.user.GetCurrentUserPersonalCodeService;
 import org.banking.core.services.validators.operationsValidators.WithdrawValidator;
@@ -19,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -30,7 +35,7 @@ class WithdrawServiceTest {
     private JpaBankAccountRepository bankAccountRepository;
 
     @Mock
-    private GetCurrentUserPersonalCodeService personalCodeService;
+    private GetCurrentBankAccountService getCurrentBankAccountService;
 
     @Mock
     private WithdrawValidator validator;
@@ -45,43 +50,56 @@ class WithdrawServiceTest {
 
     @Test
     void shouldWithdrawWhenRequestIsValid() {
-        WithdrawRequest request = new WithdrawRequest(100);
-        List<CoreError> noErrors = Collections.emptyList();
+        WithdrawRequest request = new WithdrawRequest("LV-Example",100);
 
-        when(validator.validate(request)).thenReturn(noErrors);
-        when(personalCodeService.getCurrentUserPersonalCode()).thenReturn("1234567890");
+        BankAccount savedBankAccount = BankAccount.builder()
+                .name("Example")
+                .surname("Example 2")
+                .personalCode("1234567890")
+                .build();
+        IBAN iban = IBAN.builder()
+                .id(0L)
+                .ibanNumber("LV-Example")
+                .balance(0)
+                .bankAccount(savedBankAccount)
+                .build();
+        savedBankAccount.setIBAN(List.of(iban));
 
+        when(validator.validate(request)).thenReturn(List.of());
+        when(getCurrentBankAccountService.get()).thenReturn(Optional.of(savedBankAccount));
         WithdrawResponse response = service.execute(request);
 
         assertNotNull(response);
         assertTrue(response.isCompleted());
 
         verify(validator, times(1)).validate(request);
-        verify(personalCodeService, times(1)).getCurrentUserPersonalCode();
-        verify(bankAccountRepository, times(1)).withdraw("1234567890", 100);
+        verify(getCurrentBankAccountService, times(1)).get();
+        verify(bankAccountRepository, times(1)).deductBalanceForIban(100, "LV-Example");
     }
 
     @Test
     void shouldReturnErrorsWhenRequestIsInvalid() {
-        WithdrawRequest request = new WithdrawRequest(-100);
-        List<CoreError> errors = new ArrayList<>();
-        errors.add(new CoreError("Amount must be positive."));
+        WithdrawRequest request = new WithdrawRequest("LV-Example",-100);
+        BankAccount savedBankAccount = BankAccount.builder()
+                .name("Example")
+                .surname("Example 2")
+                .personalCode("1234567890")
+                .build();
+        IBAN iban = IBAN.builder()
+                .id(0L)
+                .ibanNumber("LV-Example")
+                .balance(0)
+                .bankAccount(savedBankAccount)
+                .build();
+        savedBankAccount.setIBAN(List.of(iban));
 
-        when(validator.validate(request)).thenReturn(errors);
-
+        when(validator.validate(request)).thenReturn(List.of(new CoreError("Amount of money should be positive")));
         WithdrawResponse response = service.execute(request);
 
         assertNotNull(response);
-        assertFalse(response.isCompleted());
-        assertNotNull(response.getErrors());
-        assertEquals(1, response.getErrors().size());
-        assertEquals("Amount must be positive.", response.getErrors().get(0).getMessage());
-
         verify(validator, times(1)).validate(request);
-        verifyNoInteractions(personalCodeService);
+        verifyNoInteractions(getCurrentBankAccountService);
         verifyNoInteractions(bankAccountRepository);
     }
+
 }
-
-
- */

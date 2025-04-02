@@ -1,10 +1,15 @@
 package org.banking.core.servicesTests.operationsTests;
-/*
+
 
 import org.banking.core.database.JpaBankAccountRepository;
+import org.banking.core.domain.BankAccount;
+import org.banking.core.domain.Card;
+import org.banking.core.domain.IBAN;
+import org.banking.core.domain.TypeOfTheCard;
 import org.banking.core.request.operations.DepositRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.DepositResponse;
+import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
 import org.banking.core.services.operations.DepositService;
 import org.banking.core.services.user.GetCurrentUserPersonalCodeService;
 import org.banking.core.services.validators.operationsValidators.DepositValidator;
@@ -19,6 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -33,7 +39,7 @@ class DepositServiceTest {
     private DepositValidator validator;
 
     @Mock
-    private GetCurrentUserPersonalCodeService personalCodeService;
+    private GetCurrentBankAccountService personalCodeService;
 
     @InjectMocks
     private DepositService service;
@@ -46,12 +52,26 @@ class DepositServiceTest {
     @Test
     void shouldDepositWhenRequestIsValid() {
         DepositRequest request = DepositRequest.builder()
-                .personalCode("1234567890")
-                .amount(100).build();
+                .amount(100)
+                .IBAN("LV-Example")
+                .build();
         List<CoreError> noErrors = Collections.emptyList();
 
+        BankAccount savedBankAccount = BankAccount.builder()
+                .name("John")
+                .surname("Doe")
+                .personalCode("1234567890")
+                .build();
+        IBAN iban = IBAN.builder()
+                .id(0L)
+                .ibanNumber("LV-Example")
+                .balance(0)
+                .bankAccount(savedBankAccount)
+                .build();
+        savedBankAccount.setIBAN(List.of(iban));
+
         when(validator.validate(request)).thenReturn(noErrors);
-        when(personalCodeService.getCurrentUserPersonalCode()).thenReturn("1234567890");
+        when(personalCodeService.get()).thenReturn(Optional.of(savedBankAccount));
 
         DepositResponse response = service.execute(request);
 
@@ -59,14 +79,14 @@ class DepositServiceTest {
         assertTrue(response.isCompleted());
 
         verify(validator, times(1)).validate(request);
-        verify(personalCodeService, times(1)).getCurrentUserPersonalCode();
-        verify(bankAccountRepository, times(1)).deposit("1234567890", 100);
+        verify(bankAccountRepository, times(1)).ibanDeposit(0L, 100);
     }
+
 
     @Test
     void shouldReturnErrorsWhenRequestIsInvalid() {
         DepositRequest request =  DepositRequest.builder()
-                .personalCode("1234567890")
+                .IBAN("LV-Example")
                 .amount(-100).build();
         List<CoreError> errors = new ArrayList<>();
         errors.add(new CoreError("Amount must be greater than 0"));
@@ -85,7 +105,7 @@ class DepositServiceTest {
         verifyNoInteractions(personalCodeService);
         verifyNoInteractions(bankAccountRepository);
     }
+
 }
 
 
- */

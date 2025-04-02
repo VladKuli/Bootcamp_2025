@@ -6,6 +6,7 @@ import org.banking.core.request.bankAccount.AddBankAccountRequest;
 import org.banking.core.response.bankAccount.AddBankAccountResponse;
 import org.banking.core.response.CoreError;
 import org.banking.core.services.bankAccount.AddBankAccountService;
+import org.banking.core.services.operations.IBANGeneratorService;
 import org.banking.core.services.validators.bankAccountValidators.AddBankAccountValidator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -33,11 +34,14 @@ class AddBankAccountServiceTest {
     @InjectMocks
     private AddBankAccountService service;
 
+    @Mock
+    private IBANGeneratorService ibanGeneratorService;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-/*
+
     @Test
     void shouldAddBankAccountWhenRequestIsValid() {
         AddBankAccountRequest request = new AddBankAccountRequest("John", "Doe", "1234567890");
@@ -49,6 +53,7 @@ class AddBankAccountServiceTest {
                 .name("John")
                 .surname("Doe")
                 .personalCode("1234567890")
+                .IBAN(List.of())
                 .build();
         when(bankAccountRepository.save(any(BankAccount.class))).thenReturn(savedBankAccount);
 
@@ -62,8 +67,6 @@ class AddBankAccountServiceTest {
         verify(validator, times(1)).validate(request);
         verify(bankAccountRepository, times(1)).save(any(BankAccount.class));
     }
-
- */
 
     @Test
     void shouldReturnErrorsWhenRequestIsInvalid() {

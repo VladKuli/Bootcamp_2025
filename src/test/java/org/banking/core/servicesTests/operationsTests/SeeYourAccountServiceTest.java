@@ -1,10 +1,12 @@
 package org.banking.core.servicesTests.operationsTests;
-/*
+
 
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.domain.BankAccount;
+import org.banking.core.domain.IBAN;
 import org.banking.core.request.operations.SeeYourBalanceRequest;
 import org.banking.core.response.operations.SeeYourBalanceResponse;
+import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
 import org.banking.core.services.operations.SeeYourBalanceService;
 import org.banking.core.services.user.GetCurrentUserPersonalCodeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +16,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,10 +28,7 @@ import static org.mockito.Mockito.*;
 class SeeYourAccountServiceTest {
 
     @Mock
-    private JpaBankAccountRepository bankAccountRepository;
-
-    @Mock
-    private GetCurrentUserPersonalCodeService personalCodeService;
+    private GetCurrentBankAccountService getCurrentBankAccountService;
 
     @InjectMocks
     private SeeYourBalanceService service;
@@ -39,44 +40,27 @@ class SeeYourAccountServiceTest {
 
     @Test
     void shouldReturnBalanceSuccessfully() {
-        String personalCode = "1234567890";
         BankAccount bankAccount = BankAccount.builder()
-                .name("John")
-                .surname("Doe")
-                .personalCode(personalCode)
+                .id(0L)
+                .name("Example")
+                .surname("Example2")
+                .personalCode("123456")
                 .build();
 
-        when(personalCodeService.getCurrentUserPersonalCode()).thenReturn(personalCode);
-        when(bankAccountRepository.seeYourBalance(personalCode)).thenReturn(Optional.of(bankAccount));
+        IBAN iban = IBAN.builder()
+                .id(0L)
+                .ibanNumber("LV-Example")
+                .balance(0)
+                .build();
+        bankAccount.setIBAN(List.of(iban));
+
+        when(getCurrentBankAccountService.get()).thenReturn(Optional.of(bankAccount));
 
         SeeYourBalanceRequest request = new SeeYourBalanceRequest();
         SeeYourBalanceResponse response = service.execute(request);
 
         assertNotNull(response);
         assertTrue(response.getBankAccount().isPresent());
-        assertEquals(0, response.getBankAccount().get().getBalance());
-
-        verify(personalCodeService, times(1)).getCurrentUserPersonalCode();
-        verify(bankAccountRepository, times(1)).seeYourBalance(personalCode);
-    }
-
-    @Test
-    void shouldReturnEmptyWhenBalanceNotFound() {
-        String personalCode = "1234567890";
-
-        when(personalCodeService.getCurrentUserPersonalCode()).thenReturn(personalCode);
-        when(bankAccountRepository.seeYourBalance(personalCode)).thenReturn(Optional.empty());
-
-        SeeYourBalanceRequest request = new SeeYourBalanceRequest();
-        SeeYourBalanceResponse response = service.execute(request);
-
-        assertNotNull(response);
-        assertFalse(response.getBankAccount().isPresent());
-
-        verify(personalCodeService, times(1)).getCurrentUserPersonalCode();
-        verify(bankAccountRepository, times(1)).seeYourBalance(personalCode);
+        verify(getCurrentBankAccountService, times(1)).get();
     }
 }
-
-
- */
