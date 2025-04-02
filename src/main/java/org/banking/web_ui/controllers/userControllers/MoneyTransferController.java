@@ -1,6 +1,8 @@
 package org.banking.web_ui.controllers.userControllers;
 
+import org.banking.core.database.JpaCardRepository;
 import org.banking.core.domain.BankAccount;
+import org.banking.core.domain.Card;
 import org.banking.core.domain.IBAN;
 import org.banking.core.request.operations.MoneyTransferRequest;
 import org.banking.core.response.operations.MoneyTransferResponse;
@@ -27,6 +29,9 @@ public class MoneyTransferController {
     @Autowired
     private GetCurrentBankAccountService getCurrentBankAccountService;
 
+    @Autowired
+    private JpaCardRepository jpaCardRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(MoneyTransferController.class);
 
     @GetMapping(value = "/moneyTransfer")
@@ -46,7 +51,11 @@ public class MoneyTransferController {
                                            ModelMap modelMap) {
         logger.info("Proceeding request for transaction: {}", request);
         MoneyTransferResponse responses = service.execute(request);
+        List<Card> cardsList = getCurrentBankAccountService.getIBAN().get(0).getCards();
 
+        for (Card card : cardsList) {
+            jpaCardRepository.withdrawCard(card.getCardNumber(), request.getAmount());
+        }
             logger.info("Success of request {}", request);
             return "moneyTransferSuccess";
     }
