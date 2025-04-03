@@ -14,18 +14,10 @@ public class MoneyTransferValidator {
 
     public List<CoreError> execute(MoneyTransferRequest request) {
         List<CoreError> errorList = new ArrayList<>();
-        validateTargetPersonalCode(request).ifPresent(errorList::add);
         validateAmount(request).ifPresent(errorList::add);
 
         return errorList;
     }
-
-    private Optional<CoreError> validateTargetPersonalCode(MoneyTransferRequest request) {
-        return !request.getTargetIBAN().isBlank()
-                ? Optional.empty()
-                :Optional.of(new CoreError("Personal code field must be filled."));
-    }
-
     private Optional<CoreError> validateAmount(MoneyTransferRequest request) {
         return request.getAmount() > 0 && request.getTargetIBAN() != null
                 ? Optional.empty()

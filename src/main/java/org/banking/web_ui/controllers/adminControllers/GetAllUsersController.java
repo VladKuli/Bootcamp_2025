@@ -19,7 +19,7 @@ public class GetAllUsersController {
     public String getAllUsers(ModelMap modelMap) {
         GetAllUsersResponse response = service.execute(new GetAllUsersRequest());
 
-        modelMap.addAttribute("users", response.getUsers());
+        modelMap.addAttribute("users", response.getUserDTOS());
 
         return "getAllUsers";
     }

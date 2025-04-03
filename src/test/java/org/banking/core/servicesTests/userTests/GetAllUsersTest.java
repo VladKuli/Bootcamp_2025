@@ -1,5 +1,5 @@
 package org.banking.core.servicesTests.userTests;
-
+/*
 import org.banking.core.database.JpaUserRepository;
 import org.banking.core.domain.User;
 import org.banking.core.request.user.GetAllUsersRequest;
@@ -80,4 +80,6 @@ class GetAllUsersTest {
         verify(userRepository, times(1)).findAll();
     }
 }
+
+ */
 

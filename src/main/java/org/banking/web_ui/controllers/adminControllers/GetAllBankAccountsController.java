@@ -14,12 +14,13 @@ public class GetAllBankAccountsController {
     @Autowired
     private GetAllBankAccountsService service;
 
+    //TODO FIX WHY BANK ACCOUNT DOESN'T HAVE OUTPUT OF BALANCE
     @GetMapping(value = "/getAllBankAccounts")
     public String showAllBooks(ModelMap modelMap) {
-        GetAllBankAccountsResponse response = service.execute(
-                new GetAllBankAccountsRequest()
-        );
+        GetAllBankAccountsResponse response = service.execute(new GetAllBankAccountsRequest());
+
         modelMap.addAttribute("bank_accounts", response.getBankAccountList());
+
         return "getAllBankAccounts";
     }
 

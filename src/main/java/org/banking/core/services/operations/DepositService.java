@@ -3,6 +3,8 @@ package org.banking.core.services.operations;
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.IBAN;
+import org.banking.core.dto.iban.IbanDTO;
+import org.banking.core.mapper.iban.IbanMapper;
 import org.banking.core.request.operations.DepositRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.DepositResponse;
@@ -13,9 +15,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DepositService {
@@ -28,6 +32,9 @@ public class DepositService {
 
     @Autowired
     private GetCurrentBankAccountService getCurrentBankAccountService;
+
+    @Autowired
+    private IbanMapper ibanMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(DepositService.class);
 
@@ -49,6 +56,7 @@ public class DepositService {
             logger.info("Depositing amount {} for personal code {}", request.getAmount(), personalCode);
             bankAccountRepository.ibanDeposit(ibanList.get(0).getId(), request.getAmount());
 
+
             logger.info("Deposit successful for personal code: {}", personalCode);
             return new DepositResponse(true);
         } else {
@@ -62,9 +70,15 @@ public class DepositService {
         return getCurrentBankAccountService.getIBAN();
     }
 
+    public List<IbanDTO> getUsersIbanDTO() {
+        List<IBAN> ibanList = getCurrentBankAccountService.getIBAN();
+        return ibanList.stream()
+                .map(iban -> ibanMapper.toDto(iban))
+                .collect(Collectors.toList());
+    }
+
     private List<IBAN> searchingOfIBAN(DepositRequest request) {
         Optional<BankAccount> bankAccount = getCurrentBankAccountService.get();
-
         return bankAccount
                 .map(BankAccount::getIBAN)
                 .orElse(Collections.emptyList())

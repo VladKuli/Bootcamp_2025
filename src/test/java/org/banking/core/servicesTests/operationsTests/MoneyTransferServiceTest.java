@@ -52,7 +52,6 @@ class MoneyTransferServiceTest {
     void shouldTransferMoneyWhenRequestIsValid() {
         MoneyTransferRequest request = new MoneyTransferRequest(
                 "LV-UsersIban",
-                "1234",
                 "LV-ReceiverIban",
                 TransactionType.Other,
                 100,

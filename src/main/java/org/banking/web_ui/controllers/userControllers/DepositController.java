@@ -3,6 +3,7 @@ package org.banking.web_ui.controllers.userControllers;
 import org.banking.core.database.JpaCardRepository;
 import org.banking.core.domain.Card;
 import org.banking.core.domain.IBAN;
+import org.banking.core.dto.iban.IbanDTO;
 import org.banking.core.request.operations.DepositRequest;
 import org.banking.core.response.operations.DepositResponse;
 import org.banking.core.services.operations.DepositService;
@@ -25,9 +26,11 @@ public class DepositController {
 
     @GetMapping(value = "/deposit")
     public String showDepositPage(ModelMap modelMap) {
-        List<IBAN> ibanList = service.getUsersIBANS();
+        List<IbanDTO> ibanList = service.getUsersIbanDTO();
+
         modelMap.addAttribute("IBAN", ibanList);
         modelMap.addAttribute("request", new DepositRequest());
+
         return "deposit";
     }
 
@@ -35,10 +38,13 @@ public class DepositController {
     public String processDepositRequest(@ModelAttribute(value = "request")DepositRequest request,
                                            ModelMap modelMap) {
         DepositResponse responses = service.execute(request);
-        List<Card> cardsList = service.getUsersIBANS().get(0).getCards();
-        for (Card card : cardsList) {
-            cardRepository.depositOnCard(card.getCardNumber(), request.getAmount());
-        }
+
+        List<IbanDTO> ibanDTOS = service.getUsersIbanDTO();
+        ibanDTOS.stream()
+                .flatMap(ibanDTO -> ibanDTO.getCardNumbers().stream())
+                .distinct()
+                .forEach(cardNumber -> cardRepository.depositOnCard(cardNumber, request.getAmount()));
+
         if (responses.isCompleted()) {
             return "depositSuccess";
         } else {
