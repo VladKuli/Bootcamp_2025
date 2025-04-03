@@ -5,6 +5,8 @@ import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Card;
 import org.banking.core.domain.IBAN;
+import org.banking.core.dto.iban.IbanDTO;
+import org.banking.core.mapper.iban.IbanMapper;
 import org.banking.core.request.operations.WithdrawRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.WithdrawResponse;
@@ -33,6 +35,10 @@ public class WithdrawService {
     @Autowired
     private WithdrawValidator validator;
 
+    @Autowired
+    private IbanMapper ibanMapper;
+
+
     private static final Logger logger = LoggerFactory.getLogger(WithdrawService.class);
 
     public WithdrawResponse execute(WithdrawRequest request) {
@@ -60,8 +66,12 @@ public class WithdrawService {
         }
     }
 
-    public List<IBAN> getUsersIBANS() {
-        return getCurrentBankAccount.getIBAN();
+    public List<IbanDTO> getUsersIBANSDTO() {
+         List<IBAN> ibanList = getCurrentBankAccount.getIBAN();
+
+         return ibanList.stream()
+                .map(iban -> ibanMapper.toDto(iban))
+                .collect(Collectors.toList());
     }
 
     private String getCurrentPersonalCode() {

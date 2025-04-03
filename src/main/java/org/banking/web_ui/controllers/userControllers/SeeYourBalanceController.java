@@ -3,6 +3,7 @@ package org.banking.web_ui.controllers.userControllers;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Card;
 import org.banking.core.domain.IBAN;
+import org.banking.core.dto.iban.IbanDTO;
 import org.banking.core.request.operations.DepositRequest;
 import org.banking.core.request.operations.MoneyTransferRequest;
 import org.banking.core.request.operations.SeeYourBalanceRequest;
@@ -33,9 +34,9 @@ public class SeeYourBalanceController {
         modelMap.addAttribute("request", new SeeYourBalanceRequest());
 
         SeeYourBalanceResponse response = service.execute(request);
-        response.getBankAccount().ifPresent(account -> modelMap.addAttribute("bankAccount", account));
 
-        List<IBAN> ibanList = getCurrentBankAccountService.getIBAN();
+        modelMap.addAttribute("bankAccount", response.getBankAccountDTO());
+        List<IbanDTO> ibanList = getCurrentBankAccountService.getIbanDTO();
         modelMap.addAttribute("ibanList", ibanList);
 
         return "seeYourBalance";
