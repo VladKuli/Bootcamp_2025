@@ -1,12 +1,15 @@
 package org.banking.web_ui.controllers.userControllers;
 
 import org.banking.core.domain.BankAccount;
+import org.banking.core.dto.bank_account.BankAccountDTO;
+import org.banking.core.dto.transaction.TransactionDTO;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -18,12 +21,10 @@ public class OutgoingTransactionController {
     @GetMapping("/seeOutgoingTransactions")
     public String getOutgoingTransactions(ModelMap modelMap) {
 
-        Optional<BankAccount> bankAccount = getCurrentBankAccount.get();
-
-        if (bankAccount.isPresent()) {
-            modelMap.addAttribute("bankAccount", bankAccount.get());
-            modelMap.addAttribute("outgoingTransactions", bankAccount.get().getOutgoingTransactions());
-        }
+        BankAccountDTO bankAccountDTO = getCurrentBankAccount.getBankAccountDTO();
+        List<TransactionDTO> transactionDTOS = getCurrentBankAccount.getBankAccountOutgoingTransactions();
+            modelMap.addAttribute("bankAccount", bankAccountDTO);
+            modelMap.addAttribute("outgoingTransactions", transactionDTOS);
         return "seeOutgoingTransactions";
     }
 }
