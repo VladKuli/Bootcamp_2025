@@ -79,7 +79,7 @@
 <body>
 <div class="container">
     <h2>Outgoing Transactions for <span th:text="${bankAccount.name} + ' ' + ${bankAccount.surname}">Account Holder</span></h2>
-    <h4>IBAN: <span th:text="${bankAccount.IBAN}"></span></h4>
+    <h4>IBAN: <span th:text="${bankAccount.ibanNumbers}"></span></h4>
 
     <table>
         <thead>
@@ -94,7 +94,7 @@
         <tbody>
         <tr th:each="transaction : ${outgoingTransactions}">
             <td th:text="${transaction.amount}"></td>
-            <td th:text="${transaction.toAccount.name} + ' ' + ${transaction.toAccount.surname}"></td>
+            <td th:text="${transaction.toAccountName} + ' ' + ${transaction.toAccountSurname}"></td>
             <!-- Format the timestamp as 'dd-MM-yyyy HH:mm' -->
             <td th:text="${#temporals.format(transaction.timeStamp, 'dd-MM-yyyy HH:mm')}"></td>
             <!-- Display transaction type -->
