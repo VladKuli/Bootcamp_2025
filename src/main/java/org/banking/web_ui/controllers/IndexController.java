@@ -5,6 +5,8 @@ import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Card;
 import org.banking.core.domain.IBAN;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
+import org.banking.core.services.card.CurrentUserCardService;
+import org.banking.core.services.iban.CurrentUserIbanService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,13 @@ public class IndexController {
     private GetCurrentBankAccountService getCurrentBankAccountService;
 
     @Autowired
+    private CurrentUserIbanService ibanService;
+
+    @Autowired
     private JpaCardRepository jpaCardRepository;
+
+    @Autowired
+    private CurrentUserCardService cardService;
 
     private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
 
@@ -37,7 +45,7 @@ public class IndexController {
 
         if (bankAccountOpt.isPresent()) {
             BankAccount bankAccount = bankAccountOpt.get();
-            List<IBAN> ibanList = bankAccount.getIBAN();
+            List<IBAN> ibanList = ibanService.getIBAN();
 
             for (IBAN iban : ibanList) {
                 for (Card card : iban.getCards()) {
@@ -47,7 +55,8 @@ public class IndexController {
             }
 
             modelMap.addAttribute("bankAccount", bankAccount);
-            modelMap.addAttribute("iban", ibanList);
+            modelMap.addAttribute("iban", ibanService.getIbanNumber());
+            modelMap.addAttribute("cards",cardService.getCardsDTO());
         }
 
         return "indexUser";

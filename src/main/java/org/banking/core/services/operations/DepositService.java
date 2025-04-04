@@ -15,12 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
 public class DepositService {
@@ -44,15 +40,10 @@ public class DepositService {
         List<CoreError> errorList = validator.validate(request);
 
         if (errorList.isEmpty()) {
-            logger.info("Validation successful for deposit request: {}", request);
-
-            logger.debug("Fetching personal code for the current user");
-
 
             List<IBAN> ibanList = ibanService.getIBAN();
 
             bankAccountRepository.ibanDeposit(ibanList.get(0).getId(), request.getAmount());
-
 
             return new DepositResponse(true);
         } else {

@@ -1,14 +1,16 @@
 package org.banking.web_ui.controllers.userControllers;
-/*
+
 import org.banking.core.database.JpaCardRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Card;
 import org.banking.core.domain.IBAN;
 import org.banking.core.dto.bank_account.BankAccountDTO;
 import org.banking.core.dto.iban.IbanDTO;
+import org.banking.core.mapper.iban.IbanMapper;
 import org.banking.core.request.operations.MoneyTransferRequest;
 import org.banking.core.response.operations.MoneyTransferResponse;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
+import org.banking.core.services.iban.CurrentUserIbanService;
 import org.banking.core.services.operations.MoneyTransferService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +31,7 @@ public class MoneyTransferController {
     private MoneyTransferService service;
 
     @Autowired
-    private GetCurrentBankAccountService getCurrentBankAccountService;
+    private CurrentUserIbanService ibanService;
 
     @Autowired
     private JpaCardRepository jpaCardRepository;
@@ -40,9 +42,7 @@ public class MoneyTransferController {
     public String showMoneyTransferPage(ModelMap modelMap) {
         modelMap.addAttribute("request", new MoneyTransferRequest());
 
-        BankAccountDTO bankAccountDTO = getCurrentBankAccountService.getBankAccountDTO();
-
-            List<String> iban = bankAccountDTO.getIbanNumbers();
+        List<String> iban = ibanService.getIbanNumber();
 
             logger.info("Adding attribute iban {}", iban);
             modelMap.addAttribute("iban", iban);
@@ -56,11 +56,12 @@ public class MoneyTransferController {
         logger.info("Proceeding request for transaction: {}", request);
         MoneyTransferResponse responses = service.execute(request);
 
-        List<IbanDTO> ibanDTOS = service.;
+        List<IbanDTO> ibanDTOS = ibanService.getIbanDTO();
         ibanDTOS.stream()
                 .flatMap(ibanDTO -> ibanDTO.getCardNumbers().stream())
                 .distinct()
-                .forEach(cardNumber -> jpaCardRepository.depositOnCard(cardNumber, request.getAmount()));
+                .forEach(cardNumber -> jpaCardRepository.withdrawCard(cardNumber, request.getAmount()));
+
         if (responses.isCompleted()) {
 
             logger.info("Success of request {}", request);
@@ -73,5 +74,3 @@ public class MoneyTransferController {
         }
     }
 }
-
- */

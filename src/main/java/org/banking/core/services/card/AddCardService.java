@@ -22,7 +22,6 @@ public class AddCardService {
     @Autowired
     private CardNumberGeneratorService numberGeneratorService;
 
-
     @Autowired
     private CurrentUserIbanService ibanService;
 

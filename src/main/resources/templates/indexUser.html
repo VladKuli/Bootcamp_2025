@@ -142,9 +142,8 @@
     <!-- Card Information Sidebar -->
     <div class="sidebar">
         <h4>Your Cards</h4>
-        <div th:each="ibanItem : ${iban}">
-            <div th:if="${ibanItem.cards != null}">
-                <div th:each="card : ${ibanItem.cards}">
+        <div th:each="card : ${cards}">
+            <div th:if="${cards != null}">
                     <p><strong>Card Type:</strong> <span th:text="${card.type}"></span></p>
                     <p><strong>Card Number:</strong> <span th:text="${card.cardNumber}"></span></p>
                     <p><strong>Balance:</strong> $<span th:text="${card.balance}"></span></p>
@@ -153,11 +152,10 @@
                         <button class="delete-button" type="submit">Delete Card</button>
                     </form>
                     <hr/>
-                </div>
             </div>
         </div>
 
-        <div th:if="${iban == null or #lists.isEmpty(iban)}">
+        <div th:if="${cards == null or #lists.isEmpty(cards)}">
             <p>No cards associated with this account.</p>
         </div>
     </div>

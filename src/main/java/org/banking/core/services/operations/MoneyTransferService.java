@@ -21,15 +21,14 @@ import java.util.Optional;
 public class MoneyTransferService {
 
     @Autowired
-    private JpaBankAccountRepository bankAccountRepository;
+    private GetCurrentBankAccountService getCurrentBankAccount;
 
     @Autowired
     private MoneyTransferValidator validator;
-    @Autowired
-    private JpaTransactionRepository transactionRepository;
 
     @Autowired
-    private GetCurrentBankAccountService getCurrentBankAccount;
+    private MoneyTransferProcessService processService;
+
 
     private static final Logger logger = LoggerFactory.getLogger(MoneyTransferService.class);
 
@@ -46,41 +45,16 @@ public class MoneyTransferService {
             Optional<BankAccount> userBankAccount = getCurrentBankAccount.get();
             logger.debug("Retrieved sender personal code: {}", userBankAccount.get().getIBAN());
 
-                updateBalance(request, userBankAccount);
 
-                addTransaction(request, userBankAccount.get());
+            processService.execute(request,userBankAccount);
 
                 logger.info("Money transfer successful from {} to {} with amount: {}",
                         userBankAccount.get().getIBAN(), request.getTargetIBAN(), request.getAmount());
+
                 return new MoneyTransferResponse(true);
         }
             logger.warn("Validation failed for money transfer request: {}. Errors: {}", request, errorList);
             return new MoneyTransferResponse(errorList);
-    }
-
-    private Optional<BankAccount> findPayeeBankAccount(MoneyTransferRequest request) {
-        return bankAccountRepository.findByIBANNumber(request.getTargetIBAN()).stream().findFirst();
-    }
-
-    private void addTransaction(MoneyTransferRequest request, BankAccount userBankAccount ) {
-        transactionRepository.save(Transaction.builder()
-                .toAccount(findPayeeBankAccount(request).get())
-                .fromAccount(userBankAccount)
-                .type(request.getType())
-                .description(request.getDescription())
-                .amount(request.getAmount()).build());
-    }
-
-    private void updateBalance(MoneyTransferRequest request, Optional<BankAccount> userBankAccount) {
-        if (userBankAccount.isPresent()) {
-            logger.info("Initiating money transfer from {} to {} with amount: {}",
-                    userBankAccount.get().getIBAN(), request.getTargetIBAN(), request.getAmount());
-            bankAccountRepository.bankTransfer(request.getUsersIban(), request.getTargetIBAN(), request.getAmount());
-        }
-        else {
-            //TODO WRITE CUSTOM EXCEPTION
-            logger.warn("Error Bank Account is null");
-        }
     }
 
 }
