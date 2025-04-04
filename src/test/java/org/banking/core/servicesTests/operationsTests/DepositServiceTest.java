@@ -10,6 +10,7 @@ import org.banking.core.request.operations.DepositRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.DepositResponse;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
+import org.banking.core.services.iban.CurrentUserIbanService;
 import org.banking.core.services.operations.DepositService;
 import org.banking.core.services.user.GetCurrentUserPersonalCodeService;
 import org.banking.core.services.validators.operationsValidators.DepositValidator;
@@ -43,6 +44,9 @@ class DepositServiceTest {
 
     @InjectMocks
     private DepositService service;
+
+    @Mock
+    private CurrentUserIbanService ibanService;
 
     @BeforeEach
     void setUp() {
@@ -107,8 +111,5 @@ class DepositServiceTest {
     }
 
 }
-
-
-
 
  */
