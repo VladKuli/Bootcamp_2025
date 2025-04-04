@@ -1,10 +1,7 @@
-package org.banking.web_ui.controllers.userControllers;
+package org.banking.web_ui.controllers.userControllers.card_controllers;
 
-import org.banking.core.request.card.AddCardRequest;
 import org.banking.core.request.card.DeleteCardRequest;
-import org.banking.core.response.card.AddCardResponse;
 import org.banking.core.response.card.DeleteCardResponse;
-import org.banking.core.services.card.AddCardService;
 import org.banking.core.services.card.DeleteCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

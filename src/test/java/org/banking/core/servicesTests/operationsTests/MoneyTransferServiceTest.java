@@ -5,7 +5,7 @@ import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.database.JpaTransactionRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.IBAN;
-import org.banking.core.domain.TransactionType;
+import org.banking.core.enums.TransactionType;
 import org.banking.core.request.operations.MoneyTransferRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.MoneyTransferResponse;

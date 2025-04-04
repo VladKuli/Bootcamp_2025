@@ -1,4 +1,4 @@
-package org.banking.web_ui.controllers.adminControllers;
+package org.banking.web_ui.controllers.adminControllers.bankAccount_controllers;
 
 import org.banking.core.request.bankAccount.SearchBankAccountRequest;
 import org.banking.core.response.bankAccount.SearchBankAccountResponse;

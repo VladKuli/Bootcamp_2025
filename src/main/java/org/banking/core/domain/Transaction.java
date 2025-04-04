@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.banking.core.enums.TransactionType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

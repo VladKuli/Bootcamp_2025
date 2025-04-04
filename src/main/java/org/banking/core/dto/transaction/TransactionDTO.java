@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.banking.core.domain.TransactionType;
+import org.banking.core.enums.TransactionType;
 
 import java.time.LocalDateTime;
 

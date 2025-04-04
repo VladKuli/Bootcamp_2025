@@ -5,7 +5,7 @@ import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Card;
 import org.banking.core.domain.IBAN;
-import org.banking.core.domain.TypeOfTheCard;
+import org.banking.core.enums.TypeOfTheCard;
 import org.banking.core.request.operations.DepositRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.DepositResponse;

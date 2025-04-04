@@ -1,4 +1,4 @@
-package org.banking.core.domain;
+package org.banking.core.enums;
 
 public enum TransactionType {
     Food,
