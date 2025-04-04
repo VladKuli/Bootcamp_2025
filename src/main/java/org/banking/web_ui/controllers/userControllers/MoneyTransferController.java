@@ -4,6 +4,8 @@ import org.banking.core.database.JpaCardRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Card;
 import org.banking.core.domain.IBAN;
+import org.banking.core.dto.bank_account.BankAccountDTO;
+import org.banking.core.dto.iban.IbanDTO;
 import org.banking.core.request.operations.MoneyTransferRequest;
 import org.banking.core.response.operations.MoneyTransferResponse;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
@@ -37,26 +39,37 @@ public class MoneyTransferController {
     @GetMapping(value = "/moneyTransfer")
     public String showMoneyTransferPage(ModelMap modelMap) {
         modelMap.addAttribute("request", new MoneyTransferRequest());
-        Optional<BankAccount> bankAccount = getCurrentBankAccountService.get();
-        if(bankAccount.isPresent()) {
-            List<IBAN> iban = bankAccount.get().getIBAN();
+
+        BankAccountDTO bankAccountDTO = getCurrentBankAccountService.getBankAccountDTO();
+
+            List<String> iban = bankAccountDTO.getIbanNumbers();
+
             logger.info("Adding attribute iban {}", iban);
             modelMap.addAttribute("iban", iban);
-        }
+
         return "moneyTransfer";
     }
 
     @PostMapping(value = "/moneyTransfer")
-    public String processDeleteUserRequest(@ModelAttribute(value = "request")MoneyTransferRequest request,
+    public String processMoneyTransferRequest(@ModelAttribute(value = "request")MoneyTransferRequest request,
                                            ModelMap modelMap) {
         logger.info("Proceeding request for transaction: {}", request);
         MoneyTransferResponse responses = service.execute(request);
-        List<Card> cardsList = getCurrentBankAccountService.getIBAN().get(0).getCards();
 
-        for (Card card : cardsList) {
-            jpaCardRepository.withdrawCard(card.getCardNumber(), request.getAmount());
-        }
+        List<IbanDTO> ibanDTOS = getCurrentBankAccountService.getIbanDTO();
+        ibanDTOS.stream()
+                .flatMap(ibanDTO -> ibanDTO.getCardNumbers().stream())
+                .distinct()
+                .forEach(cardNumber -> jpaCardRepository.depositOnCard(cardNumber, request.getAmount()));
+        if (responses.isCompleted()) {
+
             logger.info("Success of request {}", request);
             return "moneyTransferSuccess";
+        } else {
+
+            modelMap.addAttribute("errors", responses.getErrors());
+
+            return "moneyTransfer";
+        }
     }
 }

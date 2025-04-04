@@ -133,7 +133,7 @@
         <td>
           <select th:field="${request.usersIban}" required>
             <option value="" disabled selected>Select your account (IBAN)</option>
-            <option th:each="iban : ${iban}" th:value="${iban.ibanNumber}" th:text="${iban.ibanNumber}"></option>
+            <option th:each="iban : ${iban}" th:value="${iban}" th:text="${iban}"></option>
             </option>
           </select>
         </td>

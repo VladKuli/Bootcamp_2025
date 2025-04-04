@@ -15,4 +15,5 @@ public class GetAllUsersResponse{
     public GetAllUsersResponse(List<UserDTO> userDTOS) {
         this.userDTOS = userDTOS;
     }
+
 }

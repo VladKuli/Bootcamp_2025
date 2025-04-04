@@ -36,6 +36,7 @@ public class SeeYourBalanceController {
         SeeYourBalanceResponse response = service.execute(request);
 
         modelMap.addAttribute("bankAccount", response.getBankAccountDTO());
+
         List<IbanDTO> ibanList = getCurrentBankAccountService.getIbanDTO();
         modelMap.addAttribute("ibanList", ibanList);
 

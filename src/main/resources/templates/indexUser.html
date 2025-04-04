@@ -187,7 +187,7 @@
                     <td>
                         <select id="ibanNumber" name="iban" required>
                             <option value="" disabled selected>Select IBAN</option>
-                            <option th:each="iban : ${iban}" th:value="${iban.ibanNumber}" th:text="${iban.ibanNumber}"></option>
+                            <option th:each="iban : ${iban}" th:value="${iban}" th:text="${iban}"></option>
                         </select>
                     </td>
                 </tr>
