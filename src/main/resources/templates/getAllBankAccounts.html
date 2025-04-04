@@ -90,12 +90,14 @@
     </tr>
     </thead>
     <tbody th:if="${bank_accounts != null}">
+    <tbody th:if="${balance != null}">
     <tr th:each="bank_account : ${bank_accounts}">
       <td th:text="${bank_account.name}"></td>
       <td th:text="${bank_account.surname}"></td>
       <td th:text="${bank_account.personalCode}"></td>
-      <td th:text="${bank_account.balance}"></td>
+      <td th:text="${balance}"></td>
     </tr>
+    </tbody>
     </tbody>
   </table>
 

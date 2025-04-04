@@ -14,6 +14,6 @@ import java.util.List;
 public class IbanDTO {
 
     private String ibanNumber;
-    private String balance;
+    private Integer balance;
     private List<String> cardNumbers;
 }
