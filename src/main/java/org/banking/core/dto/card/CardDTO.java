@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.banking.core.domain.IBAN;
-import org.banking.core.domain.TypeOfTheCard;
+import org.banking.core.enums.TypeOfTheCard;
 
 @Data
 @NoArgsConstructor

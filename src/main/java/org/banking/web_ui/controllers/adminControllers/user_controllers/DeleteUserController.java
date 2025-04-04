@@ -1,4 +1,4 @@
-package org.banking.web_ui.controllers.adminControllers;
+package org.banking.web_ui.controllers.adminControllers.user_controllers;
 
 import org.banking.core.request.user.DeleteUserRequest;
 import org.banking.core.response.user.DeleteUserResponse;

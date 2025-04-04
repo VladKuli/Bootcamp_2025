@@ -1,15 +1,8 @@
-package org.banking.web_ui.controllers.userControllers;
+package org.banking.web_ui.controllers.userControllers.money_operations_controllers;
 
-import org.banking.core.domain.BankAccount;
-import org.banking.core.domain.Card;
-import org.banking.core.domain.IBAN;
 import org.banking.core.dto.iban.IbanDTO;
-import org.banking.core.request.operations.DepositRequest;
-import org.banking.core.request.operations.MoneyTransferRequest;
 import org.banking.core.request.operations.SeeYourBalanceRequest;
-import org.banking.core.response.bankAccount.GetCurrentBankAccountResponse;
 import org.banking.core.response.operations.SeeYourBalanceResponse;
-import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
 import org.banking.core.services.iban.CurrentUserIbanService;
 import org.banking.core.services.operations.SeeYourBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;

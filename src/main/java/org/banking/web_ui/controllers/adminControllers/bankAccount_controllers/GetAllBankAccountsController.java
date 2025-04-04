@@ -1,6 +1,5 @@
-package org.banking.web_ui.controllers.adminControllers;
+package org.banking.web_ui.controllers.adminControllers.bankAccount_controllers;
 
-import org.banking.core.domain.IBAN;
 import org.banking.core.dto.iban.IbanDTO;
 import org.banking.core.request.bankAccount.GetAllBankAccountsRequest;
 import org.banking.core.response.bankAccount.GetAllBankAccountsResponse;
@@ -10,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
 
 @Controller
 public class GetAllBankAccountsController {

@@ -1,7 +1,5 @@
-package org.banking.web_ui.controllers.userControllers;
+package org.banking.web_ui.controllers.userControllers.card_controllers;
 
-import org.banking.core.domain.BankAccount;
-import org.banking.core.domain.IBAN;
 import org.banking.core.dto.bank_account.BankAccountDTO;
 import org.banking.core.request.card.AddCardRequest;
 import org.banking.core.response.card.AddCardResponse;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class OrderCardController {

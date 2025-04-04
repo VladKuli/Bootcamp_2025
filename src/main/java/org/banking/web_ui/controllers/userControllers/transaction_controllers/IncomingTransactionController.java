@@ -1,6 +1,5 @@
-package org.banking.web_ui.controllers.userControllers;
+package org.banking.web_ui.controllers.userControllers.transaction_controllers;
 
-import org.banking.core.domain.BankAccount;
 import org.banking.core.dto.bank_account.BankAccountDTO;
 import org.banking.core.dto.transaction.TransactionDTO;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
@@ -11,27 +10,25 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
-public class OutgoingTransactionController {
+public class IncomingTransactionController {
 
     @Autowired
-    private GetCurrentBankAccountService getCurrentBankAccount;
+    private GetCurrentBankAccountService getCurrentBankAccountService;
 
     @Autowired
     private CurrentUserTransactionsService transactionsService;
 
-    @GetMapping("/seeOutgoingTransactions")
-    public String getOutgoingTransactions(ModelMap modelMap) {
+    @GetMapping("/seeIncomingTransactions")
+    public String seeIncomingTransactions(ModelMap modelMap) {
 
-        BankAccountDTO bankAccountDTO = getCurrentBankAccount.getBankAccountDTO();
-        List<TransactionDTO> transactionDTOS = transactionsService.getBankAccountOutgoingTransactions();
+        BankAccountDTO bankAccountDTO = getCurrentBankAccountService.getBankAccountDTO();
+        List<TransactionDTO> transactionDTOS = transactionsService.getBankAccountIncomingTransactions();
 
             modelMap.addAttribute("bankAccount", bankAccountDTO);
-            modelMap.addAttribute("outgoingTransactions", transactionDTOS);
+            modelMap.addAttribute("incomingTransactions",transactionDTOS);
 
-            return "seeOutgoingTransactions";
+        return "seeIncomingTransactions";
     }
 }
-

@@ -1,7 +1,7 @@
 package org.banking.core.request.operations;
 
 import lombok.*;
-import org.banking.core.domain.TransactionType;
+import org.banking.core.enums.TransactionType;
 
 @AllArgsConstructor
 @NoArgsConstructor

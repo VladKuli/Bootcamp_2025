@@ -1,8 +1,6 @@
-package org.banking.web_ui.controllers.userControllers;
+package org.banking.web_ui.controllers.userControllers.money_operations_controllers;
 
 import org.banking.core.database.JpaCardRepository;
-import org.banking.core.domain.Card;
-import org.banking.core.domain.IBAN;
 import org.banking.core.dto.iban.IbanDTO;
 import org.banking.core.request.operations.WithdrawRequest;
 import org.banking.core.response.operations.WithdrawResponse;
