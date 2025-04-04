@@ -23,9 +23,11 @@ public class OutgoingTransactionController {
 
         BankAccountDTO bankAccountDTO = getCurrentBankAccount.getBankAccountDTO();
         List<TransactionDTO> transactionDTOS = getCurrentBankAccount.getBankAccountOutgoingTransactions();
+
             modelMap.addAttribute("bankAccount", bankAccountDTO);
             modelMap.addAttribute("outgoingTransactions", transactionDTOS);
-        return "seeOutgoingTransactions";
+
+            return "seeOutgoingTransactions";
     }
 }
 

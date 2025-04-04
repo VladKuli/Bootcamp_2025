@@ -2,6 +2,7 @@ package org.banking.web_ui.controllers.userControllers;
 
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.IBAN;
+import org.banking.core.dto.bank_account.BankAccountDTO;
 import org.banking.core.request.card.AddCardRequest;
 import org.banking.core.response.card.AddCardResponse;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
@@ -28,13 +29,11 @@ public class OrderCardController {
     @GetMapping(value = "/card-order")
     public String showCardOrderPage(ModelMap modelMap) {
         modelMap.addAttribute("request", new AddCardRequest());
-        Optional<BankAccount> bankAccount = getCurrentBankAccountService.get();
-
-        if(bankAccount.isPresent()) {
-            List<IBAN> iban = bankAccount.get().getIBAN();
-            modelMap.addAttribute("bankAccount", bankAccount.get());
+        BankAccountDTO bankAccountDTO = getCurrentBankAccountService.getBankAccountDTO();
+        List<String> iban = bankAccountDTO.getIbanNumbers();
+            modelMap.addAttribute("bankAccount", bankAccountDTO);
             modelMap.addAttribute("iban", iban);
-        }
+
         return "cardOrder";
     }
 
