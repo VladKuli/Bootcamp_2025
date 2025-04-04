@@ -10,6 +10,7 @@ import org.banking.core.request.operations.SeeYourBalanceRequest;
 import org.banking.core.response.bankAccount.GetCurrentBankAccountResponse;
 import org.banking.core.response.operations.SeeYourBalanceResponse;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
+import org.banking.core.services.iban.CurrentUserIbanService;
 import org.banking.core.services.operations.SeeYourBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,7 @@ public class SeeYourBalanceController {
     private SeeYourBalanceService service;
 
     @Autowired
-    private GetCurrentBankAccountService getCurrentBankAccountService;
+    private CurrentUserIbanService ibanService;
 
     @GetMapping(value = "/seeYourBalance")
     public String showSeeYourBalancePage(@ModelAttribute(value = "request") SeeYourBalanceRequest request,
@@ -37,7 +38,7 @@ public class SeeYourBalanceController {
 
         modelMap.addAttribute("bankAccount", response.getBankAccountDTO());
 
-        List<IbanDTO> ibanList = getCurrentBankAccountService.getIbanDTO();
+        List<IbanDTO> ibanList = ibanService.getIbanDTO();
         modelMap.addAttribute("ibanList", ibanList);
 
         return "seeYourBalance";

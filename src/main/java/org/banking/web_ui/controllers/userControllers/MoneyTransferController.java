@@ -1,5 +1,5 @@
 package org.banking.web_ui.controllers.userControllers;
-
+/*
 import org.banking.core.database.JpaCardRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Card;
@@ -56,7 +56,7 @@ public class MoneyTransferController {
         logger.info("Proceeding request for transaction: {}", request);
         MoneyTransferResponse responses = service.execute(request);
 
-        List<IbanDTO> ibanDTOS = getCurrentBankAccountService.getIbanDTO();
+        List<IbanDTO> ibanDTOS = service.;
         ibanDTOS.stream()
                 .flatMap(ibanDTO -> ibanDTO.getCardNumbers().stream())
                 .distinct()
@@ -73,3 +73,5 @@ public class MoneyTransferController {
         }
     }
 }
+
+ */

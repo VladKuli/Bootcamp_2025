@@ -11,6 +11,7 @@ import org.banking.core.request.operations.WithdrawRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.WithdrawResponse;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
+import org.banking.core.services.iban.CurrentUserIbanService;
 import org.banking.core.services.user.GetCurrentUserPersonalCodeService;
 import org.banking.core.services.validators.operationsValidators.WithdrawValidator;
 import org.slf4j.Logger;
@@ -30,14 +31,10 @@ public class WithdrawService {
     private JpaBankAccountRepository bankAccountRepository;
 
     @Autowired
-    private GetCurrentBankAccountService getCurrentBankAccount;
-
-    @Autowired
     private WithdrawValidator validator;
 
     @Autowired
-    private IbanMapper ibanMapper;
-
+    private CurrentUserIbanService ibanService;
 
     private static final Logger logger = LoggerFactory.getLogger(WithdrawService.class);
 
@@ -51,13 +48,8 @@ public class WithdrawService {
             logger.info("Validation successful for withdraw request: {}", request);
 
             logger.debug("Fetching personal code for the current user");
-            String personalCode = getCurrentPersonalCode();
-
-            logger.info("Personal code retrieved: {}", personalCode);
 
             bankAccountRepository.deductBalanceForIban(request.getAmount(),request.getIBAN());
-            logger.info("Processing withdrawal of amount {} for personal code {}", request.getAmount(), personalCode);
-            logger.info("Withdrawal successful for personal code: {}. Amount: {}", personalCode, request.getAmount());
 
             return new WithdrawResponse(true);
         } else {
@@ -67,16 +59,6 @@ public class WithdrawService {
     }
 
     public List<IbanDTO> getUsersIBANSDTO() {
-         List<IBAN> ibanList = getCurrentBankAccount.getIBAN();
-
-         return ibanList.stream()
-                .map(iban -> ibanMapper.toDto(iban))
-                .collect(Collectors.toList());
-    }
-
-    private String getCurrentPersonalCode() {
-        return getCurrentBankAccount.get()
-                .map(BankAccount::getPersonalCode)
-                .orElseThrow(() -> new RuntimeException("Personal code not found"));
+         return ibanService.getIbanDTO();
     }
 }

@@ -6,6 +6,7 @@ import org.banking.core.domain.IBAN;
 import org.banking.core.request.card.AddCardRequest;
 import org.banking.core.response.card.AddCardResponse;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
+import org.banking.core.services.iban.CurrentUserIbanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,9 @@ public class AddCardService {
     @Autowired
     private CardNumberGeneratorService numberGeneratorService;
 
+
     @Autowired
-    private GetCurrentBankAccountService getCurrentBankAccountService;
+    private CurrentUserIbanService ibanService;
 
     public AddCardResponse execute(AddCardRequest request) {
 
@@ -38,7 +40,7 @@ public class AddCardService {
 
     private Optional<Card> cardBuilding(AddCardRequest request) {
 
-        List<IBAN> iban = getCurrentBankAccountService.getIBAN();
+        List<IBAN> iban = ibanService.getIBAN();
 
         Optional<IBAN> ibanOptional = iban.stream()
                 .filter(i -> i.getIbanNumber().equals(request.getIban()))

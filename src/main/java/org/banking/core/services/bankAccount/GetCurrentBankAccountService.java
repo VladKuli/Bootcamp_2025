@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+//TODO MAKE REFACTORING FOR THIS CLASS (IBAN USER)
 @Service
 public class GetCurrentBankAccountService {
 
@@ -30,13 +30,8 @@ public class GetCurrentBankAccountService {
     private GetCurrentUserPersonalCodeService getUser;
 
     @Autowired
-    private IbanMapper ibanMapper;
-
-    @Autowired
     private BankAccountMapper bankAccountMapper;
 
-    @Autowired
-    private TransactionMapper transactionMapper;
 
     public Optional<BankAccount> get() {
 
@@ -47,25 +42,6 @@ public class GetCurrentBankAccountService {
                 : Optional.empty();
     }
 
-    public List<IBAN> getIBAN() {
-        String personalCode = getUser.getCurrentUserPersonalCode();
-
-        return jpa.findByPersonalCode(personalCode).stream()
-                .flatMap(bankAccount -> bankAccount.getIBAN().stream())
-                .toList();
-    }
-
-
-    public List<IbanDTO> getIbanDTO() {
-        String personalCode = getUser.getCurrentUserPersonalCode();
-
-        List<IBAN> ibanList = jpa.findByPersonalCode(personalCode).stream()
-                .flatMap(bankAccount -> bankAccount.getIBAN().stream())
-                .toList();
-
-        return ibanList.stream()
-                .map(iban -> ibanMapper.toDto(iban)).collect(Collectors.toList());
-    }
 
     public BankAccountDTO getBankAccountDTO() {
 
@@ -77,63 +53,6 @@ public class GetCurrentBankAccountService {
         }
 
         return bankAccountMapper.toDto(bankAccount.get());
-    }
-    public  List<TransactionDTO> getBankAccountIncomingTransactions() {
-
-        String personalCode = getUser.getCurrentUserPersonalCode();
-
-        Optional<BankAccount> bankAccount = Optional.empty();
-        if (!jpa.findByPersonalCode(personalCode).isEmpty()) {
-            bankAccount = jpa.findByPersonalCode(personalCode).stream().findFirst();
-        }
-
-        List<Transaction> transactions = bankAccount.get().getIncomingTransactions();
-        List<TransactionDTO> transactionDTOS = new ArrayList<>();
-
-        for (Transaction transaction : transactions) {
-            transactionDTOS.add(transactionMapper.toDto(transaction));
-        }
-
-        for (TransactionDTO transactionDTO : transactionDTOS) {
-            for (Transaction transaction : transactions) {
-                transactionDTO.setFromAccountName(transaction.getFromAccount().getName());
-                transactionDTO.setFromAccountSurname(transaction.getFromAccount().getSurname());
-                transactionDTO.setToAccountName(transaction.getToAccount().getName());
-                transactionDTO.setToAccountSurname(transaction.getToAccount().getSurname());
-
-            }
-        }
-
-        return transactionDTOS;
-    }
-
-    public  List<TransactionDTO> getBankAccountOutgoingTransactions() {
-
-        String personalCode = getUser.getCurrentUserPersonalCode();
-
-        Optional<BankAccount> bankAccount = Optional.empty();
-        if (!jpa.findByPersonalCode(personalCode).isEmpty()) {
-            bankAccount = jpa.findByPersonalCode(personalCode).stream().findFirst();
-        }
-
-        List<Transaction> transactions = bankAccount.get().getOutgoingTransactions();
-        List<TransactionDTO> transactionDTOS = new ArrayList<>();
-
-        for (Transaction transaction : transactions) {
-            transactionDTOS.add(transactionMapper.toDto(transaction));
-        }
-
-        for (TransactionDTO transactionDTO : transactionDTOS) {
-            for (Transaction transaction : transactions) {
-                transactionDTO.setFromAccountName(transaction.getFromAccount().getName());
-                transactionDTO.setFromAccountSurname(transaction.getFromAccount().getSurname());
-                transactionDTO.setToAccountName(transaction.getToAccount().getName());
-                transactionDTO.setToAccountSurname(transaction.getToAccount().getSurname());
-
-            }
-        }
-
-        return transactionDTOS;
     }
 
 }

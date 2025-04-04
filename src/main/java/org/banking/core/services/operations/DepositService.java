@@ -9,6 +9,7 @@ import org.banking.core.request.operations.DepositRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.DepositResponse;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
+import org.banking.core.services.iban.CurrentUserIbanService;
 import org.banking.core.services.validators.operationsValidators.DepositValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,10 +32,8 @@ public class DepositService {
     private DepositValidator validator;
 
     @Autowired
-    private GetCurrentBankAccountService getCurrentBankAccountService;
+    private CurrentUserIbanService ibanService;
 
-    @Autowired
-    private IbanMapper ibanMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(DepositService.class);
 
@@ -48,16 +47,13 @@ public class DepositService {
             logger.info("Validation successful for deposit request: {}", request);
 
             logger.debug("Fetching personal code for the current user");
-            String personalCode = getCurrentPersonalCode();
 
 
-            List<IBAN> ibanList = searchingOfIBAN(request);
+            List<IBAN> ibanList = ibanService.getIBAN();
 
-            logger.info("Depositing amount {} for personal code {}", request.getAmount(), personalCode);
             bankAccountRepository.ibanDeposit(ibanList.get(0).getId(), request.getAmount());
 
 
-            logger.info("Deposit successful for personal code: {}", personalCode);
             return new DepositResponse(true);
         } else {
 
@@ -66,30 +62,8 @@ public class DepositService {
         }
     }
 
-    public List<IBAN> getUsersIBANS() {
-        return getCurrentBankAccountService.getIBAN();
-    }
-
     public List<IbanDTO> getUsersIbanDTO() {
-        List<IBAN> ibanList = getCurrentBankAccountService.getIBAN();
-        return ibanList.stream()
-                .map(iban -> ibanMapper.toDto(iban))
-                .collect(Collectors.toList());
+        return ibanService.getIbanDTO();
     }
 
-    private List<IBAN> searchingOfIBAN(DepositRequest request) {
-        Optional<BankAccount> bankAccount = getCurrentBankAccountService.get();
-        return bankAccount
-                .map(BankAccount::getIBAN)
-                .orElse(Collections.emptyList())
-                .stream().filter(iban -> iban.getIbanNumber().equals(request.getIBAN()))
-                .toList();
-    }
-
-    private String getCurrentPersonalCode() {
-        return getCurrentBankAccountService
-                .get()
-                .map(BankAccount::getPersonalCode)
-                .orElseThrow(() -> new RuntimeException("Personal code not exist"));
-    }
 }

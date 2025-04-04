@@ -4,6 +4,7 @@ import org.banking.core.domain.BankAccount;
 import org.banking.core.dto.bank_account.BankAccountDTO;
 import org.banking.core.dto.transaction.TransactionDTO;
 import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
+import org.banking.core.services.transaction.CurrentUserTransactionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,11 +19,14 @@ public class IncomingTransactionController {
     @Autowired
     private GetCurrentBankAccountService getCurrentBankAccountService;
 
+    @Autowired
+    private CurrentUserTransactionsService transactionsService;
+
     @GetMapping("/seeIncomingTransactions")
     public String seeIncomingTransactions(ModelMap modelMap) {
 
         BankAccountDTO bankAccountDTO = getCurrentBankAccountService.getBankAccountDTO();
-        List<TransactionDTO> transactionDTOS = getCurrentBankAccountService.getBankAccountIncomingTransactions();
+        List<TransactionDTO> transactionDTOS = transactionsService.getBankAccountIncomingTransactions();
 
             modelMap.addAttribute("bankAccount", bankAccountDTO);
             modelMap.addAttribute("incomingTransactions",transactionDTOS);
