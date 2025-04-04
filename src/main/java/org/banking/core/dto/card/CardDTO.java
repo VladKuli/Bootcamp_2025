@@ -15,7 +15,7 @@ public class CardDTO {
 
     private String cardNumber;
 
-    private Integer balance = 0;
+    private Integer balance;
 
     private TypeOfTheCard type;
 

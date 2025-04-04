@@ -30,6 +30,7 @@ public class OrderCardController {
     public String showCardOrderPage(ModelMap modelMap) {
         modelMap.addAttribute("request", new AddCardRequest());
         BankAccountDTO bankAccountDTO = getCurrentBankAccountService.getBankAccountDTO();
+
         List<String> iban = bankAccountDTO.getIbanNumbers();
             modelMap.addAttribute("bankAccount", bankAccountDTO);
             modelMap.addAttribute("iban", iban);
@@ -41,8 +42,9 @@ public class OrderCardController {
     public String processCardOrder(@ModelAttribute(value = "request")AddCardRequest request,
                                    ModelMap modelMap) {
         AddCardResponse response = service.execute(request);
+
         if (response.isOrdered()) {
-            return "successOrdered";
+            return "indexUser";
         } else {
             return "cardOrder";
         }
