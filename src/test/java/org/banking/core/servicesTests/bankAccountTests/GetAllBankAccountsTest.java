@@ -1,8 +1,10 @@
 package org.banking.core.servicesTests.bankAccountTests;
-/*
+
 
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.domain.BankAccount;
+import org.banking.core.dto.bank_account.BankAccountDTO;
+import org.banking.core.mapper.bank_account.BankAccountMapper;
 import org.banking.core.request.bankAccount.GetAllBankAccountsRequest;
 import org.banking.core.response.bankAccount.GetAllBankAccountsResponse;
 import org.banking.core.services.bankAccount.GetAllBankAccountsService;
@@ -14,9 +16,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -29,6 +33,9 @@ class GetAllBankAccountsTest {
 
     @InjectMocks
     private GetAllBankAccountsService service;
+
+    @Mock
+    private BankAccountMapper bankAccountMapper;
 
     @BeforeEach
     void setUp() {
@@ -51,15 +58,24 @@ class GetAllBankAccountsTest {
         );
 
 
+        List<BankAccountDTO> bankAccountDTOS = new ArrayList<>();
+        for (BankAccount account : bankAccounts) {
+            BankAccountDTO dto = new BankAccountDTO();
+            dto.setName(account.getName());
+            dto.setSurname(account.getSurname());
+            dto.setPersonalCode(account.getPersonalCode());
+            bankAccountDTOS.add(dto);
+        }
+
         when(bankAccountRepository.findAll()).thenReturn(bankAccounts);
 
         GetAllBankAccountsRequest request = new GetAllBankAccountsRequest();
         GetAllBankAccountsResponse response = service.execute(request);
 
         assertNotNull(response);
-        assertEquals(2, response.getBankAccountList().size());
-        assertEquals("John", response.getBankAccountList().get(0).getName());
-        assertEquals("Jane", response.getBankAccountList().get(1).getName());
+        assertEquals(2, bankAccountDTOS.size());
+        assertEquals("John", bankAccountDTOS.get(0).getName());
+        assertEquals("Jane", bankAccountDTOS.get(1).getName());
 
         verify(bankAccountRepository, times(1)).findAll();
     }
@@ -72,11 +88,8 @@ class GetAllBankAccountsTest {
         GetAllBankAccountsResponse response = service.execute(request);
 
         assertNotNull(response);
-        assertTrue(response.getBankAccountList().isEmpty());
+        assertTrue(response.getBankAccountDTOS().isEmpty());
 
         verify(bankAccountRepository, times(1)).findAll();
     }
 }
-
-
- */
