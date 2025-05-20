@@ -41,6 +41,7 @@ public class AddBankAccountService {
 
         List<CoreError> errorList = validator.validate(request);
         if (!errorList.isEmpty()) {
+
             logger.warn("Validation failed for request: {}. Errors: {}", request, errorList);
             return new AddBankAccountResponse(errorList);
         }
@@ -50,8 +51,8 @@ public class AddBankAccountService {
         bankAccount.ifPresent(account -> bankAccountRepository.save(account));
 
         logger.info("Successfully added bank account: {}", bankAccount);
-
         BankAccountDTO bankAccountDto = bankAccountMapper.toDto(bankAccount.get());
+
         return new AddBankAccountResponse(bankAccountDto);
     }
 
@@ -62,8 +63,10 @@ public class AddBankAccountService {
                 .surname(request.getSurname())
                 .personalCode(request.getPersonalCode())
                 .build();
+
         List<IBAN> iban = ibanGeneratorService.generateIBAN(bankAccount);
         bankAccount.setIBAN(iban);
+
         return Optional.of(bankAccount);
     }
 }
