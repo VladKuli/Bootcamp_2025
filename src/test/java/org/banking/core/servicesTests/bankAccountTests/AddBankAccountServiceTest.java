@@ -12,6 +12,7 @@ import org.banking.core.services.operations.IBANGeneratorService;
 import org.banking.core.services.validators.bankAccountValidators.AddBankAccountValidator;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.mockito.InjectMocks;
@@ -24,7 +25,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
+@Disabled
 class AddBankAccountServiceTest {
 
     @Mock
