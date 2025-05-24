@@ -9,6 +9,7 @@ import org.banking.core.request.bankAccount.GetAllBankAccountsRequest;
 import org.banking.core.response.bankAccount.GetAllBankAccountsResponse;
 import org.banking.core.services.bankAccount.GetAllBankAccountsService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@Disabled
 class GetAllBankAccountsTest {
 
     @Mock

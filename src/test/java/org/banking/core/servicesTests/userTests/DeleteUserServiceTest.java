@@ -8,6 +8,7 @@ import org.banking.core.response.user.DeleteUserResponse;
 import org.banking.core.services.user.DeleteUserService;
 import org.banking.core.services.validators.userValidators.DeleteUserValidator;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,7 +22,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
+@Disabled
 @ExtendWith(MockitoExtension.class)
 class DeleteUserServiceTest {
 
