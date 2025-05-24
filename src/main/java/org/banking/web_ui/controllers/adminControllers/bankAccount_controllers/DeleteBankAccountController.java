@@ -1,5 +1,6 @@
 package org.banking.web_ui.controllers.adminControllers.bankAccount_controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.banking.core.request.bankAccount.DeleteBankAccountRequest;
 import org.banking.core.request.user.DeleteUserRequest;
 import org.banking.core.response.bankAccount.DeleteBankAccountResponse;
@@ -12,9 +13,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+@RequiredArgsConstructor
 public class DeleteBankAccountController {
-    @Autowired
-    private DeleteBankAccountService service;
+
+    private final DeleteBankAccountService service;
 
     @GetMapping(value = "/deleteBankAccount")
     public String showDeleteBankAccountPage(ModelMap modelMap) {

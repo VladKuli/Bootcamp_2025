@@ -1,5 +1,7 @@
 package org.banking.core.services.bankAccount;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.User;
@@ -16,27 +18,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class GetAllBankAccountsService {
 
-    @Autowired
-    private JpaBankAccountRepository bankAccountRepository;
-    @Autowired
-    private BankAccountMapper bankAccountMapper;
+    private final JpaBankAccountRepository bankAccountRepository;
+    private final BankAccountMapper bankAccountMapper;
 
-    private static final Logger logger = LoggerFactory.getLogger(GetAllBankAccountsService.class);
 
     public GetAllBankAccountsResponse execute(GetAllBankAccountsRequest request) {
-        logger.info("Received request to get all bank accounts");
+        log.info("Received request to get all bank accounts");
 
-        logger.debug("Fetching all bank accounts from the database");
+        log.debug("Fetching all bank accounts from the database");
         List<BankAccount> bankAccounts = bankAccountRepository.findAll();
 
         List<BankAccountDTO> bankAccountDTOS = bankAccounts.stream()
-                .map(bankAccount -> bankAccountMapper.toDto(bankAccount))
+                .map(bankAccountMapper::toDto)
                 .collect(Collectors.toList());
 
-        logger.info("Successfully retrieved {} bank accounts", bankAccounts.size());
+        log.info("Successfully retrieved {} bank accounts", bankAccounts.size());
         return new GetAllBankAccountsResponse(bankAccountDTOS);
     }
 }

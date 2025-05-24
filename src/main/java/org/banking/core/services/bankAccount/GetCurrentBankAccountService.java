@@ -1,25 +1,26 @@
 package org.banking.core.services.bankAccount;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.dto.bank_account.BankAccountDTO;
 import org.banking.core.mapper.bank_account.BankAccountMapper;
 import org.banking.core.services.user.GetCurrentUserPersonalCodeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class GetCurrentBankAccountService {
 
-    @Autowired
-    private JpaBankAccountRepository jpa;
+    private final JpaBankAccountRepository jpa;
 
-    @Autowired
-    private GetCurrentUserPersonalCodeService getUser;
+    private final GetCurrentUserPersonalCodeService getUser;
 
-    @Autowired
-    private BankAccountMapper bankAccountMapper;
+    private final BankAccountMapper bankAccountMapper;
 
 
     public Optional<BankAccount> get() {

@@ -1,6 +1,7 @@
 package org.banking.web_ui.controllers.adminControllers.bankAccount_controllers;
 
 
+import lombok.RequiredArgsConstructor;
 import org.banking.core.request.bankAccount.AddBankAccountRequest;
 import org.banking.core.response.bankAccount.AddBankAccountResponse;
 import org.banking.core.services.bankAccount.AddBankAccountService;
@@ -12,10 +13,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+@RequiredArgsConstructor
 public class AddBankAccountController {
 
-    @Autowired
-    private AddBankAccountService addBankAccountService;
+    private final AddBankAccountService addBankAccountService;
 
     @GetMapping(value = "/addBankAccount")
     public String showAddBankAccountPage(ModelMap modelMap) {
