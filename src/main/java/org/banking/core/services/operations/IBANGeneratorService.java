@@ -1,20 +1,18 @@
 package org.banking.core.services.operations;
 
+import lombok.extern.slf4j.Slf4j;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.IBAN;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-
+@Slf4j
 @Service
 public class IBANGeneratorService {
 
-    private static final Logger logger = LoggerFactory.getLogger(IBANGeneratorService.class);
     public List<IBAN> generateIBAN(BankAccount bankAccount) {
-        logger.info("Making IBAN for BankAccount: {}", bankAccount.getPersonalCode());
+        log.info("Making IBAN for BankAccount: {}", bankAccount.getPersonalCode());
 
         String ibanNumber = "LV" + "-" + UUID.randomUUID().toString().substring(0, 20).toUpperCase();
 
@@ -25,6 +23,7 @@ public class IBANGeneratorService {
 
         return List.of(iban);
     }
+
 
 
 }

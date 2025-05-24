@@ -1,5 +1,6 @@
 package org.banking.web_ui.controllers.adminControllers.bankAccount_controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.banking.core.request.bankAccount.SearchBankAccountRequest;
 import org.banking.core.response.bankAccount.SearchBankAccountResponse;
 import org.banking.core.services.bankAccount.SearchBankAccountService;
@@ -11,10 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+@RequiredArgsConstructor
 public class SearchBankAccountController {
 
-    @Autowired
-    private SearchBankAccountService service;
+    private final SearchBankAccountService service;
 
     @GetMapping(value = "/searchBankAccount")
     public String showSearchBankAccountPage(ModelMap modelMap) {

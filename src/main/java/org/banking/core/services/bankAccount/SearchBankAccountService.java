@@ -1,5 +1,6 @@
 package org.banking.core.services.bankAccount;
 
+import lombok.RequiredArgsConstructor;
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.request.bankAccount.SearchBankAccountRequest;
@@ -14,13 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SearchBankAccountService {
 
 
-    @Autowired
-    private JpaBankAccountRepository bankRepository;
-    @Autowired
-    private SearchBankAccountValidator validator;
+    private final JpaBankAccountRepository bankRepository;
+    private final SearchBankAccountValidator validator;
 
     private static final Logger logger = LoggerFactory.getLogger(SearchBankAccountService.class);
 
