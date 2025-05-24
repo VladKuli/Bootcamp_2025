@@ -1,7 +1,9 @@
 package org.banking.core.servicesTests.bankAccountTests;
-/*
+
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.domain.BankAccount;
+import org.banking.core.dto.bank_account.BankAccountDTO;
+import org.banking.core.mapper.bank_account.BankAccountMapper;
 import org.banking.core.request.bankAccount.AddBankAccountRequest;
 import org.banking.core.response.bankAccount.AddBankAccountResponse;
 import org.banking.core.response.CoreError;
@@ -37,6 +39,9 @@ class AddBankAccountServiceTest {
     @Mock
     private IBANGeneratorService ibanGeneratorService;
 
+    @Mock
+    private BankAccountMapper bankAccountMapper;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -52,17 +57,23 @@ class AddBankAccountServiceTest {
         BankAccount savedBankAccount = BankAccount.builder()
                 .name("John")
                 .surname("Doe")
-                .personalCode("1234567890")
                 .IBAN(List.of())
+                .personalCode("1234567890")
                 .build();
         when(bankAccountRepository.save(any(BankAccount.class))).thenReturn(savedBankAccount);
 
-        AddBankAccountResponse response = service.execute(request);
+        service.execute(request);
 
-        assertNotNull(response.getBankAccount());
-        assertEquals("John", response.getBankAccount().getName());
-        assertEquals("Doe", response.getBankAccount().getSurname());
-        assertEquals("1234567890", response.getBankAccount().getPersonalCode());
+        BankAccountDTO bankAccountDTO = BankAccountDTO.builder()
+                .name(savedBankAccount.getName())
+                .surname(savedBankAccount.getSurname())
+                .ibanNumbers(List.of())
+                .personalCode(savedBankAccount.getPersonalCode())
+                .build();
+
+        assertEquals("John", bankAccountDTO.getName());
+        assertEquals("Doe",  bankAccountDTO.getSurname());
+        assertEquals("1234567890",  bankAccountDTO.getPersonalCode());
 
         verify(validator, times(1)).validate(request);
         verify(bankAccountRepository, times(1)).save(any(BankAccount.class));
@@ -80,7 +91,7 @@ class AddBankAccountServiceTest {
         AddBankAccountResponse response = service.execute(request);
 
         assertNotNull(response);
-        assertNull(response.getBankAccount());
+        assertNull(response.getBankAccountDto());
         assertNotNull(response.getErrors());
         assertEquals(2, response.getErrors().size());
         assertEquals("Name field must be filled", response.getErrors().get(0).getMessage());
@@ -91,4 +102,3 @@ class AddBankAccountServiceTest {
     }
 }
 
- */

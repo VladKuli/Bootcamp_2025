@@ -36,7 +36,9 @@ public class AddBankAccountService {
 
         List<CoreError> errorList = validator.validate(request);
         if (!errorList.isEmpty()) {
+
             log.warn("Validation failed for request: {}. Errors: {}", request, errorList);
+
             return new AddBankAccountResponse(errorList);
         } else {
 
