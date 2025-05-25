@@ -1,23 +1,22 @@
 package org.banking.core.services.card;
 
+import lombok.RequiredArgsConstructor;
 import org.banking.core.domain.Card;
 import org.banking.core.dto.card.CardDTO;
 import org.banking.core.mapper.card.CardMapper;
 import org.banking.core.services.iban.CurrentUserIbanService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CurrentUserCardService {
 
-    @Autowired
-    private CurrentUserIbanService ibanService;
+    private final CurrentUserIbanService ibanService;
 
-    @Autowired
-    private CardMapper cardMapper;
+    private final CardMapper cardMapper;
 
     public List<CardDTO> getCardsDTO() {
         List<Card> cards = ibanService.getIBAN().stream()

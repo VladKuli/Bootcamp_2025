@@ -1,59 +1,49 @@
 package org.banking.core.services.operations;
 
-import io.swagger.v3.oas.models.info.License;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.banking.core.database.JpaBankAccountRepository;
-import org.banking.core.domain.BankAccount;
-import org.banking.core.domain.Card;
-import org.banking.core.domain.IBAN;
 import org.banking.core.dto.iban.IbanDTO;
-import org.banking.core.mapper.iban.IbanMapper;
 import org.banking.core.request.operations.WithdrawRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.WithdrawResponse;
-import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
 import org.banking.core.services.iban.CurrentUserIbanService;
-import org.banking.core.services.user.GetCurrentUserPersonalCodeService;
 import org.banking.core.services.validators.operationsValidators.WithdrawValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class WithdrawService {
 
-    @Autowired
-    private JpaBankAccountRepository bankAccountRepository;
+    private final JpaBankAccountRepository bankAccountRepository;
 
-    @Autowired
-    private WithdrawValidator validator;
+    private final WithdrawValidator validator;
 
-    @Autowired
-    private CurrentUserIbanService ibanService;
-
-    private static final Logger logger = LoggerFactory.getLogger(WithdrawService.class);
+    private final CurrentUserIbanService ibanService;
 
     public WithdrawResponse execute(WithdrawRequest request) {
-        logger.info("Received withdraw request with amount: {}", request.getAmount());
+        log.info("Received withdraw request with amount: {}", request.getAmount());
 
-        logger.debug("Validating withdraw request: {}", request);
+        log.debug("Validating withdraw request: {}", request);
         List<CoreError> errorList = validator.validate(request);
 
         if (errorList.isEmpty()) {
-            logger.info("Validation successful for withdraw request: {}", request);
+            log.info("Validation successful for withdraw request: {}", request);
 
-            logger.debug("Fetching personal code for the current user");
+            log.debug("Fetching personal code for the current user");
 
             bankAccountRepository.deductBalanceForIban(request.getAmount(),request.getIBAN());
 
             return new WithdrawResponse(true);
         } else {
-            logger.warn("Validation failed for withdraw request: {}. Errors: {}", request, errorList);
+            log.warn("Validation failed for withdraw request: {}. Errors: {}", request, errorList);
             return new WithdrawResponse(errorList);
         }
     }
