@@ -1,42 +1,37 @@
 package org.banking.core.services.operations;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.banking.core.database.JpaBankAccountRepository;
-import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.IBAN;
 import org.banking.core.dto.iban.IbanDTO;
-import org.banking.core.mapper.iban.IbanMapper;
 import org.banking.core.request.operations.DepositRequest;
 import org.banking.core.response.CoreError;
 import org.banking.core.response.operations.DepositResponse;
-import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
 import org.banking.core.services.iban.CurrentUserIbanService;
 import org.banking.core.services.validators.operationsValidators.DepositValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class DepositService {
 
-    @Autowired
-    private JpaBankAccountRepository bankAccountRepository;
+    private final JpaBankAccountRepository bankAccountRepository;
 
-    @Autowired
-    private DepositValidator validator;
+    private final DepositValidator validator;
 
-    @Autowired
-    private CurrentUserIbanService ibanService;
+    private final CurrentUserIbanService ibanService;
 
 
-    private static final Logger logger = LoggerFactory.getLogger(DepositService.class);
 
     public DepositResponse execute(DepositRequest request) {
-        logger.info("Received deposit request with amount: {}", request.getAmount());
+        log.info("Received deposit request with amount: {}", request.getAmount());
 
-        logger.debug("Validating deposit request: {}", request);
+        log.debug("Validating deposit request: {}", request);
         List<CoreError> errorList = validator.validate(request);
 
         if (errorList.isEmpty()) {
@@ -48,7 +43,7 @@ public class DepositService {
             return new DepositResponse(true);
         } else {
 
-            logger.warn("Validation failed for deposit request: {}. Errors: {}", request, errorList);
+            log.warn("Validation failed for deposit request: {}. Errors: {}", request, errorList);
             return new DepositResponse(errorList);
         }
     }

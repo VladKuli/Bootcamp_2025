@@ -1,5 +1,7 @@
 package org.banking.core.services.transaction;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Transaction;
 import org.banking.core.dto.transaction.TransactionDTO;
@@ -13,13 +15,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CurrentUserTransactionsService {
 
-    @Autowired
-    private GetCurrentBankAccountService getCurrentBankAccountService;
+    private final GetCurrentBankAccountService getCurrentBankAccountService;
 
-    @Autowired
-    private TransactionMapper transactionMapper;
+    private final TransactionMapper transactionMapper;
 
 
     public List<TransactionDTO> getBankAccountIncomingTransactions() {

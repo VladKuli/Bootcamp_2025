@@ -1,5 +1,7 @@
 package org.banking.core.services.user;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.database.JpaUserRepository;
 import org.banking.core.request.user.DeleteUserRequest;
@@ -13,43 +15,40 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-
+@Slf4j
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class DeleteUserService {
 
-    @Autowired
-    private JpaBankAccountRepository bankAccountRepository;
+    private final JpaBankAccountRepository bankAccountRepository;
 
-    @Autowired
-    private JpaUserRepository userRepository;
+    private final JpaUserRepository userRepository;
 
-    @Autowired
-    private DeleteUserValidator validator;
+    private final DeleteUserValidator validator;
 
-    private static final Logger logger = LoggerFactory.getLogger(DeleteUserService.class);
 
     public DeleteUserResponse execute(DeleteUserRequest request) {
-        logger.info("Received request to delete user with personal code: {}", request.getPersonalCode());
+        log.info("Received request to delete user with personal code: {}", request.getPersonalCode());
 
-        logger.debug("Validating delete user request: {}", request);
+        log.debug("Validating delete user request: {}", request);
         List<CoreError> errorList = validator.validate(request);
 
         if (errorList.isEmpty()) {
-            logger.info("Validation successful for delete user request: {}", request);
+            log.info("Validation successful for delete user request: {}", request);
 
-            logger.info("Deleting user with personal code: {}", request.getPersonalCode());
+            log.info("Deleting user with personal code: {}", request.getPersonalCode());
             userRepository.deleteByPersonalCode(request.getPersonalCode());
-            logger.info("User with personal code {} successfully deleted", request.getPersonalCode());
+            log.info("User with personal code {} successfully deleted", request.getPersonalCode());
 
-            logger.info("Deleting associated bank accounts for personal code: {}", request.getPersonalCode());
+            log.info("Deleting associated bank accounts for personal code: {}", request.getPersonalCode());
             bankAccountRepository.deleteByPersonalCode(request.getPersonalCode());
-            logger.info("Associated bank accounts for personal code {} successfully deleted", request.getPersonalCode());
+            log.info("Associated bank accounts for personal code {} successfully deleted", request.getPersonalCode());
 
-            logger.info("Delete user operation completed successfully for personal code: {}", request.getPersonalCode());
+            log.info("Delete user operation completed successfully for personal code: {}", request.getPersonalCode());
             return new DeleteUserResponse(true);
         } else {
-            logger.warn("Validation failed for delete user request: {}. Errors: {}", request, errorList);
+            log.warn("Validation failed for delete user request: {}. Errors: {}", request, errorList);
             return new DeleteUserResponse(errorList);
         }
     }

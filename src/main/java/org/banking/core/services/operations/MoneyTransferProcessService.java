@@ -1,28 +1,27 @@
 package org.banking.core.services.operations;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.banking.core.database.JpaBankAccountRepository;
 import org.banking.core.database.JpaTransactionRepository;
 import org.banking.core.domain.BankAccount;
 import org.banking.core.domain.Transaction;
 import org.banking.core.request.operations.MoneyTransferRequest;
-import org.banking.core.services.bankAccount.GetCurrentBankAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class MoneyTransferProcessService {
 
-    @Autowired
-    private JpaTransactionRepository transactionRepository;
+    private final JpaTransactionRepository transactionRepository;
 
-    @Autowired
-    private JpaBankAccountRepository bankAccountRepository;
+    private final JpaBankAccountRepository bankAccountRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(MoneyTransferProcessService.class);
 
     public void execute(MoneyTransferRequest request, Optional<BankAccount> userBankAccount) {
 
@@ -48,13 +47,13 @@ public class MoneyTransferProcessService {
 
     private void updateBalance(MoneyTransferRequest request, Optional<BankAccount> userBankAccount) {
         if (userBankAccount.isPresent()) {
-            logger.info("Initiating money transfer from {} to {} with amount: {}",
+            log.info("Initiating money transfer from {} to {} with amount: {}",
                     userBankAccount.get().getIBAN(), request.getTargetIBAN(), request.getAmount());
 
             bankAccountRepository.bankTransfer(request.getUsersIban(), request.getTargetIBAN(), request.getAmount());
         } else {
             //TODO WRITE CUSTOM EXCEPTION
-            logger.warn("Error Bank Account is null");
+            log.warn("Error Bank Account is null");
         }
     }
 }

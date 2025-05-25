@@ -1,5 +1,7 @@
 package org.banking.core.services.user;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.banking.core.database.JpaUserRepository;
 import org.banking.core.domain.User;
 import org.banking.core.dto.user.UserDTO;
@@ -15,25 +17,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class GetAllUsersService {
 
-    @Autowired
-    private JpaUserRepository userRepository;
-    @Autowired
-    private UserMapper userMapper;
-
-    private static final Logger logger = LoggerFactory.getLogger(GetAllUsersService.class);
+    private final JpaUserRepository userRepository;
+    private final UserMapper userMapper;
 
     public GetAllUsersResponse execute(GetAllUsersRequest request) {
-        logger.info("Received request to retrieve all users");
+        log.info("Received request to retrieve all users");
 
-        logger.debug("Fetching all users from the database");
+        log.debug("Fetching all users from the database");
         List<User> users = userRepository.findAll();
 
-        logger.info("Successfully retrieved {} users from the database", users.size());
+        log.info("Successfully retrieved {} users from the database", users.size());
 
-        logger.debug("Masking sensitive information for users");
+        log.debug("Masking sensitive information for users");
         List<User> safeUsers = maskingPassword(users);
         List<UserDTO> userDTOS = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class GetAllUsersService {
         }
 
 
-        logger.info("Returning {} users with masked information", safeUsers.size());
+        log.info("Returning {} users with masked information", safeUsers.size());
         return new GetAllUsersResponse(userDTOS);
     }
 
